@@ -1,1 +1,1 @@
-# The-7th-Group
+# SC2006 - TripSmart
