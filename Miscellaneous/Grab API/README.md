@@ -14,3 +14,6 @@ To install all the dependencies:
 ``` pip install -U -r requirements.txt ```   
 To run the program:
 ``` python index.py ```
+
+## 5 March 2023
+- No news from Grab yet...
