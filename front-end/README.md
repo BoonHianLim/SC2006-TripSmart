@@ -1,17 +1,20 @@
-# Recommended next steps:
-Note: Make sure you have installed native code dependencies [here](https://reactnative.dev/docs/environment-setup#installing-dependencies)
+# TripSmart
 
-### To preview and run the project on your device:
-1. Open project folder in <u>Visual Studio Code</u>
-2. Run  `npm install`  in the terminal
-3. Run  `npx expo start`  in the terminal
-4. Run on For iOS device (only on MacOS)
+## Requirements
+* Node 19
+* Yarn v1 (classic)
+
+## Prerequisite:
+You must have yarn in your machine. Run `npm install yarn -g` in terminal to install yarn.
+
+## Install 
+Run `yarn` in the project's root directory to install node modules
+
+## Run
+1. Run `yarn start` to start the expo server
+2. On your Android device, press "Scan QR Code" on the "Home" tab of the Expo Go app and scan the QR code you see in the terminal, OR
+3. On your iPhone or iPad, open the default Apple "Camera" app and scan the QR code you see in the terminal.
+4. Run on for iOS simulator (only on MacOS)
     1. Press  `i`  to view on iOS simulator or follow the instructions [here](https://docs.expo.dev/workflow/run-on-device/) to run on a physical device.
-5. Run on For android device
+5. Run on for android simulator
     1. Press  `a`  to view on Android Virtual Device or follow the instructions [here](https://docs.expo.dev/workflow/run-on-device/) to run on a physical device.
-
-### For yarn
-Install Yarn:   
-`npm install yarn -g`   
-Run the Project:   
-`yarn start`   
