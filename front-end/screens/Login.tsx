@@ -25,7 +25,7 @@ const Login = () => {
     setPassword(text);
   };
   const handleLogin = async () => {
-    console.log("adding user to database");
+    console.log("looking for records from database");
     // perform login action here using email and password
     // mongodb api here
     try {
@@ -51,12 +51,11 @@ const Login = () => {
           }),
         }
       );
-      if (response.json.length > 0) {
-        console.log("exist");
+      const data = await response.json();
+      if (data.document != null) {
+        console.log("exists in database, proceed to redirect to next page");
       } else {
-        console.log("does not exist");
-        console.log(email);
-        console.log(password);
+        console.log("does not exist in database, show error message");
       }
     } catch (err) {
       console.log("error signing in: ", err);
