@@ -1,11 +1,24 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, Pressable, TextInput, SafeAreaView } from "react-native";
+import { Image, StyleSheet, View, Text, Pressable, TextInput, SafeAreaView, Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { FontFamily, Color } from "../GlobalStyles";
+import { FontFamily, Color, Margin } from "../GlobalStyles";
 
 const Login = () => {
   const navigation = useNavigation();
-  const [text, onChangeText] = React.useState('Useless Text');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  //Functions for handling email, password and login
+  const handleEmailChange = (text) => {
+    setEmail(text);
+  };
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+  };
+  const handleLogin = () => {
+    // perform login action here using email and password
+    // mongodb api here
+  };
 
   return (
     <View style={styles.login}>
@@ -49,141 +62,46 @@ const Login = () => {
             <View style={styles.loginInnerPosition}>
               <View style={styles.frameContainer}>
                 <View style={styles.frameContainer}>
+                <Text style={[styles.email, styles.emailTypo]}>Email</Text>
+                  <View style={styles.textInputContainer}>
                   
-                  <Text style={[styles.email, styles.emailTypo]}>Email</Text>
-                  <View
-                  //text input for email - to be done
+                  <TextInput
+                      style={styles.textInput}
+                      placeholder="Email"
+                      keyboardType="email-address"
+                      value={email}
+                      onChangeText={handleEmailChange}
+                    />
+                  </View>
                   
-
+                  <Text style={[styles.email, styles.emailTypo, { marginTop: 30 }]}>Password</Text>
+                  <View style={styles.textInputContainer}>
                   
-                   style={[
-                      styles.frameView,
-                      styles.mt14_84,
-                      styles.frameLayout,
-                    ]} 
-                   
+                  <TextInput
+                       style={styles.textInput}
+                       placeholder="Password"
+                       secureTextEntry={true}
+                       value={password}
+                       onChangeText={handlePasswordChange}
+                    />
+                  </View>
+                  
+            
+                  <View style={[styles.frameParent1, styles.mt14_84]}>
                     
-                  >
                     <View style={styles.iconsWrapper}>
                       <View
                         style={[styles.iconsLayout, styles.iconsWrapperFlexBox]}
                       >
-                        <Image
-                          style={[
-                            styles.userIcon,
-                            styles.userIconLayout,
-                            styles.iconLayout1,
-                          ]}
-                          resizeMode="cover"
-                          source={require("../assets/user1.png")}
-                        />
                       </View>
                     </View>
-                    <Image
-                      style={[styles.frameChild, styles.userIconLayout]}
-                      resizeMode="cover"
-                      source={require("../assets/vector-946.png")}
-                    />
-                    <View
-                      style={[
-                        styles.jasonlin002entuedusgWrapper,
-                        styles.frameParent3SpaceBlock,
-                      ]}
-                    >
-                      <Text style={styles.jasonlin002entuedusg}>
-                        Jasonlin002@e.ntu.edu.sg
-                      </Text>
-                    </View>
+
+                    
+                    
                   </View>
                   
                 </View>
-                <View style={[styles.frameContainer, styles.mt22_27]}>
-                  <Text style={[styles.email, styles.emailTypo]}>Password</Text>
-                  <View style={[styles.frameParent1, styles.mt14_84]}>
-                    <View style={[styles.frameView, styles.frameLayout]}>
-                      <View style={styles.iconsWrapper}>
-                        <View style={styles.iconsWrapperFlexBox}>
-                          <Image
-                            style={[
-                              styles.userIcon,
-                              styles.userIconLayout,
-                              styles.iconLayout1,
-                            ]}
-                            resizeMode="cover"
-                            source={require("../assets/lock.png")}
-                          />
-                        </View>
-                      </View>
-                      <Image
-                        style={[styles.frameChild, styles.userIconLayout]}
-                        resizeMode="cover"
-                        source={require("../assets/vector-9461.png")}
-                      />
-                      <View
-                        style={[
-                          styles.frameParent3,
-                          styles.frameParentFlexBox,
-                          styles.frameParent3SpaceBlock,
-                        ]}
-                      >
-                        <View style={styles.rectangleParent}>
-                          <View style={styles.frameInner} />
-                          <View style={[styles.frameInner, styles.ml7_42]} />
-                          <View style={[styles.frameInner, styles.ml7_42]} />
-                          <View style={[styles.frameInner, styles.ml7_42]} />
-                          <View style={[styles.frameInner, styles.ml7_42]} />
-                          <View style={[styles.frameInner, styles.ml7_42]} />
-                          <View style={[styles.frameInner, styles.ml7_42]} />
-                          <View style={[styles.frameInner, styles.ml7_42]} />
-                          <View style={[styles.frameInner, styles.ml7_42]} />
-                          <View style={[styles.frameInner, styles.ml7_42]} />
-                          <View style={[styles.frameInner, styles.ml7_42]} />
-                          <View style={[styles.frameInner, styles.ml7_42]} />
-                        </View>
-                        <View style={styles.iconsWrapperFlexBox}>
-                          <Image
-                            style={[
-                              styles.userIcon,
-                              styles.userIconLayout,
-                              styles.iconLayout1,
-                            ]}
-                            resizeMode="cover"
-                            source={require("../assets/eye.png")}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                    <View style={[styles.frameParentFlexBox, styles.mt14_84]}>
-                      <View style={styles.checkboxParent}>
-                        <View
-                          style={[
-                            styles.checkbox,
-                            styles.checkboxFlexBox,
-                            styles.iconsLayout,
-                          ]}
-                        >
-                          <View
-                            style={[styles.icons3, styles.iconsWrapperFlexBox]}
-                          >
-                            <Image
-                              style={[
-                                styles.userIcon,
-                                styles.userIconLayout,
-                                styles.iconLayout1,
-                              ]}
-                              resizeMode="cover"
-                              source={require("../assets/checkmark.png")}
-                            />
-                          </View>
-                        </View>
-                        <View style={[styles.rectangleParent, styles.ml11_13]}>
-                          <Text style={styles.rememberMe}>Remember me</Text>
-                        </View>
-                      </View>
-                      <View />
-                    </View>
-                  </View>
-                </View>
+    
               </View>
             </View>
             <View style={[styles.frameParent5, styles.mt25_98]}>
@@ -581,6 +499,15 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+  },
+  textInputContainer: {
+    borderColor: '#CCCCCC',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+  },
+  textInput: {
+    height: 40,
   },
 });
 
