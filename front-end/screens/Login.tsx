@@ -1,10 +1,11 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, Pressable } from "react-native";
+import { Image, StyleSheet, View, Text, Pressable, TextInput, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color } from "../GlobalStyles";
 
 const Login = () => {
   const navigation = useNavigation();
+  const [text, onChangeText] = React.useState('Useless Text');
 
   return (
     <View style={styles.login}>
@@ -48,13 +49,20 @@ const Login = () => {
             <View style={styles.loginInnerPosition}>
               <View style={styles.frameContainer}>
                 <View style={styles.frameContainer}>
+                  
                   <Text style={[styles.email, styles.emailTypo]}>Email</Text>
                   <View
-                    style={[
+                  //text input for email - to be done
+                  
+
+                  
+                   style={[
                       styles.frameView,
                       styles.mt14_84,
                       styles.frameLayout,
-                    ]}
+                    ]} 
+                   
+                    
                   >
                     <View style={styles.iconsWrapper}>
                       <View
@@ -87,6 +95,7 @@ const Login = () => {
                       </Text>
                     </View>
                   </View>
+                  
                 </View>
                 <View style={[styles.frameContainer, styles.mt22_27]}>
                   <Text style={[styles.email, styles.emailTypo]}>Password</Text>
@@ -201,7 +210,7 @@ const Login = () => {
                     styles.emailTypo,
                   ]}
                 >
-                  Forget Your Password?
+                  Forgot Password?
                 </Text>
                 <Image
                   style={[
@@ -213,14 +222,7 @@ const Login = () => {
                   source={require("../assets/vector-949.png")}
                 />
               </View>
-              <View
-                style={[
-                  styles.frameChild13,
-                  styles.mt25_98,
-                  styles.checkboxFlexBox,
-                  styles.frameLayout,
-                ]}
-              />
+              
             </View>
             <Text
               style={[
@@ -357,7 +359,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   maskGroupIcon: {
-    width: 505,
+    width: 520,
     height: 337,
   },
   fare13: {
@@ -387,7 +389,7 @@ const styles = StyleSheet.create({
   },
   frameParent: {
     top: 7,
-    left: -19,
+    left: 8,
     width: 399,
     paddingTop: 89,
     alignItems: "center",
@@ -504,18 +506,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "stretch",
   },
-  frameChild13: {
-    borderColor: "#efeded",
-    borderWidth: 0.9,
-    height: 50,
-  },
   frameParent5: {
     zIndex: 1,
     alignSelf: "stretch",
   },
   poweredByTripsmart: {
     top: 554,
-    left: 102,
+    left: 80,
     fontSize: 13,
     letterSpacing: 0.4,
     lineHeight: 12,
@@ -533,23 +530,23 @@ const styles = StyleSheet.create({
   },
   dontHaveAnContainer: {
     top: 492,
-    left: 37,
+    left: 40,
     width: 259,
     height: 13,
     zIndex: 3,
     lineHeight: 14,
   },
   facebook1Icon: {
-    left: 90,
+    left: 86,
     zIndex: 4,
   },
   google1Icon: {
-    left: 189,
+    left: 200,
     zIndex: 5,
   },
   frameGroup: {
     top: 276,
-    left: 14,
+    left: 40,
     height: 456,
     alignItems: "center",
     width: 334,
@@ -564,10 +561,10 @@ const styles = StyleSheet.create({
   orContinueWith: {
     marginTop: 256,
     marginLeft: -76,
-    top: "50%",
+    top: "47%",
     left: "50%",
     width: 147,
-    height: 14,
+    height: 12,
     lineHeight: 15,
     zIndex: 1,
     color: Color.textColorsLight,
@@ -578,6 +575,12 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     width: "100%",
     flex: 1,
+  },
+  input:{
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
 });
 

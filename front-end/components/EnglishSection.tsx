@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     fontSize: 8,
   },
   kmTxt: {
-    lineBreak: "anywhere",
+    width: "100%",
   },
   km: {
     letterSpacing: "2%",
