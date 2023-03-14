@@ -2,7 +2,7 @@
 
 ## Requirements
 * Node 19
-* Yarn v1 (classic)
+* Yarn
 
 ## Prerequisite:
 You must have yarn in your machine. Run `npm install yarn -g` in terminal to install yarn.
