@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   logosParent: {
     top: -34,
-    left: -35,
+    left: -10,
     width: 430,
     height: 683,
     justifyContent: "center",
@@ -152,12 +152,12 @@ const styles = StyleSheet.create({
   },
   rectangleParent: {
     top: 54,
-    left: 12,
+    left: 15,
     alignItems: "center",
   },
   navigationNext: {
     top: 696,
-    left: 121,
+    left: 145,
     height: 71,
     width: 117,
     position: "absolute",

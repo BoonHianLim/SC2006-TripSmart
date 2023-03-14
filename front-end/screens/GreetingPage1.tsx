@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   greetingPage1Child: {
     top: 767,
-    left: 23,
+    left: 30,
     width: 430,
     height: 1,
     justifyContent: "space-between",
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
   welcomeToTripsmartParent: {
     top: 533,
-    left: 17,
+    left: 50,
     position: "absolute",
   },
   next: {
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   navigationNext: {
     top: 696,
-    left: 121,
+    left: 150,
     height: 71,
     width: 117,
     position: "absolute",

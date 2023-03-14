@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   frameContainer: {
     width: 338,
-    height: 551,
+    height: 401,
     justifyContent: "flex-end",
   },
   tripsmart: {
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     color: Color.brandColorsNightPurple,
     textAlign: "center",
     width: 221,
-    height: 38,
+    height: 138,
     position: "absolute",
   },
   fare11: {
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   },
   frameGroup: {
     width: 254,
-    height: 532,
+    height: 632,
   },
   login: {
     color: Color.textColorsInverse,
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   },
   frameParent: {
     top: 187,
-    left: 6,
+    left: 26,
     width: 321,
     height: 606,
     alignItems: "center",

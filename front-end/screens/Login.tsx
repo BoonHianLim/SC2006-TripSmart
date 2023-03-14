@@ -1,12 +1,21 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, Pressable, TextInput, SafeAreaView, Button } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  TextInput,
+  SafeAreaView,
+  Button,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color, Margin } from "../GlobalStyles";
 
 const Login = () => {
   const navigation = useNavigation();
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
   //Functions for handling email, password and login
   const handleEmailChange = (text) => {
@@ -16,37 +25,41 @@ const Login = () => {
     setPassword(text);
   };
   const handleLogin = async () => {
-    console.log("adding user to database")
+    console.log("adding user to database");
     // perform login action here using email and password
     // mongodb api here
     try {
-      const response = await fetch('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/findOne', {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Request-Headers': '*',
-        'api-key': 'gzmrGJqDsVF9pOB6XO7nDxasKLWgOh4pOZe7LlIdQ4SXaeI1UMxJN8CSDHxJTgVM'
-    },
-  
-    body: JSON.stringify({
-        'dataSource': 'seventh',
-        'database': 'Account',
-        'collection': 'People',
-        'filter': {
-            'email': email,
-            'password': password
+      const response = await fetch(
+        "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/findOne",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Request-Headers": "*",
+            "api-key":
+              "gzmrGJqDsVF9pOB6XO7nDxasKLWgOh4pOZe7LlIdQ4SXaeI1UMxJN8CSDHxJTgVM",
+          },
+
+          body: JSON.stringify({
+            dataSource: "seventh",
+            database: "Account",
+            collection: "People",
+            filter: {
+              email: email,
+              password: password,
+            },
+          }),
         }
-    })
-});
-    if (response.json.length > 0) {
-      console.log("exist");
-    } else {
-      console.log("does not exist");
-      console.log(email)
-      console.log(password)
-    }
+      );
+      if (response.json.length > 0) {
+        console.log("exist");
+      } else {
+        console.log("does not exist");
+        console.log(email);
+        console.log(password);
+      }
     } catch (err) {
-      console.log('error signing in: ', err)
+      console.log("error signing in: ", err);
     }
   };
 
@@ -92,10 +105,10 @@ const Login = () => {
             <View style={styles.loginInnerPosition}>
               <View style={styles.frameContainer}>
                 <View style={styles.frameContainer}>
-                <Text style={[styles.email, styles.emailTypo]}>Email</Text>
+                  <Text style={[styles.email, styles.emailTypo]}>Email</Text>
                   <View style={styles.textInputContainer}>
-                  {/* An Input for email address */}
-                  <TextInput
+                    {/* An Input for email address */}
+                    <TextInput
                       style={styles.textInput}
                       placeholder="Email"
                       keyboardType="email-address"
@@ -103,35 +116,32 @@ const Login = () => {
                       onChangeText={handleEmailChange}
                     />
                   </View>
-                  
-                  <Text style={[styles.email, styles.emailTypo, { marginTop: 30 }]}>Password</Text>
+
+                  <Text
+                    style={[styles.email, styles.emailTypo, { marginTop: 30 }]}
+                  >
+                    Password
+                  </Text>
                   <View style={styles.textInputContainer}>
-                   {/* An input for password */}
-                  <TextInput
-                       style={styles.textInput}
-                       placeholder="Password"
-                       secureTextEntry={true}
-                       value={password}
-                       onChangeText={handlePasswordChange}
+                    {/* An input for password */}
+                    <TextInput
+                      style={styles.textInput}
+                      placeholder="Password"
+                      secureTextEntry={true}
+                      value={password}
+                      onChangeText={handlePasswordChange}
                     />
                   </View>
-                  
+
                   <Button title="Login" onPress={handleLogin} />
                   <View style={[styles.frameParent1, styles.mt14_84]}>
-                    
                     <View style={styles.iconsWrapper}>
                       <View
                         style={[styles.iconsLayout, styles.iconsWrapperFlexBox]}
-                      >
-                      </View>
+                      ></View>
                     </View>
-
-                    
-                    
                   </View>
-                  
                 </View>
-    
               </View>
             </View>
             <View style={[styles.frameParent5, styles.mt25_98]}>
@@ -170,7 +180,6 @@ const Login = () => {
                   source={require("../assets/vector-949.png")}
                 />
               </View>
-              
             </View>
             <Text
               style={[
@@ -524,14 +533,14 @@ const styles = StyleSheet.create({
     width: "100%",
     flex: 1,
   },
-  input:{
+  input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
     padding: 10,
   },
   textInputContainer: {
-    borderColor: '#CCCCCC',
+    borderColor: "#CCCCCC",
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,

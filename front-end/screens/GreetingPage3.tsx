@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   payment2ParentLayout: {
     width: 352,
-    left: 0,
+    left: 10,
   },
   findTheCheapestClr: {
     color: Color.brandColorsNightPurple,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     borderRadius: 8297,
   },
   payment2Icon: {
-    left: 22,
+    left: 30,
     width: 330,
     height: 330,
     top: 0,
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   tripsmartHelpsTo: {
     top: 434,
-    left: 30,
+    left: 50,
     fontSize: 14,
     letterSpacing: 0.1,
     lineHeight: 24,
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   },
   navigationNext: {
     top: 696,
-    left: 121,
+    left: 145,
     height: 71,
     width: 117,
     position: "absolute",
