@@ -1,3 +1,6 @@
+//use email: abc@gmail.com
+//use password: abc
+//to login
 import * as React from "react";
 import {
   Image,
@@ -11,6 +14,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color, Margin } from "../GlobalStyles";
+import { navigate } from "@react-navigation/routers/lib/typescript/src/CommonActions";
 
 const Login = () => {
   const navigation = useNavigation();
@@ -54,6 +58,7 @@ const Login = () => {
       const data = await response.json();
       if (data.document != null) {
         console.log("exists in database, proceed to redirect to next page");
+        navigation.navigate("SearchPage1");
       } else {
         console.log("does not exist in database, show error message");
       }
