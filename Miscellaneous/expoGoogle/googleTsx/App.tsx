@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const App = () => {
   // ref
@@ -16,6 +17,7 @@ const App = () => {
 
   // renders
   return (
+      <GestureHandlerRootView style={{flex:1}}>
       <View style={styles.container}>
         <BottomSheet
             ref={bottomSheetRef}
@@ -28,6 +30,7 @@ const App = () => {
           </View>
         </BottomSheet>
       </View>
+      </GestureHandlerRootView>
   );
 };
 
