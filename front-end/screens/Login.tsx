@@ -58,7 +58,7 @@ const Login = () => {
       const data = await response.json();
       if (data.document != null) {
         console.log("exists in database, proceed to redirect to next page");
-        navigation.navigate("SearchPage1");
+        navigation.navigate("googleSearchPage");
       } else {
         console.log("does not exist in database, show error message");
       }
