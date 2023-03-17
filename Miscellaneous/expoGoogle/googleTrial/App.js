@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
-import { View, Platform } from 'react-native';
+import { View, Platform, Text } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import BottomSheet from 'react-native-bottom-sheet';
 
 class MapScreen extends Component {
+  renderContent = () => (
+    <View style={{ backgroundColor: 'white', padding: 16 }}>
+      <Text>Search bar and other content goes here</Text>
+    </View>
+  );
+
   render() {
-    const apiKey = 'AIzaSyALnass7RW3hrj9O1KGCf3UzsTznG7axS4';
+    const apiKey = 'YOUR_API_KEY_HERE';
 
     return (
       <View style={{ flex: 1 }}>
@@ -28,6 +35,10 @@ class MapScreen extends Component {
           toolbarEnabled={true}
           cacheEnabled={Platform.OS === 'android' ? true : false}
           apiKey={apiKey}
+        />
+        <BottomSheet
+          snapPoints={[0, 300]}
+          renderContent={this.renderContent}
         />
       </View>
     );
