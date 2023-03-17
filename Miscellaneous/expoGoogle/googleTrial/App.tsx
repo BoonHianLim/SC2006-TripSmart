@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Platform, Text } from 'react-native';
+import { StyleSheet, View, Platform, Text } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import BottomSheet from 'react-native-bottom-sheet';
 
@@ -11,7 +11,7 @@ class MapScreen extends Component {
   );
 
   render() {
-    const apiKey = 'YOUR_API_KEY_HERE';
+    const apiKey = 'AIzaSyALnass7RW3hrj9O1KGCf3UzsTznG7axS4';
 
     return (
       <View style={{ flex: 1 }}>
@@ -36,13 +36,36 @@ class MapScreen extends Component {
           cacheEnabled={Platform.OS === 'android' ? true : false}
           apiKey={apiKey}
         />
-        <BottomSheet
-          snapPoints={[0, 300]}
-          renderContent={this.renderContent}
-        />
+          <View style={styles.container}>
+              <BottomSheet
+                  ref={bottomSheetRef}
+                  index={1}
+                  snapPoints={snapPoints}
+                  onChange={handleSheetChanges}
+              >
+                  <View style={styles.contentContainer}>
+                      <Text>Awesome 🎉</Text>
+                  </View>
+              </BottomSheet>
+          </View>
       </View>
     );
   }
 }
+const bottomSheetRef = useRef<BottomSheet>(null);
 
+// variables
+const snapPoints = useMemo(() => ['25%', '50%'], []);
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 24,
+        backgroundColor: 'grey',
+    },
+    contentContainer: {
+        flex: 1,
+        alignItems: 'center',
+    },
+});
 export default MapScreen;
