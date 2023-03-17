@@ -13,6 +13,6 @@ dropoff_input = driver.find_element("xpath","/html/body/div[2]/div/div/div/div/d
 dropoff_input.send_keys('Marina Bay')
 time.sleep(3)
 dropoff_input.send_keys(Keys.ENTER)
-time.sleep(3)
+time.sleep(6)
 answer = driver.find_element("xpath","/html/body/div[2]/div/div/div/div/div/section/div/div/div/div/div/div/div/div/div[2]/div[2]/div/div/div/form/div/div[3]/div[1]/div[3]/span")
 print(answer.get_attribute("innerHTML"))
