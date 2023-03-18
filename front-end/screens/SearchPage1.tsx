@@ -6,6 +6,9 @@ import { FontFamily, Color, Margin } from "../GlobalStyles";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import Constants from "expo-constants";
+
+const GOOGLE_PLACES_API_KEY = "AIzaSyALnass7RW3hrj9O1KGCf3UzsTznG7axS4";
 
 const App = () => {
   // ref
@@ -60,35 +63,34 @@ const App = () => {
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
         >
-          <View style={styles.contentContainer}>
-            <View style={styles.frameContainer}>
-              <View style={styles.textInputContainer}>
-                <Text
-                  style={[styles.email, styles.emailTypo, { marginTop: 10 }]}
-                >
-                  Starting location
-                </Text>
-                <Searchbar
-                  placeholder="Type Here..."
-                  onChangeText={onChangeSearch}
-                  value={searchQuery}
-                  style={{ borderRadius: 5 }}
-                />
-              </View>
-              <View style={styles.textInputContainer}>
-                <Text
-                  style={[styles.email, styles.emailTypo, { marginTop: 10 }]}
-                >
-                  Destination
-                </Text>
-                <Searchbar
-                  placeholder="Type Here..."
-                  onChangeText={onChangeDest}
-                  value={destQuery}
-                  style={{ borderRadius: 5 }}
-                />
-              </View>
-            </View>
+          <View style={styles.container2}>
+            <GooglePlacesAutocomplete
+              placeholder="Starting location"
+              query={{
+                key: GOOGLE_PLACES_API_KEY,
+                language: "en", // language of the results
+              }}
+              onPress={(data, details = null) => console.log(data)}
+              onFail={(error) => console.error(error)}
+              requestUrl={{
+                url: "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api",
+                useOnPlatform: "web",
+              }} // this in only required for use on the web. See https://git.io/JflFv more for details.
+            />
+
+            <GooglePlacesAutocomplete
+              placeholder="Destination"
+              query={{
+                key: GOOGLE_PLACES_API_KEY,
+                language: "en", // language of the results
+              }}
+              onPress={(data, details = null) => console.log(data)}
+              onFail={(error) => console.error(error)}
+              requestUrl={{
+                url: "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api",
+                useOnPlatform: "web",
+              }} // this in only required for use on the web. See https://git.io/JflFv more for details.
+            />
           </View>
         </BottomSheet>
       </View>
@@ -129,6 +131,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
+  },
+  container2: {
+    flex: 1,
+    padding: 10,
+    paddingTop: Constants.statusBarHeight + 10,
+    backgroundColor: "#ecf0f1",
   },
 });
 
