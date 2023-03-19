@@ -1,12 +1,21 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View, Pressable } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  Pressable,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import PassengersSection from "../components/PassengersSection";
 import EcoFriendlySection from "../components/EcoFriendlySection";
 import { Margin, FontFamily, Color } from "../GlobalStyles";
+import SettingsContainer from "../components/SettingsContainer";
 
 const ResultFilter = () => {
   const navigation = useNavigation();
+  const { width, height } = Dimensions.get("window");
 
   return (
     <View style={styles.resultFilter}>
@@ -45,71 +54,7 @@ const ResultFilter = () => {
           Apply Filters
         </Text>
       </View>
-      <View style={styles.bottomNavigation}>
-        <View style={styles.frameParent}>
-          <View style={[styles.iconsParent, styles.iconsSpaceBlock]}>
-            <View style={[styles.icons, styles.iconsFlexBox]}>
-              <Image
-                style={styles.mapIcon}
-                resizeMode="cover"
-                source={require("../assets/map.png")}
-              />
-            </View>
-            <Text style={[styles.planlg, styles.mt8_35, styles.planlgTypo]}>
-              Map
-            </Text>
-          </View>
-          <View style={styles.iconsSpaceBlock}>
-            <View style={[styles.icons, styles.iconsFlexBox]}>
-              <Image
-                style={styles.mapIcon}
-                resizeMode="cover"
-                source={require("../assets/ticket3.png")}
-              />
-            </View>
-            <Text style={[styles.billetter, styles.mt8_35, styles.planlgTypo]}>
-              History
-            </Text>
-          </View>
-          <View style={[styles.iconsContainer, styles.iconsSpaceBlock]}>
-            <View style={[styles.icons, styles.iconsFlexBox]}>
-              <Image
-                style={styles.mapIcon}
-                resizeMode="cover"
-                source={require("../assets/user.png")}
-              />
-            </View>
-            <Text style={[styles.billetter, styles.mt8_35, styles.planlgTypo]}>
-              Profile
-            </Text>
-          </View>
-          <View style={styles.iconsSpaceBlock}>
-            <View style={[styles.icons, styles.iconsFlexBox]}>
-              <Image
-                style={styles.mapIcon}
-                resizeMode="cover"
-                source={require("../assets/cog-wheel2.png")}
-              />
-            </View>
-            <Text style={[styles.billetter, styles.mt8_35, styles.planlgTypo]}>
-              Settings
-            </Text>
-          </View>
-        </View>
-        <View
-          style={[
-            styles.bottomNavigationInner,
-            styles.mt8_35,
-            styles.iconsFlexBox,
-          ]}
-        >
-          <Image
-            style={styles.frameInner}
-            resizeMode="cover"
-            source={require("../assets/vector-391.png")}
-          />
-        </View>
-      </View>
+      <SettingsContainer />
     </View>
   );
 };
@@ -259,9 +204,9 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   bottomNavigation: {
-    top: 720,
+    top: Dimensions.get("window").height * 0.95,
     left: 3,
-    width: 357,
+    width: Dimensions.get("window").width,
     height: 80,
     paddingLeft: 8,
     paddingRight: 17,

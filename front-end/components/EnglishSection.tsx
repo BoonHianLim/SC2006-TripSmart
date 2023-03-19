@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   km: {
-    letterSpacing: "2%",
+    letterSpacing: 0.2,
     fontWeight: "500",
     fontFamily: FontFamily.interMedium,
     height: 9,

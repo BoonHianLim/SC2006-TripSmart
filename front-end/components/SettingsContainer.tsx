@@ -1,15 +1,26 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text, Pressable } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  Pressable,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color } from "../GlobalStyles";
 
 const SettingsContainer = () => {
   const navigation = useNavigation();
+  const { width, height } = Dimensions.get("window");
 
   return (
     <View style={styles.bottomNavigation}>
       <View style={styles.frameParent}>
-        <View style={[styles.iconsParent, styles.iconsSpaceBlock]}>
+        <Pressable
+          style={[styles.iconsParent, styles.iconsSpaceBlock]}
+          onPress={() => navigation.navigate("History")}
+        >
           <View style={[styles.icons, styles.iconsFlexBox]}>
             <Image
               style={styles.mapIcon}
@@ -20,7 +31,7 @@ const SettingsContainer = () => {
           <Text style={[styles.planlg, styles.mt8_35, styles.planlgTypo]}>
             Map
           </Text>
-        </View>
+        </Pressable>
         <Pressable
           style={styles.iconsSpaceBlock}
           onPress={() => navigation.navigate("History")}
@@ -36,7 +47,10 @@ const SettingsContainer = () => {
             History
           </Text>
         </Pressable>
-        <View style={[styles.iconsContainer, styles.iconsSpaceBlock]}>
+        <Pressable
+          style={styles.iconsSpaceBlock}
+          onPress={() => navigation.navigate("History")}
+        >
           <View style={[styles.icons, styles.iconsFlexBox]}>
             <Image
               style={styles.mapIcon}
@@ -47,8 +61,11 @@ const SettingsContainer = () => {
           <Text style={[styles.billetter, styles.mt8_35, styles.planlgTypo]}>
             Profile
           </Text>
-        </View>
-        <View style={styles.iconsSpaceBlock}>
+        </Pressable>
+        <Pressable
+          style={styles.iconsSpaceBlock}
+          onPress={() => navigation.navigate("Settings")}
+        >
           <View style={[styles.icons, styles.iconsFlexBox]}>
             <Image
               style={styles.mapIcon}
@@ -59,7 +76,7 @@ const SettingsContainer = () => {
           <Text style={[styles.billetter, styles.mt8_35, styles.planlgTypo]}>
             Settings
           </Text>
-        </View>
+        </Pressable>
       </View>
       <View
         style={[
@@ -136,16 +153,16 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   bottomNavigation: {
-    position: "absolute",
-    top: 720,
-    left: 0,
-    backgroundColor: Color.textColorsInverse,
-    width: 360,
+    top: Dimensions.get("window").height * 0.95,
+    left: 3,
+    width: Dimensions.get("window").width,
     height: 80,
     paddingLeft: 8,
     paddingRight: 17,
     paddingBottom: 23,
     alignItems: "center",
+    position: "absolute",
+    backgroundColor: Color.textColorsInverse,
   },
 });
 

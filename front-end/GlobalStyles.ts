@@ -5,7 +5,6 @@ export const FontFamily = {
   montserratBold: "Montserrat_bold",
   montserratMedium: "Montserrat_medium",
   interMedium: "Inter_medium",
-  metropolisSemibold: "Metropolis_semibold",
   montserratSemibold: "Montserrat_semibold",
   montserratRegular: "Montserrat_regular",
   urbanistMedium: "Urbanist_medium",
