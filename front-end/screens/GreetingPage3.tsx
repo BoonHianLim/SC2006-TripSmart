@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View, Pressable } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Dimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Margin, Color, FontFamily } from "../GlobalStyles";
 
@@ -49,8 +56,8 @@ const styles = StyleSheet.create({
     marginLeft: Margin.m_4xs_3,
   },
   payment2ParentLayout: {
-    width: 352,
-    left: 10,
+    width: Dimensions.get("window").width * 0.7,
+    left: Dimensions.get("window").width * 0.08,
   },
   findTheCheapestClr: {
     color: Color.brandColorsNightPurple,
@@ -66,36 +73,36 @@ const styles = StyleSheet.create({
     borderRadius: 8297,
   },
   payment2Icon: {
-    left: 30,
-    width: 330,
-    height: 330,
+    left: Dimensions.get("window").width * 0.23,
+    width: Dimensions.get("window").width * 0.4,
+    height: Dimensions.get("window").height * 0.25,
     top: 0,
     position: "absolute",
   },
   findTheCheapest: {
-    top: 330,
+    top: Dimensions.get("window").height * 0.3,
     fontSize: 40,
     letterSpacing: -0.4,
     lineHeight: 48,
     fontWeight: "700",
     fontFamily: FontFamily.montserratBold,
-    height: 90,
+    height: Dimensions.get("window").height * 0.2,
     textAlign: "center",
   },
   tripsmartHelpsTo: {
-    top: 434,
-    left: 50,
+    top: Dimensions.get("window").height * 0.5,
+    left: Dimensions.get("window").width * 0.05,
     fontSize: 14,
     letterSpacing: 0.1,
     lineHeight: 24,
     fontFamily: FontFamily.montserratRegular,
-    width: 293,
-    height: 61,
+    width: Dimensions.get("window").width * 0.8,
+    height: Dimensions.get("window").height * 0.2,
     textAlign: "center",
   },
   payment2Parent: {
-    top: 132,
-    height: 495,
+    top: Dimensions.get("window").height * 0.1,
+    height: Dimensions.get("window").height,
     position: "absolute",
   },
   next: {
@@ -135,17 +142,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   navigationNext: {
-    top: 696,
-    left: 145,
-    height: 71,
-    width: 117,
+    top: Dimensions.get("window").height * 0.75,
+    left: Dimensions.get("window").width * 0.38,
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
     position: "absolute",
   },
   greetingPage3: {
     backgroundColor: Color.brandColorsCrayolaYellow,
     flex: 1,
-    width: "100%",
-    height: 800,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
 });
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import {View, Text, StyleSheet, TextInput, Button} from "react-native";
+import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { Searchbar } from "react-native-paper";
 import { FontFamily, Color, Margin } from "../GlobalStyles";
@@ -99,10 +99,13 @@ const App = () => {
               styles={{
                 container: {
                   flex: 0,
-                }
+                },
               }}
             />
-            <Button title="Login" onPress={() => navigation.navigate("ResultList")} />
+            <Button
+              title="Show Result"
+              onPress={() => navigation.navigate("ResultList")}
+            />
           </View>
         </BottomSheet>
       </View>

@@ -1,10 +1,21 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View, Pressable } from "react-native";
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily } from "../GlobalStyles";
 
 const LoginPage = () => {
   const navigation = useNavigation();
+
+  const { width, height } = Dimensions.get("window");
+
+  console.log("width:", width);
 
   return (
     <View style={[styles.loginPage, styles.loginPageBg]}>
@@ -154,37 +165,37 @@ const styles = StyleSheet.create({
   feelTheEase: {
     fontSize: 13,
     letterSpacing: 0.1,
-    width: 302,
+    width: Dimensions.get("window").width * 0.7,
     fontFamily: FontFamily.montserratRegular,
     lineHeight: 20,
     textAlign: "left",
     color: Color.textColorsMain,
   },
   frameContainer: {
-    width: 338,
-    height: 401,
+    width: Dimensions.get("window").width * 0.7,
+    height: Dimensions.get("window").height * 0.44,
     justifyContent: "flex-end",
   },
   tripsmart: {
-    top: 156,
-    left: 70,
+    top: Dimensions.get("window").height * 0.18,
+    left: Dimensions.get("window").width * 0.2,
     fontSize: 40,
     letterSpacing: -0.4,
     lineHeight: 47,
     color: Color.brandColorsNightPurple,
     textAlign: "center",
-    width: 221,
-    height: 138,
+    width: Dimensions.get("window").width * 0.5,
+    height: Dimensions.get("window").height * 0.1,
     position: "absolute",
   },
   fare11: {
-    top: 117,
-    width: 78,
-    height: 78,
+    top: Dimensions.get("window").height * 0.16,
+    width: Dimensions.get("window").width * 0.16,
+    height: Dimensions.get("window").height * 0.08,
   },
   frameGroup: {
-    width: 254,
-    height: 632,
+    width: Dimensions.get("window").width * 0.7,
+    height: Dimensions.get("window").height * 0.7,
   },
   login: {
     color: Color.textColorsInverse,
@@ -224,10 +235,10 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   frameParent: {
-    top: 187,
-    left: 26,
-    width: 321,
-    height: 606,
+    top: Dimensions.get("window").height * 0.1,
+    left: Dimensions.get("window").width * 0.1,
+    width: Dimensions.get("window").width * 0.8,
+    height: Dimensions.get("window").height * 0.8,
     alignItems: "center",
     position: "absolute",
   },
@@ -241,8 +252,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   loginPage: {
-    width: "100%",
-    height: 800,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
     flex: 1,
   },
 });

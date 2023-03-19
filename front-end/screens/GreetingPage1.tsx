@@ -1,10 +1,19 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Text, Pressable } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  Pressable,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Margin, Color, FontFamily } from "../GlobalStyles";
 
 const GreetingPage1 = () => {
   const navigation = useNavigation();
+
+  const { width, height } = Dimensions.get("window");
 
   return (
     <View style={styles.greetingPage1}>
@@ -100,8 +109,8 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   adrienUwlsnmrmo0aUnsplash1Icon: {
-    width: 711,
-    height: 1067,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
     position: "absolute",
   },
   welcomeTo: {
@@ -114,12 +123,12 @@ const styles = StyleSheet.create({
   },
   welcomeToTripsmartContainer1: {
     lineBreak: "anywhere",
-    width: "100%",
+    width: Dimensions.get("window").width * 1,
   },
   welcomeToTripsmartContainer: {
     fontFamily: FontFamily.montserratBold,
     display: "flex",
-    width: 331,
+    width: Dimensions.get("window").width * 0.6,
     height: 85,
     alignItems: "center",
   },
@@ -127,12 +136,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 16,
     fontFamily: FontFamily.montserratAlternatesBold,
-    width: 353,
+    width: Dimensions.get("window").width * 0.6,
     color: Color.textColorsInverse,
   },
   welcomeToTripsmartParent: {
-    top: 533,
-    left: 50,
+    top: Dimensions.get("window").height * 0.4,
+    left: Dimensions.get("window").width * 0.2,
     position: "absolute",
   },
   next: {
@@ -142,7 +151,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     fontFamily: FontFamily.montserratExtrabold,
     textAlign: "center",
-    width: 117,
+    width: Dimensions.get("window").width * 0.15,
     color: Color.textColorsInverse,
   },
   nextWrapper: {
@@ -169,18 +178,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   navigationNext: {
-    top: 696,
-    left: 150,
-    height: 71,
-    width: 117,
+    top: Dimensions.get("window").height * 0.6,
+    left: Dimensions.get("window").width * 0.4,
+    height: Dimensions.get("window").height * 0.2,
+    width: Dimensions.get("window").width * 0.6,
     position: "absolute",
   },
   greetingPage1: {
     backgroundColor: Color.brandColorsCrayolaYellow,
     flex: 1,
-    height: 800,
+    height: Dimensions.get("window").height,
     overflow: "hidden",
-    width: "100%",
+    width: Dimensions.get("window").width,
   },
 });
 

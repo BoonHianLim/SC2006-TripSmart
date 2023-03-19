@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View, Pressable } from "react-native";
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Margin, Color, FontFamily } from "../GlobalStyles";
 
@@ -114,8 +121,8 @@ const styles = StyleSheet.create({
   logosParent: {
     top: -34,
     left: -10,
-    width: 430,
-    height: 683,
+    width: Dimensions.get("window").width * 1,
+    height: Dimensions.get("window").height * 0.85,
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
@@ -148,18 +155,18 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderColor: "#000",
     borderWidth: 4.1,
-    height: 17,
+    height: 20,
   },
   rectangleParent: {
-    top: 54,
-    left: 15,
+    top: Dimensions.get("window").height * 0.05,
+    left: Dimensions.get("window").width * 0.015,
     alignItems: "center",
   },
   navigationNext: {
-    top: 696,
-    left: 145,
-    height: 71,
-    width: 117,
+    top: Dimensions.get("window").height * 0.8,
+    left: Dimensions.get("window").width * 0.38,
+    height: Dimensions.get("window").height * 0.2,
+    width: Dimensions.get("window").width * 0.3,
     position: "absolute",
   },
   frameParent: {
@@ -172,8 +179,8 @@ const styles = StyleSheet.create({
   },
   greetingPage2: {
     backgroundColor: Color.brandColorsCrayolaYellow,
-    width: "100%",
-    height: 800,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
     flex: 1,
   },
 });
