@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import {View, Text, StyleSheet, TextInput, Button} from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { Searchbar } from "react-native-paper";
 import { FontFamily, Color, Margin } from "../GlobalStyles";
@@ -12,6 +13,7 @@ const GOOGLE_PLACES_API_KEY = "AIzaSyALnass7RW3hrj9O1KGCf3UzsTznG7axS4";
 
 const App = () => {
   // ref
+  const navigation = useNavigation();
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   // variables
@@ -31,7 +33,6 @@ const App = () => {
 
   const onChangeDest = (query: React.SetStateAction<string>) =>
     setDestQuery(query);
-
   // renders
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -76,6 +77,11 @@ const App = () => {
                 url: "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api",
                 useOnPlatform: "web",
               }} // this in only required for use on the web. See https://git.io/JflFv more for details.
+              styles={{
+                container: {
+                  flex: 0,
+                },
+              }}
             />
 
             <GooglePlacesAutocomplete
@@ -90,7 +96,13 @@ const App = () => {
                 url: "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api",
                 useOnPlatform: "web",
               }} // this in only required for use on the web. See https://git.io/JflFv more for details.
+              styles={{
+                container: {
+                  flex: 0,
+                }
+              }}
             />
+            <Button title="Login" onPress={() => navigation.navigate("ResultList")} />
           </View>
         </BottomSheet>
       </View>
