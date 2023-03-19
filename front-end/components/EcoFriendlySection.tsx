@@ -1,13 +1,34 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  Pressable,
+} from "react-native";
 import PetFriendlyContainer from "./PetFriendlyContainer";
+import { useState } from "react";
 import { Margin, Color, FontFamily } from "../GlobalStyles";
 
 const EcoFriendlySection = () => {
+  const { width, height } = Dimensions.get("window");
+  const [isWCSelected, setWCSelected] = useState(false);
+  const handleWCPress = () => {
+    setWCSelected(!isWCSelected); // toggle isSelected between true and false
+  };
+  const [isPSelected, setPSelected] = useState(false);
+  const handlePPress = () => {
+    setPSelected(!isPSelected); // toggle isSelected between true and false
+  };
+  const [isEFSelected, setEFSelected] = useState(false);
+  const handleEFPress = () => {
+    setEFSelected(!isEFSelected); // toggle isSelected between true and false
+  };
   return (
     <View style={[styles.frameParent, styles.mt_7, styles.frameParentFlexBox]}>
       <View style={styles.frameGroup}>
-        <View style={styles.frameWrapper}>
+        <Pressable style={[styles.frameWrapper, isWCSelected ? styles.frameSelected : null]} onPress={handleWCPress}>
           <View style={[styles.wheelchair1Wrapper, styles.frameParentFlexBox]}>
             <Image
               style={styles.wheelchair1Icon}
@@ -15,22 +36,39 @@ const EcoFriendlySection = () => {
               source={require("../assets/wheelchair-1.png")}
             />
           </View>
-        </View>
+        </Pressable>
         <Text style={[styles.wheelchairAccessibility, styles.mt12]}>
           Wheelchair Accessibility
         </Text>
       </View>
-      <PetFriendlyContainer
-        petFriendlyText={require("../assets/pets-1.png")}
-        ecoFriendlyText="Pet-Friendly"
-      />
-      <PetFriendlyContainer
-        petFriendlyText={require("../assets/renewableenergy-1.png")}
-        ecoFriendlyText="Eco-friendly"
-        propTop={5}
-        propLeft={8}
-        propWidth={74}
-      />
+      <View style={styles.frameGroup}>
+        <Pressable style={[styles.frameWrapper, isPSelected ? styles.frameSelected : null]} onPress={handlePPress}>
+          <View style={[styles.wheelchair1Wrapper, styles.frameParentFlexBox]}>
+            <Image
+              style={styles.wheelchair1Icon}
+              resizeMode="cover"
+              source={require("../assets/pets-1.png")}
+            />
+          </View>
+        </Pressable>
+        <Text style={[styles.wheelchairAccessibility, styles.mt12]}>
+        Pet-Friendly
+        </Text>
+      </View>
+      <View style={styles.frameGroup}>
+        <Pressable style={[styles.frameWrapper, isEFSelected ? styles.frameSelected : null]} onPress={handleEFPress}>
+          <View style={[styles.wheelchair1Wrapper, styles.frameParentFlexBox]}>
+            <Image
+              style={styles.wheelchair1Icon}
+              resizeMode="cover"
+              source={require("../assets/renewableenergy-1.png")}
+            />
+          </View>
+        </Pressable>
+        <Text style={[styles.wheelchairAccessibility, styles.mt12]}>
+        Eco-friendly
+        </Text>
+      </View>
     </View>
   );
 };
@@ -74,12 +112,14 @@ const styles = StyleSheet.create({
   frameWrapper: {
     borderRadius: 24,
     backgroundColor: Color.brandColorsPeachBlossom,
-    borderStyle: "solid",
-    borderColor: "#1a1528",
-    borderWidth: 3,
     width: 60,
     height: 60,
     overflow: "hidden",
+  },
+  frameSelected: {
+    borderStyle: "solid",
+    borderColor: "#1a1528",
+    borderWidth: 3,
   },
   wheelchairAccessibility: {
     fontSize: 12,
@@ -96,8 +136,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   frameParent: {
-    top: 199,
-    left: 20,
+    top: Dimensions.get("window").height * 0.30,
     zIndex: 4,
   },
 });

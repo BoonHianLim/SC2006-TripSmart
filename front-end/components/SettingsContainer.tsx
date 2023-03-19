@@ -19,7 +19,7 @@ const SettingsContainer = () => {
       <View style={styles.frameParent}>
         <Pressable
           style={[styles.iconsParent, styles.iconsSpaceBlock]}
-          onPress={() => navigation.navigate("History")}
+          onPress={() => navigation.navigate("ResultList")}
         >
           <View style={[styles.icons, styles.iconsFlexBox]}>
             <Image
@@ -45,21 +45,6 @@ const SettingsContainer = () => {
           </View>
           <Text style={[styles.billetter, styles.mt8_35, styles.planlgTypo]}>
             History
-          </Text>
-        </Pressable>
-        <Pressable
-          style={styles.iconsSpaceBlock}
-          onPress={() => navigation.navigate("History")}
-        >
-          <View style={[styles.icons, styles.iconsFlexBox]}>
-            <Image
-              style={styles.mapIcon}
-              resizeMode="cover"
-              source={require("../assets/user2.png")}
-            />
-          </View>
-          <Text style={[styles.billetter, styles.mt8_35, styles.planlgTypo]}>
-            Profile
           </Text>
         </Pressable>
         <Pressable

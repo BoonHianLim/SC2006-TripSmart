@@ -49,8 +49,19 @@ const ResultFilter = () => {
         />
         <EcoFriendlySection />
       </View>
-      <View style={[styles.applyFiltersWrapper, styles.iconsFlexBox]}>
-        <Text style={[styles.applyFilters, styles.rideTypesTypo]}>
+      <View
+        style={[
+          styles.changeEmailWrapper,
+          styles.changeWrapperFlexBox,
+        ]}
+      >
+        <Text
+          style={[
+            styles.changePassword,
+            styles.changeTypo,
+            styles.tripsmartLayout,
+          ]}
+        >
           Apply Filters
         </Text>
       </View>
@@ -60,6 +71,45 @@ const ResultFilter = () => {
 };
 
 const styles = StyleSheet.create({
+  changeEmailWrapper: {
+    top: 488,
+    left: Dimensions.get("window").width * 0.25,
+    zIndex: 7,
+    borderRadius: 16,
+    backgroundColor: Color.goldenrod_200,
+    width: Dimensions.get("window").width * 0.5,
+    height: 37,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    flexDirection: "row",
+    position: "absolute",
+  },
+  changeWrapperFlexBox: {
+    paddingVertical: 16,
+    paddingHorizontal: 8,
+    height: 60,
+    backgroundColor: Color.goldenrod_200,
+    borderRadius: 12,
+    alignSelf: "stretch",
+    position: "absolute",
+    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  changePassword: {
+    fontSize: 13,
+    lineHeight: 13,
+    color: Color.black,
+  },
+  changeTypo: {
+    letterSpacing: 0.4,
+    fontFamily: FontFamily.montserratBold,
+    fontWeight: "700",
+  },
+  tripsmartLayout: {
+    width: 144,
+    textAlign: "center",
+  },
   mt_7: {
     marginTop: Margin.m_20xs,
   },
@@ -150,7 +200,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     lineHeight: 17,
     color: Color.black,
-    fontFamily: FontFamily.montserratBold,
   },
   applyFiltersWrapper: {
     top: 459,
@@ -163,6 +212,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     flexDirection: "row",
     position: "absolute",
+    zIndex: 7,
   },
   mapIcon: {
     maxHeight: "100%",
