@@ -72,7 +72,7 @@ const ResultFilter = () => {
 
 const styles = StyleSheet.create({
   changeEmailWrapper: {
-    top: 488,
+    top: 487,
     left: Dimensions.get("window").width * 0.25,
     zIndex: 7,
     borderRadius: 16,
