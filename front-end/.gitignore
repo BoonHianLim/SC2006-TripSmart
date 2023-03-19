@@ -1,3 +1,5 @@
+# Ignore env
+.env
 # React Native Expo Gitignore
 # Expo
 .expo
