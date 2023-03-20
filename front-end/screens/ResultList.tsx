@@ -24,9 +24,11 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Constants from "expo-constants";
 import SettingsContainer from "../components/SettingsContainer";
-import env from "../env";
+import { bluesg } from "../services/bluesg";
 
 const GOOGLE_PLACES_API_KEY = "AIzaSyALnass7RW3hrj9O1KGCf3UzsTznG7axS4";
+const start = "Jurong Point";
+const end = "NTU Hall of Residence 4";
 
 const App = () => {
   // ref
@@ -40,6 +42,7 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [destQuery, setDestQuery] = useState("");
 
+  const [text, setText] = useState("");
   // callbacks
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
@@ -50,6 +53,12 @@ const App = () => {
 
   const onChangeDest = (query: React.SetStateAction<string>) =>
     setDestQuery(query);
+
+  useEffect(() => {
+    bluesg.getData(start, end).then((data) => {
+      setText(data.toString());
+    });
+  });
   // renders
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -104,7 +113,6 @@ const App = () => {
                     source={require("../assets/arrow-11.png")}
                   />
                 </Pressable>
-
                 <Text style={styles.resultText}>Results</Text>
               </View>
               <View style={styles.sortingGroup}>
@@ -139,6 +147,9 @@ const App = () => {
                   </Text>
                 </View>
               </View>
+            </View>
+            <View style={styles.result}>
+              <Text>{text}</Text>
             </View>
             <SettingsContainer />
           </View>
@@ -268,7 +279,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   headerChild: {
-    top: Dimensions.get("window").height * 0.007,
+    top: Dimensions.get("window").height * 0.01,
     left: Dimensions.get("window").width * 0.005,
     width: Dimensions.get("window").width * 0.06,
     height: Dimensions.get("window").height * 0.022,
@@ -303,5 +314,4 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
 });
-
 export default App;
