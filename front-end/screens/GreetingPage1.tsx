@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   welcomeToTripsmartParent: {
     top: Dimensions.get("window").height * 0.4,
-    left: Dimensions.get("window").width * 0.2,
+    left: Dimensions.get("window").width * 0.25,
     position: "absolute",
   },
   next: {
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   },
   navigationNext: {
     top: Dimensions.get("window").height * 0.6,
-    left: Dimensions.get("window").width * 0.4,
+    left: Dimensions.get("window").width * 0.35,
     height: Dimensions.get("window").height * 0.2,
     width: Dimensions.get("window").width * 0.6,
     position: "absolute",

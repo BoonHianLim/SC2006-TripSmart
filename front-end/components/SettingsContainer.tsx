@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   bottomNavigation: {
-    top: Dimensions.get("window").height * 0.95,
+    top: Dimensions.get("window").height * 0.93,
     left: 3,
     width: Dimensions.get("window").width,
     height: 80,
