@@ -8,8 +8,7 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Constants from "expo-constants";
-
-const GOOGLE_PLACES_API_KEY = "AIzaSyALnass7RW3hrj9O1KGCf3UzsTznG7axS4";
+import devEnvironmentVariables from "../env";
 
 const App = () => {
   // ref
@@ -68,7 +67,7 @@ const App = () => {
             <GooglePlacesAutocomplete
               placeholder="Starting location"
               query={{
-                key: GOOGLE_PLACES_API_KEY,
+                key: devEnvironmentVariables.GOOGLE_MAPS_API_KEY,
                 language: "en", // language of the results
               }}
               onPress={(data, details = null) => console.log(data)}
@@ -87,7 +86,7 @@ const App = () => {
             <GooglePlacesAutocomplete
               placeholder="Destination"
               query={{
-                key: GOOGLE_PLACES_API_KEY,
+                key: devEnvironmentVariables.GOOGLE_MAPS_API_KEY,
                 language: "en", // language of the results
               }}
               onPress={(data, details = null) => console.log(data)}

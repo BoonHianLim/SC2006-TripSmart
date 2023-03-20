@@ -94,11 +94,17 @@ const App = () => {
                     source={require("../assets/image-3.png")}
                   />
                 </Pressable>
-                <Image
+                <Pressable
                   style={styles.headerChild}
-                  resizeMode="cover"
-                  source={require("../assets/arrow-11.png")}
-                />
+                  onPress={() => navigation.navigate("SearchPage1")}
+                >
+                  <Image
+                    style={styles.headerChild}
+                    resizeMode="cover"
+                    source={require("../assets/arrow-11.png")}
+                  />
+                </Pressable>
+
                 <Text style={styles.resultText}>Results</Text>
               </View>
               <View style={styles.sortingGroup}>
@@ -262,7 +268,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   headerChild: {
-    top: Dimensions.get("window").height * 0.01,
+    top: Dimensions.get("window").height * 0.007,
     left: Dimensions.get("window").width * 0.005,
     width: Dimensions.get("window").width * 0.06,
     height: Dimensions.get("window").height * 0.022,
