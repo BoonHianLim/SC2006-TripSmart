@@ -1,11 +1,24 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  Pressable,
+} from "react-native";
 import SectionCard from "../components/SectionCard";
 import BottomNavigationContainer from "../components/BottomNavigationContainer";
 import { Margin, FontFamily, Color } from "../GlobalStyles";
+import { ScrollView } from "react-native-gesture-handler";
+import { CSSProperties } from "react";
+import SettingsContainerHistory from "../components/SettingsContainerHistory";
+
 
 const History1 = () => {
+  const { width, height } = Dimensions.get("window");
   return (
+    <ScrollView>
     <View style={styles.history}>
       <View style={[styles.navbar, styles.navbarFlexBox]}>
         <Image
@@ -175,9 +188,15 @@ const History1 = () => {
         <Text style={[styles.gainInsightInto1, styles.mt10, styles.gainTypo]}>
           Gain insight into your TripSmart Trip History
         </Text>
+        <Image
+          resizeMode="contain"
+          source={require("../assets/history.png")}
+          style= {{width: "100%",top:"-22%"}}
+        />
       </View>
-      <BottomNavigationContainer />
+      <SettingsContainerHistory />
     </View>
+    </ScrollView>
   );
 };
 
@@ -468,14 +487,14 @@ const styles = StyleSheet.create({
   yourDetailedHistoryParent: {
     top: 665,
     left: 21,
-    width: 350,
-    height: 45,
+    width: "95%",
+    height: 455,
     zIndex: 7,
     position: "absolute",
   },
   history: {
     backgroundColor: Color.textColorsInverse,
-    height: 800,
+    height: Dimensions.get("window").height *1.63, 
     alignItems: "center",
     overflow: "hidden",
     width: "100%",
