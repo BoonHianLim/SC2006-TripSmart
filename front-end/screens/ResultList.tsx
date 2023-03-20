@@ -24,9 +24,12 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Constants from "expo-constants";
 import SettingsContainer from "../components/SettingsContainer";
-import env from "../env";
+import { bluesg } from "../services/bluesg";
+
 
 const GOOGLE_PLACES_API_KEY = "AIzaSyALnass7RW3hrj9O1KGCf3UzsTznG7axS4";
+const start = "Jurong Point"
+const end = "NTU Hall of Residence 4"
 
 const App = () => {
   // ref
@@ -40,107 +43,116 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [destQuery, setDestQuery] = useState("");
 
+  const [text, setText] = useState('');
   // callbacks
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
   }, []);
 
-  const onChangeSearch = (query: React.SetStateAction<string>) =>
-    setSearchQuery(query);
+  const onChangeSearch = (query: React.SetStateAction<string>) => setSearchQuery(query);
 
   const onChangeDest = (query: React.SetStateAction<string>) =>
-    setDestQuery(query);
+      setDestQuery(query);
+
+  useEffect(() => {
+    bluesg.getData(start,end).then((data) => {
+      setText(data.toString());
+    })
+  })
   // renders
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <MapView
-          style={{ flex: 1 }}
-          provider={PROVIDER_GOOGLE}
-          region={{
-            latitude: 1.3521,
-            longitude: 103.8198,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-          }}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          showsCompass={true}
-          showsScale={true}
-          zoomEnabled={true}
-          rotateEnabled={true}
-          scrollEnabled={true}
-          pitchEnabled={true}
-          toolbarEnabled={true}
-          cacheEnabled={false}
-        />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <MapView
+              style={{ flex: 1 }}
+              provider={PROVIDER_GOOGLE}
+              region={{
+                latitude: 1.3521,
+                longitude: 103.8198,
+                latitudeDelta: 0.015,
+                longitudeDelta: 0.0121,
+              }}
+              showsUserLocation={true}
+              showsMyLocationButton={true}
+              showsCompass={true}
+              showsScale={true}
+              zoomEnabled={true}
+              rotateEnabled={true}
+              scrollEnabled={true}
+              pitchEnabled={true}
+              toolbarEnabled={true}
+              cacheEnabled={false}
+          />
 
-        <BottomSheet
-          ref={bottomSheetRef}
-          index={1}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}
-        >
-          <View style={styles.resultList}>
-            <View style={styles.headerParent}>
-              <View style={styles.header}>
-                <Pressable
-                  style={styles.image3}
-                  onPress={() => navigation.navigate("ResultFilter")}
-                >
+          <BottomSheet
+              ref={bottomSheetRef}
+              index={1}
+              snapPoints={snapPoints}
+              onChange={handleSheetChanges}
+          >
+            <View style={styles.resultList}>
+              <View style={styles.headerParent}>
+                <View style={styles.header}>
+                  <Pressable
+                      style={styles.image3}
+                      onPress={() => navigation.navigate("ResultFilter")}
+                  >
+                    <Image
+                        style={styles.icon}
+                        resizeMode="cover"
+                        source={require("../assets/image-3.png")}
+                    />
+                  </Pressable>
                   <Image
-                    style={styles.icon}
-                    resizeMode="cover"
-                    source={require("../assets/image-3.png")}
+                      style={styles.headerChild}
+                      resizeMode="cover"
+                      source={require("../assets/arrow-11.png")}
                   />
-                </Pressable>
-                <Image
-                  style={styles.headerChild}
-                  resizeMode="cover"
-                  source={require("../assets/arrow-11.png")}
-                />
-                <Text style={styles.resultText}>Results</Text>
-              </View>
-              <View style={styles.sortingGroup}>
-                <Image
-                  style={styles.borderorange1Icon}
-                  resizeMode="cover"
-                  source={require("../assets/borderorange-1.png")}
-                />
-                <Image
-                  style={styles.border1Icon}
-                  resizeMode="cover"
-                  source={require("../assets/border-1.png")}
-                />
-                <View style={[styles.cheapestGroup, styles.groupLayout]}>
-                  <Image
-                    style={styles.cheapestGroupChild}
-                    resizeMode="cover"
-                    source={require("../assets/arrow-2.png")}
-                  />
-                  <Text style={[styles.cheapest, styles.fastestTypo]}>
-                    Cheapest
-                  </Text>
+                  <Text style={styles.resultText}>Results</Text>
                 </View>
-                <View style={[styles.fastestGroup, styles.groupLayout]}>
+                <View style={styles.sortingGroup}>
                   <Image
-                    style={styles.cheapestGroupChild}
-                    resizeMode="cover"
-                    source={require("../assets/arrow-21.png")}
+                      style={styles.borderorange1Icon}
+                      resizeMode="cover"
+                      source={require("../assets/borderorange-1.png")}
                   />
-                  <Text style={[styles.fastest, styles.fastestTypo]}>
-                    Fastest
-                  </Text>
+                  <Image
+                      style={styles.border1Icon}
+                      resizeMode="cover"
+                      source={require("../assets/border-1.png")}
+                  />
+                  <View style={[styles.cheapestGroup, styles.groupLayout]}>
+                    <Image
+                        style={styles.cheapestGroupChild}
+                        resizeMode="cover"
+                        source={require("../assets/arrow-2.png")}
+                    />
+                    <Text style={[styles.cheapest, styles.fastestTypo]}>
+                      Cheapest
+                    </Text>
+                  </View>
+                  <View style={[styles.fastestGroup, styles.groupLayout]}>
+                    <Image
+                        style={styles.cheapestGroupChild}
+                        resizeMode="cover"
+                        source={require("../assets/arrow-21.png")}
+                    />
+                    <Text style={[styles.fastest, styles.fastestTypo]}>
+                      Fastest
+                    </Text>
+                  </View>
                 </View>
               </View>
+              <View style = {styles.result}>
+                <Text>{text}</Text>
+              </View>
+              <SettingsContainer />
             </View>
-            <SettingsContainer />
-          </View>
-        </BottomSheet>
-        <View style={styles.settings} />
-        <SettingsContainer />
-      </View>
-    </GestureHandlerRootView>
+          </BottomSheet>
+          <View style={styles.settings} />
+          <SettingsContainer />
+        </View>
+      </GestureHandlerRootView>
   );
 };
 
@@ -297,5 +309,4 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
 });
-
 export default App;
