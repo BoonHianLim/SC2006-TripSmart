@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
     color: Color.brandColorsCrayolaYellow,
   },
   welcomeToTripsmartContainer1: {
-    lineBreak: "anywhere",
     width: Dimensions.get("window").width * 1,
   },
   welcomeToTripsmartContainer: {
