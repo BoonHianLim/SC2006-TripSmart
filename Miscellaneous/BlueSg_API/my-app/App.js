@@ -72,9 +72,6 @@ const getDistance = async (currLoc, destination) => {
       setDuration(parseFloat(resData.routes[0].legs[0].duration.text))
       console.log(duration)
       console.log(distance)
-
-      return duration
-    
     }else{
       throw new InvalidLocations()
     }
@@ -88,6 +85,41 @@ const getDistance = async (currLoc, destination) => {
   }
 };
 
+const getLatitude = async (locText) => {
+  const [latitude, setLatitude] = useState();
+  const [longtitude, setLongtitude] = useState();
+
+    const {GOOGLE_MAPS_API_KEY} = env
+
+    const res = await fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + locText + "&key=" + GOOGLE_MAPS_API_KEY)
+    const resData = await res.json()
+    setLatitude(resData.results[0].geometry.location.lat)
+    setLongtitude(resData.results[0].geometry.location.lng)
+    console.log(latitude)
+    console.log(longtitude)
+};
+
+// currLoc[0] = latitude      currLoc[1] = longtitude
+const getDistanceLatitude = async (currLoc, destination) => {
+  const [duration, setDuration] = useState();
+  const [distance, setDistance] = useState();
+
+  const {GOOGLE_MAPS_API_KEY} = env
+
+  // const stringKey = "https://maps.googleapis.com/maps/api/distancematrix/json?destinations=" + currLoc[0] + "%2C" + currLoc[1] + "&origins=" + destination[0] + "%2C" + destination[1] + "&mode=DRIVING" + "&key=" + GOOGLE_MAPS_API_KEY
+  // console.log(stringKey)
+
+  const res = await fetch("https://maps.googleapis.com/maps/api/distancematrix/json?destinations=" + currLoc[0] + "%2C" + currLoc[1] + "&origins=" + destination[0] + "%2C" + destination[1] + "&mode=DRIVING" + "&key=" + GOOGLE_MAPS_API_KEY)
+  const resData = await res.json()
+  setDistance(parseFloat(resData.rows[0].elements[0].distance.text))
+  setDuration(parseFloat(resData.rows[0].elements[0].duration.text))
+
+  console.log(duration)
+  console.log(distance)
+
+
+};
+
 const Cat = () => {
   return (<View style={styles.container}>
     {ParentThatFetches()}
@@ -99,8 +131,11 @@ const Cat = () => {
         }}
         defaultValue="Name me!"
     />
+    <Text>{JSON.stringify(getDistanceLatitude([1.3549454,103.6865217], [1.3407436, 103.7411882]))}</Text>
 
-    <Text>{JSON.stringify(getDistance("hall 11", "axcell tuition center"))}</Text>
+    {/* <Text>{JSON.stringify(getDistance("hall 11", "axcell tuition center"))}</Text> */}
+
+
 
     <TextInput>Hi?</TextInput>
 
