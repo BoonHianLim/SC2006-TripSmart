@@ -1,12 +1,13 @@
 import * as React from "react";
 import { AntDesign } from '@expo/vector-icons'; 
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Text, StyleSheet, Image, View, TextInput } from "react-native";
+import { Text, StyleSheet, Pressable, View, TextInput } from "react-native";
 import { Color, FontFamily } from "../GlobalStyles";
 import {
   responsiveScreenHeight,
   responsiveScreenFontSize
 } from "react-native-responsive-dimensions";
+import { Entypo } from '@expo/vector-icons'; 
+
 
 /*
 Possible option for iconLabel
@@ -16,21 +17,21 @@ Possible option for iconLabel
 
 
 const TextInputUser = (props : any) => {
-
-  const [text, onChangeText] = React.useState('')
-  
   const iconParam = {
     headerText : props.headerText || "",
     iconLabel : props.iconLabel || "user",
-    isPassword : props.isPassword || false
+    isPassword : props.isPassword || false,
   }
+
+  const [text, onChangeText] = React.useState('')
+  const [show, onShow] = React.useState(iconParam.isPassword)
+
 
   return (
     <View
       style={{
-        margin: responsiveScreenHeight(3)
+        marginBottom: responsiveScreenHeight(6)
       }}>
-      
       <Text
         style={{
           marginBottom:responsiveScreenHeight(1),
@@ -60,38 +61,36 @@ const TextInputUser = (props : any) => {
         <TextInput
           onChangeText={onChangeText}
           value={text}
-          secureTextEntry={iconParam.isPassword}
+          secureTextEntry={show}
           style={{
             backgroundColor: Color.backgroundLightGrey,
-            width: "80%"
+            width: "75%"
           }}/>
-        
-        
+
+        {iconParam.isPassword
+        ? 
+          <View>
+          <Pressable
+            onPress={() => onShow(!show)}>
+            { show && <Entypo name="eye" size={24} color="black" style={{ marginLeft: "3%"}}/>}
+          </Pressable>
+          <Pressable
+            onPress={() => onShow(!show)}>
+            { !show && <Entypo name="eye-with-line" size={24} color="black" style={{ marginLeft: "3%"}} />}
+          </Pressable>
+          </View>
+
+        :
+          null }
+          
       </View>
+
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  searchSection: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  },
-  searchIcon: {
-      padding: 10,
-  },
-  input: {
-      flex: 1,
-      paddingTop: 10,
-      paddingRight: 10,
-      paddingBottom: 10,
-      paddingLeft: 0,
-      backgroundColor: '#fff',
-      color: '#424242',
-  },
+
 });
 
 export default TextInputUser;
