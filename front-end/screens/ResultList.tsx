@@ -24,11 +24,18 @@ import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import Constants from "expo-constants";
 import SettingsContainer from "../components/SettingsContainer";
-import {bluesg} from "../services/bluesg";
+import { bluesg } from "../services/bluesg";
+import { ListItem } from "@rneui/base";
 
+// Test Data
 const GOOGLE_PLACES_API_KEY = "AIzaSyALnass7RW3hrj9O1KGCf3UzsTznG7axS4";
 const start = "Jurong Point";
 const end = "NTU Hall of Residence 4";
+const promises: Promise<[number,number]>[] = [
+  Promise.resolve([1,7]),
+  Promise.resolve([3,6]),
+  Promise.resolve([2,5])
+];
 
 const App = () => {
     // ref
@@ -50,66 +57,75 @@ const App = () => {
 
     const onChangeSearch = (query: React.SetStateAction<string>) => setSearchQuery(query);
 
-    const onChangeDest = (query: React.SetStateAction<string>) =>
-        setDestQuery(query);
+  const onChangeDest = (query: React.SetStateAction<string>) =>
+      setDestQuery(query);
+  const [sortedValues, setSortedValues] = useState<number[][]>([]);
 
-    useEffect(() => {
-        bluesg.getData(start, end).then((data) => {
-            setText(data.toString());
-        })
+  async function sortPromisesAscending(promises: Promise<[number, number]>[]) {
+    const resolvedValues = await Promise.all(promises);
+    return promises.sort((promiseA, promiseB) => {
+      const valueA = resolvedValues[promises.indexOf(promiseA)][0];
+      const valueB = resolvedValues[promises.indexOf(promiseB)][0];
+      if (valueA < valueB) {
+        return -1;
+      }
+      if (valueA > valueB) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
+  useEffect(() => {
+    sortPromisesAscending(promises).then(sortedPromises => {
+      Promise.all(sortedPromises.map(p => p.then(v => v))).then(values => {
+        setSortedValues(values);
+      });
+    });
+  }, []);
+/*
+  Blue SG code
+  useEffect(() => {
+    bluesg.getData(start,end).then((data) => {
+      setText(data.toString());
     })
-    // renders
-    return (
-        <GestureHandlerRootView style={{flex: 1}}>
-            <View style={styles.container}>
-                <MapView
-                    style={{flex: 1}}
-                    provider={PROVIDER_GOOGLE}
-                    region={{
-                        latitude: 1.3521,
-                        longitude: 103.8198,
-                        latitudeDelta: 0.015,
-                        longitudeDelta: 0.0121,
-                    }}
-                    showsUserLocation={true}
-                    showsMyLocationButton={true}
-                    showsCompass={true}
-                    showsScale={true}
-                    zoomEnabled={true}
-                    rotateEnabled={true}
-                    scrollEnabled={true}
-                    pitchEnabled={true}
-                    toolbarEnabled={true}
-                    cacheEnabled={false}
-                />
+  })*/
+  // renders
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <MapView
+          style={{ flex: 1 }}
+          provider={PROVIDER_GOOGLE}
+          region={{
+            latitude: 1.3521,
+            longitude: 103.8198,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          }}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          showsCompass={true}
+          showsScale={true}
+          zoomEnabled={true}
+          rotateEnabled={true}
+          scrollEnabled={true}
+          pitchEnabled={true}
+          toolbarEnabled={true}
+          cacheEnabled={false}
+        />
 
-          <BottomSheet
-              ref={bottomSheetRef}
-              index={1}
-              snapPoints={snapPoints}
-              onChange={handleSheetChanges}
-          >
-            <View style={styles.resultList}>
-              <View style={styles.headerParent}>
-                <View style={styles.header}>
-                  <Pressable
-                      style={styles.image3}
-                      onPress={() => navigation.navigate("ResultFilter")}
-                  >
-                    <Image
-                        style={styles.icon}
-                        resizeMode="cover"
-                        source={require("../assets/image-3.png")}
-                    />
-                  </Pressable>
-                  <Image
-                      style={styles.headerChild}
-                      resizeMode="cover"
-                      source={require("../assets/arrow-11.png")}
-                  />
-                </Pressable>
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+        >
+          <View style={styles.resultList}>
+            <View style={styles.headerParent}>
+              <View style={styles.header}>
                 <Pressable
-                  style={styles.headerChild}
+                  style={[styles.leftButton,styles.headerChild]}
                   onPress={() => navigation.navigate("SearchPage1")}
                 >
                   <Image
@@ -118,72 +134,76 @@ const App = () => {
                     source={require("../assets/arrow-11.png")}
                   />
                 </Pressable>
-                <Text style={styles.resultText}>Results</Text>
+                <Text style={[styles.headerChildText,styles.resultText]}>Results</Text>
+                <View style = {{marginLeft:"auto",paddingRight:20}}>
+                  <Pressable
+                    style={[styles.headerChild,styles.image3]}
+                    onPress={() => navigation.navigate("ResultFilter")}
+                >
+                  <Image
+                      style={[styles.headerChild,styles.icon]}
+                      resizeMode="cover"
+                      source={require("../assets/image-3.png")}
+                  />
+                </Pressable>
+                </View>
               </View>
-              <View style={styles.sortingGroup}>
+            </View>
+            <View style={styles.sortingGroup}>
+              <View style = {styles.sortingHeader}>
+              <View style={[styles.groupLayout]}>
+
+                <Text style={[styles.cheapest, styles.sortingHeaderText]}>
+                  Cheapest
+                </Text>
                 <Image
-                  style={styles.borderorange1Icon}
-                  resizeMode="cover"
-                  source={require("../assets/borderorange-1.png")}
-                />
-                <Image
-                  style={styles.border1Icon}
-                  resizeMode="cover"
-                  source={require("../assets/border-1.png")}
-                />
-                <View style={[styles.cheapestGroup, styles.groupLayout]}>
-                  <Image
-                    style={styles.cheapestGroupChild}
-                    resizeMode="cover"
+                    style = {styles.sortingHeaderArrow}
                     source={require("../assets/arrow-2.png")}
-                  />
-                  <Text style={[styles.cheapest, styles.fastestTypo]}>
-                    Cheapest
-                  </Text>
-                </View>
-                <View style={styles.sortingGroup}>
-                  <Image
-                      style={styles.borderorange1Icon}
-                      resizeMode="cover"
-                      source={require("../assets/borderorange-1.png")}
-                  />
-                  <Image
-                      style={styles.border1Icon}
-                      resizeMode="cover"
-                      source={require("../assets/border-1.png")}
-                  />
-                  <View style={[styles.cheapestGroup, styles.groupLayout]}>
-                    <Image
-                        style={styles.cheapestGroupChild}
-                        resizeMode="cover"
-                        source={require("../assets/arrow-2.png")}
-                    />
-                    <Text style={[styles.cheapest, styles.fastestTypo]}>
-                      Cheapest
-                    </Text>
-                  </View>
-                  <View style={[styles.fastestGroup, styles.groupLayout]}>
-                    <Image
-                        style={styles.cheapestGroupChild}
-                        resizeMode="cover"
-                        source={require("../assets/arrow-21.png")}
-                    />
-                    <Text style={[styles.fastest, styles.fastestTypo]}>
-                      Fastest
-                    </Text>
-                  </View>
-                </View>
+                />
+              </View>
+              <View style={[styles.groupLayout]}>
+
+                <Text style={[styles.fastest, styles.sortingHeaderText]}>
+                  Fastest
+                </Text>
+                <Image
+                    style = {styles.sortingHeaderArrow}
+                    source={require("../assets/arrow-21.png")}
+                />
+              </View>
+              </View>
+              <View style = {{flexDirection:"row"}}>
+              <Image
+                  style={styles.border1Icon}
+                  source={require("../assets/border-1.png")}
+              />
+              <Image
+                  style={styles.border1Icon}
+                  source={require("../assets/border-1.png")}
+              />
               </View>
               <View style = {styles.result}>
                 <Text>{text}</Text>
               </View>
               <SettingsContainer />
             </View>
-            <View style={styles.result}>
+            {<View style={styles.result}>
+              <ListItem>
+                <ListItem.Content>
+                  <ListItem.Title>John Doe</ListItem.Title>
+                  <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
+                </ListItem.Content>
+              </ListItem>
               <Text>{text}</Text>
-            </View>
-            <SettingsContainer />
+              <View>
+                {sortedValues.map((arr, index) => (
+                    <Text key={index}>{arr.join(', ')}</Text>
+                ))}
+              </View>
+
+            </View>}
           </View>
+
         </BottomSheet>
         <View style={styles.settings} />
         <SettingsContainer />
@@ -193,156 +213,117 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 1,
-        backgroundColor: "grey",
-    },
-    contentContainer: {
-        flex: 1,
-        alignItems: "center",
-    },
-    textInput: {
-        height: 40,
-    },
-    frameContainer: {
-        alignSelf: "stretch",
-    },
-    email: {
-        letterSpacing: 0.3,
-        textAlign: "left",
-        lineHeight: 14,
-        color: Color.textColorsLight,
-        fontSize: 15,
-        alignSelf: "stretch",
-    },
-    emailTypo: {
-        fontFamily: FontFamily.montserratBold,
-        fontWeight: "700",
-    },
-    textInputContainer: {
-        borderColor: "#CCCCCC",
-        borderWidth: 1,
-        borderRadius: 5,
-        padding: 10,
-    },
-    cheapest: {
-        color: "#f9bb00",
-    },
-    result: {
-        width: "100%",
-        flex: 4,
-    },
-    fastestGroup: {
-        left: Dimensions.get("window").width * 0.5,
-    },
-    cheapestGroupChild: {
-        top: 5,
-        left: 95,
-        width: Dimensions.get("window").width * 0.01,
-        height: Dimensions.get("window").height * 0.012,
-        position: "absolute",
-    },
-    container2: {
-        flex: 1,
-        padding: 10,
-        paddingTop: Constants.statusBarHeight + 10,
-        backgroundColor: "#ecf0f1",
-    },
-    fastestTypo: {
-        lineHeight: 20,
-        fontSize: 15,
-        left: 0,
-        textAlign: "left",
-        letterSpacing: 0,
-        top: 0,
-        position: "absolute",
-    },
-    border1Icon: {
-        top: Dimensions.get("window").height * 0.024,
-        left: Dimensions.get("window").width * 0.4,
-        width: Dimensions.get("window").width * 0.4,
-        height: 16,
-        position: "absolute",
-    },
-    groupLayout: {
-        height: Dimensions.get("window").height,
-        width: Dimensions.get("window").width * 0.4,
-        top: 0,
-        position: "absolute",
-    },
-    resultList: {
-        backgroundColor: Color.textColorsInverse,
-        height: Dimensions.get("window").height,
-        width: "100%",
-        flex: 1,
-        flexDirection: "column",
-        flexWrap: "wrap",
-    },
-    headerParent: {
-        alignSelf: "stretch",
-        flex: 1,
-    },
-    fastest: {
-        color: Color.black,
-        lineHeight: 20,
-        fontSize: 15,
-    },
-    image3: {
-        left: Dimensions.get("window").width * 0.78,
-        width: Dimensions.get("window").width * 0.1,
-        top: 0,
-        height: Dimensions.get("window").height * 0.05,
-        position: "absolute",
-    },
-    cheapestGroup: {
-        left: 41,
-    },
-    header: {
-        top: Dimensions.get("window").height * 0.01,
-        left: Dimensions.get("window").width * 0.05,
-        width: Dimensions.get("window").width,
-        height: Dimensions.get("window").height * 0.05,
-        position: "absolute",
-    },
-    icon: {
-        height: "100%",
-        width: "100%",
-    },
-    headerChild: {
-        top: Dimensions.get("window").height * 0.01,
-        left: Dimensions.get("window").width * 0.005,
-        width: Dimensions.get("window").width * 0.06,
-        height: Dimensions.get("window").height * 0.022,
-        position: "absolute",
-    },
-    borderorange1Icon: {
-        top: Dimensions.get("window").height * 0.032,
-        width: Dimensions.get("window").width * 0.4,
-        height: Dimensions.get("window").height * 0.003,
-        left: 0,
-        position: "absolute",
-    },
-    settings: {
-        top: Dimensions.get("window").height,
-    },
-    resultText: {
-        top: 6,
-        left: 39,
-        fontSize: 22,
-        lineHeight: 29,
-        fontWeight: "700",
-        textAlign: "left",
-        letterSpacing: 0,
-        color: Color.black,
-        position: "absolute",
-    },
-    sortingGroup: {
-        top: Dimensions.get("window").height * 0.08,
-        left: Dimensions.get("window").width * 0.08,
-        width: Dimensions.get("window").width,
-        height: Dimensions.get("window").height,
-        position: "absolute",
-    },
+  container: {
+    flex: 1,
+    padding: 1,
+    backgroundColor: "grey",
+  },
+  textInput: {
+    height: 40,
+  },
+  frameContainer: {
+    alignSelf: "stretch",
+  },
+  email: {
+    letterSpacing: 0.3,
+    textAlign: "left",
+    lineHeight: 14,
+    color: Color.textColorsLight,
+    fontSize: 15,
+    alignSelf: "stretch",
+  },
+  emailTypo: {
+    fontFamily: FontFamily.montserratBold,
+    fontWeight: "700",
+  },
+  textInputContainer: {
+    borderColor: "#CCCCCC",
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+  },
+  cheapest: {
+    color: "#f9bb00",
+  },
+  result: {
+    width: "100%",
+  },
+  sortingHeaderArrow: {
+    width: "7%",
+    height: "100%",
+  },
+  container2: {
+
+    padding: 10,
+    paddingTop: Constants.statusBarHeight + 10,
+    backgroundColor: "#ecf0f1",
+  },
+  sortingHeaderText: {
+    lineHeight: 20,
+    fontSize: 15,
+    paddingRight:20
+  },
+  border1Icon: {
+    height: 16,
+  },
+  groupLayout: {
+    height: "100%",
+    width: "40%",
+    flexDirection:"row",
+    justifyContent:"center"
+  },
+  resultList: {
+    backgroundColor: Color.textColorsInverse,
+    width: "100%",
+    flexDirection: "column",
+  },
+  sortingHeader:{
+    flexDirection:"row",
+    alignItems:"center",
+    paddingTop:20
+  },
+  leftButton:{
+    paddingLeft:20
+  },
+  headerParent: {
+    width: "100%"
+  },
+  fastest: {
+    color: Color.black,
+  },
+  image3: {
+    width: Dimensions.get("window").width * 0.1,
+    height: Dimensions.get("window").height * 0.05,
+  },
+  header: {
+    flexDirection: "row"
+  },
+  icon: {
+    height: "100%",
+    width: "100%",
+
+  },
+  headerChild: {
+    paddingTop: 20
+  },
+  headerChildText:{
+    paddingTop: 15
+  },
+  borderorange1Icon: {
+    width: Dimensions.get("window").width * 0.4,
+    height: Dimensions.get("window").height * 0.003,
+  },
+  settings: {
+  },
+  resultText: {
+    fontSize:22,
+    fontWeight: "700",
+    color: Color.black,
+    paddingLeft: 20,
+  },
+  sortingGroup: {
+    width: "100%",
+    alignItems:"center"
+  },
 });
 export default App;
