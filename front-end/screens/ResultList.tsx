@@ -151,26 +151,24 @@ const App = () => {
             </View>
             <View style={styles.sortingGroup}>
               <View style = {styles.sortingHeader}>
-              <View style={[styles.groupLayout]}>
-
-                <Text style={[styles.cheapest, styles.sortingHeaderText]}>
-                  Cheapest
-                </Text>
-                <Image
-                    style = {styles.sortingHeaderArrow}
-                    source={require("../assets/arrow-2.png")}
-                />
-              </View>
-              <View style={[styles.groupLayout]}>
-
-                <Text style={[styles.fastest, styles.sortingHeaderText]}>
-                  Fastest
-                </Text>
-                <Image
-                    style = {styles.sortingHeaderArrow}
-                    source={require("../assets/arrow-21.png")}
-                />
-              </View>
+                <View style={[styles.groupLayout]}>
+                  <Text style={[styles.cheapest, styles.sortingHeaderText]}>
+                    Cheapest
+                  </Text>
+                  <Image
+                      style = {styles.sortingHeaderArrow}
+                      source={require("../assets/arrow-2.png")}
+                  />
+                </View>
+                <View style={[styles.groupLayout]}>
+                  <Text style={[styles.fastest, styles.sortingHeaderText]}>
+                    Fastest
+                  </Text>
+                  <Image
+                      style = {styles.sortingHeaderArrow}
+                      source={require("../assets/arrow-21.png")}
+                  />
+                </View>
               </View>
               <View style = {{flexDirection:"row"}}>
               <Image
@@ -182,10 +180,6 @@ const App = () => {
                   source={require("../assets/border-1.png")}
               />
               </View>
-              <View style = {styles.result}>
-                <Text>{text}</Text>
-              </View>
-              <SettingsContainer />
             </View>
             {<View style={styles.result}>
               <ListItem>
