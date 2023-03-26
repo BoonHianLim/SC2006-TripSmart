@@ -42,7 +42,7 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [destQuery, setDestQuery] = useState("");
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   // callbacks
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
@@ -52,13 +52,13 @@ const App = () => {
     setSearchQuery(query);
 
   const onChangeDest = (query: React.SetStateAction<string>) =>
-    setDestQuery(query);
+      setDestQuery(query);
 
   useEffect(() => {
-    bluesg.getData(start, end).then((data) => {
+    bluesg.getData(start,end).then((data) => {
       setText(data.toString());
-    });
-  });
+    })
+  })
   // renders
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
