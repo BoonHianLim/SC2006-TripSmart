@@ -46,7 +46,7 @@ export const Color = {
   goldenrod_200: "#febd22",
   goldenrod_300: "#ebad18",
   backgroundColorsBackgroundLight1: "#f5f5f5",
-  backgroundColorsBackgroundLighter1: "#fafafa",
+  backgroundLightGrey: "#ECECEC",
   greyscale900: "#212121",
   textColorsMain: "#1f1f1f",
   brandColorsNightPurple: "#1a1528",
