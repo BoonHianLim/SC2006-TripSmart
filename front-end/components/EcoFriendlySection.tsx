@@ -26,7 +26,7 @@ const EcoFriendlySection = () => {
     setEFSelected(!isEFSelected); // toggle isSelected between true and false
   };
   return (
-    <View style={[styles.frameParent, styles.mt_7, styles.frameParentFlexBox]}>
+    <View style={[styles.frameParent, styles.frameParentFlexBox]}>
       <View style={styles.frameGroup}>
         <Pressable style={[styles.frameWrapper, isWCSelected ? styles.frameSelected : null]} onPress={handleWCPress}>
           <View style={[styles.wheelchair1Wrapper, styles.frameParentFlexBox]}>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   frameParentFlexBox: {
     flexDirection: "row",
-    position: "absolute",
+    position: "relative",
   },
   wheelchair1Icon: {
     top: -1,
@@ -136,8 +136,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   frameParent: {
-    top: Dimensions.get("window").height * 0.30,
-    zIndex: 4,
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 

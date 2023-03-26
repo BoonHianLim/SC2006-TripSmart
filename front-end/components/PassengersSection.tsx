@@ -23,7 +23,7 @@ const PassengersSection = () => {
     }
   };
   return (
-    <View style={[styles.numberOfPassengersParent, styles.mt_7]}>
+    <View style={styles.numberOfPassengersParent}>
       <Text style={[styles.numberOfPassengers, styles.passengersTypo]}>
         Number of Passengers
       </Text>
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     height: 28,
   },
   frameParent: {
-    width: 131,
+    alignItems: 'flex-end'
   },
   passengersParent: {
     justifyContent: "space-between",
@@ -176,7 +176,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   numberOfPassengersParent: {
-    height: 134,
     paddingHorizontal: 24,
     paddingVertical: 36,
     zIndex: 1,

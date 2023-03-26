@@ -63,19 +63,6 @@ const SettingsContainer = () => {
           </Text>
         </Pressable>
       </View>
-      <View
-        style={[
-          styles.bottomNavigationInner,
-          styles.mt8_35,
-          styles.iconsFlexBox,
-        ]}
-      >
-        <Image
-          style={styles.frameChild}
-          resizeMode="cover"
-          source={require("../assets/vector-392.png")}
-        />
-      </View>
     </View>
   );
 };
@@ -138,15 +125,11 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   bottomNavigation: {
-    top: Dimensions.get("window").height * 0.93,
     left: 3,
     width: Dimensions.get("window").width,
-    height: 80,
     paddingLeft: 8,
     paddingRight: 17,
-    paddingBottom: 23,
     alignItems: "center",
-    position: "absolute",
     backgroundColor: Color.textColorsInverse,
   },
 });

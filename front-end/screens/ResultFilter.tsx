@@ -19,35 +19,41 @@ const ResultFilter = () => {
 
   return (
     <View style={styles.resultFilter}>
-      <Pressable
-        style={styles.header}
-        onPress={() => navigation.navigate("ResultList")}
-      >
-        <Image
-          style={styles.headerChild}
-          resizeMode="cover"
-          source={require("../assets/arrow-1.png")}
-        />
-        <Text style={styles.filter}>Filter</Text>
-      </Pressable>
+      <View style = {styles.container}>
+        <View style = {{height:120}}>
+          <Pressable
+            style={styles.header}
+            onPress={() => navigation.navigate("ResultList")}
+          >
+          <Image
+              style={styles.headerChild}
+              resizeMode="cover"
+              source={require("../assets/arrow-1.png")}
+          />
+          <Text style={styles.filter}>Filter</Text>
+          </Pressable>
+        </View>
+
       <View style={styles.vectorParent}>
         <Image
-          style={[styles.frameChild, styles.frameLayout]}
+          style={styles.frameLayout}
           resizeMode="cover"
           source={require("../assets/vector-938.png")}
         />
         <PassengersSection />
-        <View style={[styles.rideTypesWrapper, styles.mt_7]}>
-          <Text style={[styles.rideTypes, styles.rideTypesTypo]}>
-            Ride Types
-          </Text>
-        </View>
         <Image
-          style={[styles.frameItem, styles.mt_7, styles.frameLayout]}
+          style={styles.frameLayout}
           resizeMode="cover"
           source={require("../assets/vector-938.png")}
         />
-        <EcoFriendlySection />
+      </View>
+      <View style={styles.rideTypesWrapper}>
+        <Text style={[styles.rideTypes, styles.rideTypesTypo]}>
+          Ride Types
+        </Text>
+      </View>
+      <View style ={{paddingBottom:30}}>
+        <EcoFriendlySection/>
       </View>
       <View
         style={[
@@ -55,15 +61,10 @@ const ResultFilter = () => {
           styles.changeWrapperFlexBox,
         ]}
       >
-        <Text
-          style={[
-            styles.changePassword,
-            styles.changeTypo,
-            styles.tripsmartLayout,
-          ]}
-        >
+        <Text style={styles.filterButton}>
           Apply Filters
         </Text>
+      </View>
       </View>
       <SettingsContainer />
     </View>
@@ -71,18 +72,16 @@ const ResultFilter = () => {
 };
 
 const styles = StyleSheet.create({
+  container:{
+    flex:1
+  },
   changeEmailWrapper: {
-    top: 487,
     left: Dimensions.get("window").width * 0.25,
-    zIndex: 7,
     borderRadius: 16,
     backgroundColor: Color.goldenrod_200,
     width: Dimensions.get("window").width * 0.5,
-    height: 37,
     paddingHorizontal: 10,
-    paddingVertical: 20,
     flexDirection: "row",
-    position: "absolute",
   },
   changeWrapperFlexBox: {
     paddingVertical: 16,
@@ -91,27 +90,18 @@ const styles = StyleSheet.create({
     backgroundColor: Color.goldenrod_200,
     borderRadius: 12,
     alignSelf: "stretch",
-    position: "absolute",
     justifyContent: "center",
     flexDirection: "row",
     alignItems: "center",
   },
-  changePassword: {
+  filterButton: {
     fontSize: 13,
     lineHeight: 13,
     color: Color.black,
-  },
-  changeTypo: {
     letterSpacing: 0.4,
     fontFamily: FontFamily.montserratBold,
     fontWeight: "700",
-  },
-  tripsmartLayout: {
-    width: 144,
     textAlign: "center",
-  },
-  mt_7: {
-    marginTop: Margin.m_20xs,
   },
   mt8_35: {
     marginTop: 8.35,
@@ -121,7 +111,8 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     maxWidth: "100%",
     alignSelf: "stretch",
-    width: "100%",
+    width: Dimensions.get("window").width,
+    resizeMode: 'stretch'
   },
   rideTypesTypo: {
     fontFamily: FontFamily.montserratBold,
@@ -146,8 +137,6 @@ const styles = StyleSheet.create({
     top: 5,
     left: -1,
     width: 24,
-    height: 19,
-    position: "absolute",
   },
   filter: {
     top: 0,
@@ -164,11 +153,6 @@ const styles = StyleSheet.create({
     top: 65,
     left: 17,
     width: 93,
-    height: 30,
-    position: "absolute",
-  },
-  frameChild: {
-    zIndex: 0,
   },
   rideTypes: {
     fontSize: 14,
@@ -177,22 +161,14 @@ const styles = StyleSheet.create({
     color: Color.textColorsMain,
   },
   rideTypesWrapper: {
-    height: 48,
+    height: 80,
     paddingHorizontal: 24,
-    paddingTop: 29,
-    paddingBottom: 28,
-    zIndex: 2,
+    paddingTop: 20,
     alignSelf: "stretch",
   },
-  frameItem: {
-    zIndex: 3,
-  },
   vectorParent: {
-    top: 106,
     left: 0,
-    width: 360,
-    height: 541,
-    position: "absolute",
+    width: "100%",
     backgroundColor: Color.textColorsInverse,
   },
   applyFilters: {
@@ -211,16 +187,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 20,
     flexDirection: "row",
-    position: "absolute",
     zIndex: 7,
-  },
-  mapIcon: {
-    maxHeight: "100%",
-    overflow: "hidden",
-    maxWidth: "100%",
-    alignSelf: "stretch",
-    width: "100%",
-    flex: 1,
   },
   icons: {
     width: 20,
@@ -262,7 +229,6 @@ const styles = StyleSheet.create({
     paddingRight: 17,
     paddingBottom: 23,
     alignItems: "center",
-    position: "absolute",
     backgroundColor: Color.textColorsInverse,
   },
   resultFilter: {
