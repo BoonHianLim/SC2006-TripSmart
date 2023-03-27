@@ -1,7 +1,13 @@
 import * as React from "react";
-import { Image, StyleSheet, View, Text } from "react-native";
+import { Pressable, Image, StyleSheet, View, Text, TouchableOpacity, Button } from "react-native";
 import EnglishSection from "../components/EnglishSection";
 import { Margin, FontFamily, Color } from "../GlobalStyles";
+
+interface Props {
+  label: string;
+  data: Array<{ label: string; value: string }>;
+  onSelect: (item: { label: string; value: string }) => void;
+}
 
 const Settings = () => {
   return (
