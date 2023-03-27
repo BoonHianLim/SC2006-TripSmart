@@ -14,66 +14,69 @@ import { Margin, Color, FontFamily } from "../GlobalStyles";
 const GreetingPage1 = () => {
   const navigation = useNavigation();
 
-  const { width, height } = Dimensions.get("window");
+  const myImage = require("../assets/backgroundimg.png");
 
   return (
-    <View style={styles.greetingPage1}>
-      <View style={styles.greetingPage1Child} />
-      <Image
-        style={[
-          styles.adrienUwlsnmrmo0aUnsplash1Icon,
-          styles.nextWrapperPosition,
-        ]}
-        resizeMode="cover"
-      />
-      <View style={styles.welcomeToTripsmartParent}>
-        <Text
-          style={[
-            styles.welcomeToTripsmartContainer,
-            styles.theBestTripPlanningTypo,
-          ]}
-        >
-          <Text style={styles.welcomeToTripsmartContainer1}>
-            <Text style={styles.welcomeTo}>{`Welcome to 
-`}</Text>
-            <Text style={styles.tripsmart}>TripSmart</Text>
+    <ImageBackground source={myImage} style={styles.backgroundImage}>
+      <View style={styles.greetingPage1Child}>
+        <View style={styles.greetingPage1} />
+
+        <View style={styles.welcomeToTripsmartParent}>
+          <Text
+            style={[
+              styles.welcomeToTripsmartContainer,
+              styles.theBestTripPlanningTypo,
+            ]}
+          >
+            <Text style={styles.welcomeToTripsmartContainer1}>
+              <Text style={styles.welcomeTo}>{`Welcome to `}</Text>
+              <Text style={styles.tripsmart}>TripSmart</Text>
+            </Text>
           </Text>
-        </Text>
-        <Text
-          style={[
-            styles.theBestTripPlanning,
-            styles.mt7_64,
-            styles.theBestTripPlanningTypo,
-          ]}
-        >
-          The best trip-planning app in Singapore that makes commuting more
-          stress-free and accessible for everyone!
-        </Text>
-      </View>
-      <View style={styles.navigationNext}>
-        <Pressable
-          style={[
-            styles.nextWrapper,
-            styles.nextWrapperFlexBox,
-            styles.nextWrapperPosition,
-          ]}
-          onPress={() => navigation.navigate("GreetingPage2")}
-        >
-          <Text style={styles.next}>Next</Text>
-        </Pressable>
-        <View style={[styles.rectangleParent, styles.nextWrapperFlexBox]}>
-          <View style={[styles.frameChild, styles.frameLayout]} />
-          <View style={[styles.frameItem, styles.ml8_3, styles.frameLayout]} />
-          <View style={[styles.frameItem, styles.ml8_3, styles.frameLayout]} />
+          <Text
+            style={[
+              styles.theBestTripPlanning,
+              styles.mt7_64,
+              styles.theBestTripPlanningTypo,
+            ]}
+          >
+            The best trip-planning app in Singapore that makes commuting more
+            stress-free and accessible for everyone!
+          </Text>
+        </View>
+        <View style={styles.navigationNext}>
+          <Pressable
+            style={[
+              styles.nextWrapper,
+              styles.nextWrapperFlexBox,
+              styles.nextWrapperPosition,
+            ]}
+            onPress={() => navigation.navigate("GreetingPage2")}
+          >
+            <Text style={styles.next}>Next</Text>
+          </Pressable>
+          <View style={[styles.rectangleParent, styles.nextWrapperFlexBox]}>
+            <View style={[styles.frameChild, styles.frameLayout]} />
+            <View
+              style={[styles.frameItem, styles.ml8_3, styles.frameLayout]}
+            />
+            <View
+              style={[styles.frameItem, styles.ml8_3, styles.frameLayout]}
+            />
+          </View>
         </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   mt7_64: {
     marginTop: 7.64,
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
   },
   ml8_3: {
     marginLeft: Margin.m_4xs_3,
@@ -90,7 +93,7 @@ const styles = StyleSheet.create({
     },
     textShadowColor: "rgba(0, 0, 0, 0.25)",
     textAlign: "left",
-    fontWeight: "700",
+    fontWeight: "800",
   },
   nextWrapperFlexBox: {
     flexDirection: "row",
@@ -101,9 +104,9 @@ const styles = StyleSheet.create({
     borderRadius: 8297,
   },
   greetingPage1Child: {
-    top: 767,
-    left: 30,
-    width: 430,
+    top: "0%",
+    left: "0%",
+    width: Dimensions.get("window").width,
     height: 1,
     justifyContent: "space-between",
     alignItems: "center",
@@ -119,17 +122,17 @@ const styles = StyleSheet.create({
     color: Color.textColorsInverse,
   },
   tripsmart: {
-    fontSize: 58,
+    fontSize: 40,
     color: Color.brandColorsCrayolaYellow,
   },
   welcomeToTripsmartContainer1: {
-    width: Dimensions.get("window").width * 1,
+    width: "100%",
   },
   welcomeToTripsmartContainer: {
     fontFamily: FontFamily.montserratBold,
     display: "flex",
-    width: Dimensions.get("window").width * 0.6,
-    height: 85,
+    width: "50%",
+    height: "50%",
     alignItems: "center",
   },
   theBestTripPlanning: {
@@ -151,7 +154,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     fontFamily: FontFamily.montserratExtrabold,
     textAlign: "center",
-    width: Dimensions.get("window").width * 0.15,
+    width: "100%",
     color: Color.textColorsInverse,
   },
   nextWrapper: {
@@ -159,7 +162,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.brandColorsNightPurple,
     paddingHorizontal: 0,
     paddingVertical: 13,
-    width: 117,
+    width: "50%",
   },
   frameChild: {
     backgroundColor: Color.goldenrod_100,
@@ -178,11 +181,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   navigationNext: {
-    top: Dimensions.get("window").height * 0.6,
-    left: Dimensions.get("window").width * 0.35,
-    height: Dimensions.get("window").height * 0.2,
-    width: Dimensions.get("window").width * 0.6,
-    position: "absolute",
+    top: Dimensions.get("window").height * 0.8,
+    left: "15%",
+    height: "20%",
+    width: "60%",
   },
   greetingPage1: {
     backgroundColor: Color.brandColorsCrayolaYellow,

@@ -15,6 +15,7 @@ import {
   Button,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import TextInputUser from "../components/TextInputUser";
 import { FontFamily, Color, Margin } from "../GlobalStyles";
 import { navigate } from "@react-navigation/routers/lib/typescript/src/CommonActions";
 
@@ -25,9 +26,11 @@ const Login = () => {
 
   //Functions for handling email, password and login
   const handleEmailChange = (text: React.SetStateAction<string>) => {
+    console.log("email: ", text);
     setEmail(text);
   };
   const handlePasswordChange = (text: React.SetStateAction<string>) => {
+    console.log("password: ", text);
     setPassword(text);
   };
   const handleLogin = async () => {
@@ -116,32 +119,30 @@ const Login = () => {
               <View style={styles.frameContainer}>
                 <View style={styles.frameContainer}>
                   <Text style={[styles.email, styles.emailTypo]}>Email</Text>
-                  <View style={styles.textInputContainer}>
-                    {/* An Input for email address */}
-                    <TextInput
-                      style={styles.textInput}
-                      placeholder="Email"
-                      keyboardType="email-address"
-                      value={email}
-                      onChangeText={handleEmailChange}
-                    />
-                  </View>
+
+                  {/* An Input for email address */}
+                  <TextInputUser
+                    placeholder="Email"
+                    keyboardType="email-address"
+                    value={email}
+                    onChangeText={handleEmailChange}
+                  />
 
                   <Text
                     style={[styles.email, styles.emailTypo, { marginTop: 30 }]}
                   >
                     Password
                   </Text>
-                  <View style={styles.textInputContainer}>
-                    {/* An input for password */}
-                    <TextInput
-                      style={styles.textInput}
-                      placeholder="Password"
-                      secureTextEntry={true}
-                      value={password}
-                      onChangeText={handlePasswordChange}
-                    />
-                  </View>
+
+                  {/* An input for password */}
+                  <TextInputUser
+                    placeholder="Password"
+                    secureTextEntry={true}
+                    iconLabel="lock"
+                    isPassword={true}
+                    value={password}
+                    onChangeText={handlePasswordChange}
+                  />
 
                   <Button
                     title="Login without password"
@@ -213,7 +214,7 @@ const Login = () => {
               <Text style={styles.dontHaveAn}>{`Dont have an account? `}</Text>
               <Text
                 style={styles.signUp}
-                onPress={() => navigation.navigate("LoginPage")}
+                onPress={() => navigation.navigate("Register1")}
               >
                 Sign Up
               </Text>
