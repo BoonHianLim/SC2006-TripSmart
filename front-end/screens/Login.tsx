@@ -1,5 +1,6 @@
 //use email: abc@gmail.com
 //use password: abc
+//case sensitive
 //to login
 import * as React from "react";
 import {
@@ -9,6 +10,7 @@ import {
   Text,
   Pressable,
   TextInput,
+  Alert,
   SafeAreaView,
   Button,
 } from "react-native";
@@ -22,10 +24,10 @@ const Login = () => {
   const [password, setPassword] = React.useState("");
 
   //Functions for handling email, password and login
-  const handleEmailChange = (text) => {
+  const handleEmailChange = (text: React.SetStateAction<string>) => {
     setEmail(text);
   };
-  const handlePasswordChange = (text) => {
+  const handlePasswordChange = (text: React.SetStateAction<string>) => {
     setPassword(text);
   };
   const handleLogin = async () => {
@@ -57,10 +59,14 @@ const Login = () => {
       );
       const data = await response.json();
       if (data.document != null) {
-        console.log("exists in database, proceed to redirect to next page");
         navigation.navigate("SearchPage1");
       } else {
-        console.log("does not exist in database, show error message");
+        //alert user that email or password is incorrect
+        Alert.alert("Error", "Email or password is incorrect", [
+          { text: "OK", onPress: () => console.log("OK Pressed") },
+        ]);
+        setEmail("");
+        setPassword("");
       }
     } catch (err) {
       console.log("error signing in: ", err);
@@ -137,7 +143,10 @@ const Login = () => {
                     />
                   </View>
 
-                  <Button title="Login" onPress={handleLogin} />
+                  <Button
+                    title="Login without password"
+                    onPress={() => navigation.navigate("SearchPage1")}
+                  />
                   <View style={[styles.frameParent1, styles.mt14_84]}>
                     <View style={styles.iconsWrapper}>
                       <View
@@ -155,7 +164,7 @@ const Login = () => {
                   styles.frameLayout,
                   styles.iconsWrapperFlexBox,
                 ]}
-                onPress={() => navigation.navigate("SearchPage1")}
+                onPress={handleLogin}
               >
                 <Text style={[styles.logIn, styles.emailTypo]}>Log In</Text>
               </Pressable>
@@ -202,24 +211,16 @@ const Login = () => {
               ]}
             >
               <Text style={styles.dontHaveAn}>{`Dont have an account? `}</Text>
-              <Text style={styles.signUp}>Sign Up</Text>
+              <Text
+                style={styles.signUp}
+                onPress={() => navigation.navigate("LoginPage")}
+              >
+                Sign Up
+              </Text>
             </Text>
-            <Image
-              style={[styles.facebook1Icon, styles.mt25_98, styles.iconLayout]}
-              resizeMode="cover"
-              source={require("../assets/facebook-1.png")}
-            />
-            <Image
-              style={[styles.google1Icon, styles.mt25_98, styles.iconLayout]}
-              resizeMode="cover"
-              source={require("../assets/google-1.png")}
-            />
           </View>
         </View>
       </View>
-      <Text style={[styles.orContinueWith, styles.orContinueWithTypo]}>
-        or continue with
-      </Text>
     </View>
   );
 };
