@@ -1,17 +1,21 @@
 import * as React from "react";
-import { Pressable, Image, StyleSheet, View, Text, TouchableOpacity, Button } from "react-native";
+import { FC, useState } from 'react';
+import { Pressable, Image, StyleSheet, View, ScrollView, Text, Button } from "react-native";
 import EnglishSection from "../components/EnglishSection";
 import { Margin, FontFamily, Color } from "../GlobalStyles";
+import SettingsLangDropdown from "../components/SettingsLangDropdown";
 
-interface Props {
-  label: string;
-  data: Array<{ label: string; value: string }>;
-  onSelect: (item: { label: string; value: string }) => void;
-}
-
-const Settings = () => {
+const Settings : FC = () => {
   return (
     <View style={[styles.settings, styles.settingsLayout]}>
+      <View style={styles.container}>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <SettingsLangDropdown />
+        </ScrollView>
+      </View>
       <View style={[styles.navbar, styles.navbarFlexBox]}>
         <Image
           style={styles.logosIcon}
@@ -445,6 +449,11 @@ const styles = StyleSheet.create({
     zIndex: 5,
     alignItems: "center",
     backgroundColor: Color.textColorsInverse,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingVertical: 50,
   },
   changePassword: {
     fontSize: 13,

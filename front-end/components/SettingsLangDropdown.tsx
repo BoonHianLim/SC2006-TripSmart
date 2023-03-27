@@ -1,116 +1,91 @@
-import { FC, ReactElement, useRef, useState } from 'react';
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Modal,
-  View,
-} from 'react-native';
-import { Icon } from 'react-native-elements';
+import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { SelectCountry } from 'react-native-element-dropdown';
 
-interface Props {
-  label: string;
-  data: Array<{ label: string; value: string }>;
-  onSelect: (item: { label: string; value: string }) => void;
-}
+const local_data = [
+  {
+    value: '1',
+    label: 'Country 1',
+    image: {
+      uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
+    },
+  },
+  {
+    value: '2',
+    label: '中文',
+    image: {
+      uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
+    },
+  },
+  {
+    value: '3',
+    label: 'Bahasa Melayu',
+    image: {
+      uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
+    },
+  },
+  {
+    value: '4',
+    label: 'தமிழ்',
+    image: {
+      uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
+    },
+  },
+];
 
-const Dropdown: FC<Props> = ({ label, data, onSelect }) => {
-  const DropdownButton = useRef();
-  const [visible, setVisible] = useState(false);
-  const [selected, setSelected] = useState(undefined);
-  const [dropdownTop, setDropdownTop] = useState(0);
-
-  const toggleDropdown = (): void => {
-    visible ? setVisible(false) : openDropdown();
-  };
-
-  const openDropdown = (): void => {
-    DropdownButton.current.measure((_fx, _fy, _w, h, _px, py) => {
-      setDropdownTop(py + h);
-    });
-    setVisible(true);
-  };
-
-  const onItemPress = (item): void => {
-    setSelected(item);
-    onSelect(item);
-    setVisible(false);
-  };
-
-  const renderItem = ({ item }): ReactElement<any, any> => (
-    <TouchableOpacity style={styles.item} onPress={() => onItemPress(item)}>
-      <Text>{item.label}</Text>
-    </TouchableOpacity>
-  );
-
-  const renderDropdown = (): ReactElement<any, any> => {
-    return (
-      <Modal visible={visible} transparent animationType="none">
-        <TouchableOpacity
-          style={styles.overlay}
-          onPress={() => setVisible(false)}
-        >
-          <View style={[styles.dropdown, { top: dropdownTop }]}>
-            <FlatList
-              data={data}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          </View>
-        </TouchableOpacity>
-      </Modal>
-    );
-  };
+const SelectCountryScreen = () => {
+  const [country, setCountry] = useState('1');
 
   return (
-    <TouchableOpacity
-      ref={DropdownButton}
-      style={styles.button}
-      onPress={toggleDropdown}
-    >
-      {renderDropdown()}
-      <Text style={styles.buttonText}>
-        {(selected && selected.label) || label}
-      </Text>
-      <Icon style={styles.icon} type="font-awesome" name="chevron-down" />
-    </TouchableOpacity>
+    <SelectCountry
+      style={styles.dropdown}
+      selectedTextStyle={styles.selectedTextStyle}
+      placeholderStyle={styles.placeholderStyle}
+      imageStyle={styles.imageStyle}
+      inputSearchStyle={styles.inputSearchStyle}
+      iconStyle={styles.iconStyle}
+      search
+      maxHeight={200}
+      value={country}
+      data={local_data}
+      valueField="value"
+      labelField="label"
+      imageField="image"
+      placeholder="Select language"
+      searchPlaceholder="Search..."
+      onChange={e => {
+        setCountry(e.value);
+      }}
+    />
   );
 };
 
+export default SelectCountryScreen;
+
 const styles = StyleSheet.create({
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#efefef',
-    height: 50,
-    zIndex: 1,
-  },
-  buttonText: {
-    flex: 1,
-    textAlign: 'center',
-  },
-  icon: {
-    marginRight: 10,
-  },
   dropdown: {
-    position: 'absolute',
-    backgroundColor: '#fff',
-    width: '100%',
-    shadowColor: '#000000',
-    shadowRadius: 4,
-    shadowOffset: { height: 4, width: 0 },
-    shadowOpacity: 0.5,
+    margin: 16,
+    height: 50,
+    borderBottomColor: 'gray',
+    borderBottomWidth: 0.5,
   },
-  overlay: {
-    width: '100%',
-    height: '100%',
+  imageStyle: {
+    width: 24,
+    height: 24,
   },
-  item: {
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    borderBottomWidth: 1,
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    marginLeft: 8,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
   },
 });
-
-export default Dropdown;
