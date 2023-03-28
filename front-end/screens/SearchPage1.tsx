@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Constants from "expo-constants";
 import devEnvironmentVariables from "../env";
+import * as Location from 'expo-location';
 
 const App = () => {
   // ref
@@ -32,6 +33,31 @@ const App = () => {
 
   const onChangeDest = (query: React.SetStateAction<string>) =>
     setDestQuery(query);
+  
+  // GPS
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
   // renders
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -56,6 +82,10 @@ const App = () => {
           toolbarEnabled={true}
           cacheEnabled={false}
         />
+        {/* Example of text: {"timestamp":1680016517725,"mocked":false,"coords":{"altitude":24.899999618530273,"heading":253.0059356689453,"altitudeAccuracy":0.9424006938934326,"latitude":1.3542925,"speed":0.26373162865638733,"longitude":103.6865875,"accuracy":10.979000091552734}} */}
+        <View >
+          <Text >{console.log(text)}</Text>
+        </View>  
 
         <BottomSheet
           ref={bottomSheetRef}
