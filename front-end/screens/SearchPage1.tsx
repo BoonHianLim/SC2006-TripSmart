@@ -10,6 +10,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import Constants from "expo-constants";
 import devEnvironmentVariables from "../env";
 import * as Location from 'expo-location';
+import { LocationGeofencingEventType } from "expo-location";
 
 const App = () => {
   // ref
@@ -37,6 +38,9 @@ const App = () => {
   // GPS
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  
+  var longitude;
+  var latitude;
 
   useEffect(() => {
     (async () => {
@@ -56,7 +60,10 @@ const App = () => {
   if (errorMsg) {
     text = errorMsg;
   } else if (location) {
+    longitude = location.coords.longitude;
+    latitude = location.coords.latitude;
     text = JSON.stringify(location);
+    {/* Example of text: {"timestamp":1680016517725,"mocked":false,"coords":{"altitude":24.899999618530273,"heading":253.0059356689453,"altitudeAccuracy":0.9424006938934326,"latitude":1.3542925,"speed":0.26373162865638733,"longitude":103.6865875,"accuracy":10.979000091552734}} */}
   }
   // renders
   return (
@@ -82,9 +89,9 @@ const App = () => {
           toolbarEnabled={true}
           cacheEnabled={false}
         />
-        {/* Example of text: {"timestamp":1680016517725,"mocked":false,"coords":{"altitude":24.899999618530273,"heading":253.0059356689453,"altitudeAccuracy":0.9424006938934326,"latitude":1.3542925,"speed":0.26373162865638733,"longitude":103.6865875,"accuracy":10.979000091552734}} */}
+        
         <View >
-          <Text >{console.log(text)}</Text>
+          <Text >{console.log("Your current lattitude is " + latitude + ", current longtitude is " + longitude)}</Text>
         </View>  
 
         <BottomSheet
