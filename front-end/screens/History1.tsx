@@ -12,12 +12,13 @@ import BottomNavigationContainer from "../components/BottomNavigationContainer";
 import { Margin, FontFamily, Color } from "../GlobalStyles";
 import { ScrollView } from "react-native-gesture-handler";
 import { CSSProperties } from "react";
-import SettingsContainerHistory from "../components/SettingsContainerHistory";
-
+import SettingsContainer from "../components/SettingsContainer";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
 
 const History1 = () => {
   const { width, height } = Dimensions.get("window");
   return (
+      <GestureHandlerRootView style={{ flex: 1 }}>
     <ScrollView>
     <View style={styles.history}>
       <View style={[styles.navbar, styles.navbarFlexBox]}>
@@ -194,9 +195,13 @@ const History1 = () => {
           style= {{width: "100%",top:"-22%"}}
         />
       </View>
-      <SettingsContainerHistory />
+
     </View>
+
     </ScrollView>
+        <SettingsContainer />
+      </GestureHandlerRootView>
+
   );
 };
 

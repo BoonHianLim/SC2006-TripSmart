@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   bottomNavigation: {
     left: 3,
-    width: Dimensions.get("window").width,
+    width: "100%",
     paddingLeft: 8,
     paddingRight: 17,
     alignItems: "center",

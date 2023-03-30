@@ -15,7 +15,6 @@ import SettingsContainer from "../components/SettingsContainer";
 
 const ResultFilter = () => {
   const navigation = useNavigation();
-  const { width, height } = Dimensions.get("window");
 
   return (
     <View style={styles.resultFilter}>
