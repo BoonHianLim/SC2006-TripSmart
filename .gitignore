@@ -303,3 +303,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Ignore package-lock.json
+package-lock.json
