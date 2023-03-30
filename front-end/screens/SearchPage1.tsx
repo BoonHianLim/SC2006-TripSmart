@@ -104,7 +104,7 @@ const App = () => {
             <GooglePlacesAutocomplete
               placeholder="Starting location"
               query={{
-                key: devEnvironmentVariables.GOOGLE_MAPS_API_KEY,
+                key: devEnvironmentVariables.GOOGLE_MAP_API_KEY,
                 language: "en", // language of the results
               }}
               onPress={(data, details = null) => console.log(data)}
@@ -123,11 +123,11 @@ const App = () => {
             <GooglePlacesAutocomplete
               placeholder="Destination"
               query={{
-                key: devEnvironmentVariables.GOOGLE_MAPS_API_KEY,
+                key: devEnvironmentVariables.GOOGLE_MAP_API_KEY,
                 language: "en", // language of the results
               }}
               onPress={(data, details = null) => console.log(data)}
-              onFail={(error) => console.error(error)}
+              onFail={(error) => console.error(error + " Your API Key is: " + devEnvironmentVariables.GOOGLE_MAPS_API_KEY)}
               requestUrl={{
                 url: "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api",
                 useOnPlatform: "web",
