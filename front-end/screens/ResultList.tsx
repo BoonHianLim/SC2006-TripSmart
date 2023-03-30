@@ -1,9 +1,6 @@
 import React, {
-    useCallback,
-    useMemo,
-    useRef,
-    useState,
-    useEffect,
+  useState,
+  useReducer, useMemo, useRef, useCallback,
 } from "react";
 import {useNavigation} from "@react-navigation/native";
 import {
@@ -19,70 +16,52 @@ import {
 import MapView, {PROVIDER_GOOGLE} from "react-native-maps";
 import {Searchbar} from "react-native-paper";
 import {FontFamily, Color, Margin} from "../GlobalStyles";
-import BottomSheet from "@gorhom/bottom-sheet";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
-import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import Constants from "expo-constants";
 import SettingsContainer from "../components/SettingsContainer";
+import ResultListScroll from "../components/ResultListScroll";
+import ResultFilterScroll from "../components/ResultFilterScroll";
+import ResultListResult from "../components/ResultListResult";
 import { bluesg } from "../services/bluesg";
 import { ListItem } from "@rneui/base";
+import BottomSheet, {BottomSheetScrollView} from "@gorhom/bottom-sheet";
 
 // Test Data
 const GOOGLE_PLACES_API_KEY = "AIzaSyALnass7RW3hrj9O1KGCf3UzsTznG7axS4";
 const start = "Jurong Point";
 const end = "NTU Hall of Residence 4";
-const promises: Promise<[number,number]>[] = [
-  Promise.resolve([1,7]),
-  Promise.resolve([3,6]),
-  Promise.resolve([2,5])
-];
+
 
 const App = () => {
     // ref
-    const navigation = useNavigation();
-    const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ["25%", "76.5%"], []);
+  const bottomSheetRef = useRef<BottomSheet>(null);
 
-    // variables
-    const snapPoints = useMemo(() => ["25%", "76.5%"], []);
-
+    // callbacks
+    const handleSheetChanges = useCallback((index: number) => {
+      console.log("handleSheetChanges", index);
+    }, []);
     // state
     const [searchQuery, setSearchQuery] = useState("");
     const [destQuery, setDestQuery] = useState("");
-
-    const [text, setText] = useState('');
-    // callbacks
-    const handleSheetChanges = useCallback((index: number) => {
-        console.log("handleSheetChanges", index);
-    }, []);
+    const [state, setState] = useState("resultList");
 
     const onChangeSearch = (query: React.SetStateAction<string>) => setSearchQuery(query);
 
-  const onChangeDest = (query: React.SetStateAction<string>) =>
-      setDestQuery(query);
-  const [sortedValues, setSortedValues] = useState<number[][]>([]);
+    const onChangeDest = (query: React.SetStateAction<string>) =>
+        setDestQuery(query);
 
-  async function sortPromisesAscending(promises: Promise<[number, number]>[]) {
-    const resolvedValues = await Promise.all(promises);
-    return promises.sort((promiseA, promiseB) => {
-      const valueA = resolvedValues[promises.indexOf(promiseA)][0];
-      const valueB = resolvedValues[promises.indexOf(promiseB)][0];
-      if (valueA < valueB) {
-        return -1;
+    function setScrollType(scrollType:string) {
+      switch(scrollType) {
+        case 'resultFilter':
+          return <ResultFilterScroll changeState = {setState}/>
+        case 'resultList':
+          return <ResultListScroll changeState = {setState}/>
+        default:
+          throw new Error();
       }
-      if (valueA > valueB) {
-        return 1;
-      }
-      return 0;
-    });
-  }
+    }
 
-  useEffect(() => {
-    sortPromisesAscending(promises).then(sortedPromises => {
-      Promise.all(sortedPromises.map(p => p.then(v => v))).then(values => {
-        setSortedValues(values);
-      });
-    });
-  }, []);
 /*
   Blue SG code
   useEffect(() => {
@@ -114,94 +93,21 @@ const App = () => {
           toolbarEnabled={true}
           cacheEnabled={false}
         />
-
         <BottomSheet
-          ref={bottomSheetRef}
-          index={1}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}
+            ref={bottomSheetRef}
+            index={1}
+            snapPoints={snapPoints}
+            onChange={handleSheetChanges}
         >
-          <View style={styles.resultList}>
-            <View style={styles.headerParent}>
-              <View style={styles.header}>
-                <Pressable
-                  style={[styles.leftButton,styles.headerChild]}
-                  onPress={() => navigation.navigate("SearchPage1")}
-                >
-                  <Image
-                    style={styles.headerChild}
-                    resizeMode="cover"
-                    source={require("../assets/arrow-11.png")}
-                  />
-                </Pressable>
-                <Text style={[styles.headerChildText,styles.resultText]}>Results</Text>
-                <View style = {{marginLeft:"auto",paddingRight:20}}>
-                  <Pressable
-                    style={[styles.headerChild,styles.image3]}
-                    onPress={() => navigation.navigate("ResultFilter")}
-                >
-                  <Image
-                      style={[styles.headerChild,styles.icon]}
-                      resizeMode="cover"
-                      source={require("../assets/image-3.png")}
-                  />
-                </Pressable>
-                </View>
-              </View>
-            </View>
-            <View style={styles.sortingGroup}>
-              <View style = {styles.sortingHeader}>
-                <View style={[styles.groupLayout]}>
-                  <Text style={[styles.cheapest, styles.sortingHeaderText]}>
-                    Cheapest
-                  </Text>
-                  <Image
-                      style = {styles.sortingHeaderArrow}
-                      source={require("../assets/arrow-2.png")}
-                  />
-                </View>
-                <View style={[styles.groupLayout]}>
-                  <Text style={[styles.fastest, styles.sortingHeaderText]}>
-                    Fastest
-                  </Text>
-                  <Image
-                      style = {styles.sortingHeaderArrow}
-                      source={require("../assets/arrow-21.png")}
-                  />
-                </View>
-              </View>
-              <View style = {{flexDirection:"row"}}>
-              <Image
-                  style={styles.border1Icon}
-                  source={require("../assets/border-1.png")}
-              />
-              <Image
-                  style={styles.border1Icon}
-                  source={require("../assets/border-1.png")}
-              />
-              </View>
-            </View>
-            {<View style={styles.result}>
-              <ListItem>
-                <ListItem.Content>
-                  <ListItem.Title>John Doe</ListItem.Title>
-                  <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-                </ListItem.Content>
-              </ListItem>
-              <Text>{text}</Text>
-              <View>
-                {sortedValues.map((arr, index) => (
-                    <Text key={index}>{arr.join(', ')}</Text>
-                ))}
-              </View>
-
-            </View>}
-          </View>
-
+            {setScrollType(state)}
+          {state == "resultList" && <BottomSheetScrollView>
+            <ResultListResult />
+          </BottomSheetScrollView>}
         </BottomSheet>
         <View style={styles.settings} />
-        <SettingsContainer />
+
       </View>
+      <SettingsContainer />
     </GestureHandlerRootView>
   );
 };
