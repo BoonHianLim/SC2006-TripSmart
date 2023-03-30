@@ -85,12 +85,8 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   wheelchair1Icon: {
-    top: -1,
-    left: 0,
     width: 45,
     height: 45,
-    zIndex: 0,
-    position: "absolute",
   },
   wheelchair1Wrapper: {
     marginTop: -22,
