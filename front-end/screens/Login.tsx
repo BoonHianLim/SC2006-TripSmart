@@ -18,23 +18,41 @@ import { useNavigation } from "@react-navigation/native";
 import TextInputUser from "../components/TextInputUser";
 import { FontFamily, Color, Margin } from "../GlobalStyles";
 import { navigate } from "@react-navigation/routers/lib/typescript/src/CommonActions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = () => {
   const navigation = useNavigation();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  //Functions to set status as User
+  const storeData = async (text: React.SetStateAction<string>) => {
+    try {
+      await AsyncStorage.setItem("@storage_Key", "User");
+    } catch (e) {
+      // saving error
+    }
+  };
+
+  const storeEmail = async (text: React.SetStateAction<string>) => {
+    try {
+      await AsyncStorage.setItem("@storage_Email", email);
+    } catch (e) {
+      // saving error
+    }
+  };
+
   //Functions for handling email, password and login
   const handleEmailChange = (text: React.SetStateAction<string>) => {
-    console.log("email: ", text);
+    //console.log("email: ", text);
     setEmail(text);
   };
   const handlePasswordChange = (text: React.SetStateAction<string>) => {
-    console.log("password: ", text);
+    //console.log("password: ", text);
     setPassword(text);
   };
   const handleLogin = async () => {
-    console.log("looking for records from database");
+    //console.log("looking for records from database");
     // perform login action here using email and password
     // mongodb api here
     try {
@@ -62,6 +80,8 @@ const Login = () => {
       );
       const data = await response.json();
       if (data.document != null) {
+        storeData("User");
+        storeEmail(email);
         navigation.navigate("SearchPage1");
       } else {
         //alert user that email or password is incorrect
@@ -146,7 +166,10 @@ const Login = () => {
 
                   <Button
                     title="Login without password"
-                    onPress={() => navigation.navigate("SearchPage1")}
+                    onPress={() => {
+                      navigation.navigate("SearchPage1");
+                      storeData("User");
+                    }}
                   />
                   <View style={[styles.frameParent1, styles.mt14_84]}>
                     <View style={styles.iconsWrapper}>

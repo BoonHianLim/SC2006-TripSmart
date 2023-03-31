@@ -69,7 +69,7 @@ const SettingsContainer = () => {
 
 const styles = StyleSheet.create({
   mt8_35: {
-    marginTop: 8.35,
+    marginTop: "30%",
   },
   iconsSpaceBlock: {
     padding: 8,
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   icons: {
-    width: 20,
+    width: "50%",
     height: 20,
     flexDirection: "row",
   },

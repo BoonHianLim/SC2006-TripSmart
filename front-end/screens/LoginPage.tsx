@@ -8,9 +8,23 @@ import {
   Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Color, FontFamily } from "../GlobalStyles";
 
 const LoginPage = () => {
+  const process = () => {
+    storeData("Guest");
+    navigation.navigate("SearchPage1");
+  };
+
+  const storeData = async (text: React.SetStateAction<string>) => {
+    try {
+      await AsyncStorage.setItem("@storage_Key", "Guest");
+    } catch (e) {
+      // saving error
+    }
+  };
+
   const navigation = useNavigation();
 
   const { width, height } = Dimensions.get("window");
@@ -87,9 +101,17 @@ const LoginPage = () => {
                 style={[styles.frameWrapper, styles.mt28, styles.frameFlexBox]}
               >
                 <View style={styles.continueAsAGuestWrapper}>
-                  <Text style={[styles.continueAsA, styles.loginTypo]}>
-                    Continue as a Guest
-                  </Text>
+                  <Pressable onPress={() => process()}>
+                    <Text
+                      style={[
+                        styles.continueAsGuest_color,
+                        styles.loginTypo,
+                        styles.loginTypo1,
+                      ]}
+                    >
+                      Continue as a Guest
+                    </Text>
+                  </Pressable>
                 </View>
               </View>
             </View>
@@ -199,6 +221,9 @@ const styles = StyleSheet.create({
   },
   login: {
     color: Color.textColorsInverse,
+  },
+  continueAsGuest_color: {
+    color: Color.black,
   },
   loginWrapper: {
     backgroundColor: Color.brandColorsNightPurple,
