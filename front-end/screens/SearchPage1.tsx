@@ -59,6 +59,8 @@ function InputAutocomplete({
 }
 
 const App = () => {
+  const [email, setEmail] = useState("");
+
   // ref
   const navigation = useNavigation();
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -114,7 +116,7 @@ const App = () => {
     try {
       const value = await AsyncStorage.getItem("@storage_Email");
       if (value != null) {
-        emailAccount = value;
+        setEmail(value);
         //
       } else console.log("emailAccount is null");
     } catch (e) {
@@ -147,12 +149,51 @@ const App = () => {
     }
   }
 
+  //getHistory
+  const getHistory = async () => {
+    try {
+      const response = await fetch(
+        "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/find",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Request-Headers": "*",
+            "api-key":
+              "gzmrGJqDsVF9pOB6XO7nDxasKLWgOh4pOZe7LlIdQ4SXaeI1UMxJN8CSDHxJTgVM",
+          },
+
+          body: JSON.stringify({
+            dataSource: "seventh",
+            database: "Account",
+            collection: "History",
+            filter: {
+              email: email,
+            },
+            sort: {
+              completedAt: 1,
+            },
+            limit: 10,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      //to get the result
+
+      if (data != null) {
+        console.log("account", emailAccount);
+        console.log("data.document", data);
+      } else {
+        console.log("The user has no history");
+      }
+    } catch (err) {
+      console.log("error saving history: ", err);
+    }
+  };
+
   //saveHistory
   const saveHistory = async () => {
-    console.log("email Account", emailAccount);
-    console.log("origin", startLocation);
-    console.log("destination", dest);
-
     try {
       const response = await fetch(
         "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/insertOne",
@@ -244,7 +285,8 @@ const App = () => {
 
   // renders
   return (
-    console.log(devEnvironmentVariables.GOOGLE_MAP_API_KEY),
+    getHistory(),
+    (emailAccount = JSON.stringify(emailAccount)),
     getStatus(),
     (
       <GestureHandlerRootView style={{ flex: 1 }}>
