@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -9,17 +10,31 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color } from "../GlobalStyles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SettingsContainer = () => {
   const navigation = useNavigation();
   const { width, height } = Dimensions.get("window");
+  const [selectedButton, setSelectedButton] = useState(null);
+
+  const mapName = "ResultList";
+  const historyName = "History";
+  const settingsName = "Settings";
+
+  const onPressButton = (buttonID) => {
+    setSelectedButton(buttonID);
+  }
 
   return (
     <View style={styles.bottomNavigation}>
       <View style={styles.frameParent}>
         <Pressable
-          style={[styles.iconsParent, styles.iconsSpaceBlock]}
-          onPress={() => navigation.navigate("ResultList")}
+          style={[styles.iconsSpaceBlock, selectedButton === 3 && styles.iconsParent]}
+          onPress={() => {
+            onPressButton(3)
+            navigation.navigate(mapName)
+            }
+          }
         >
           <View style={[styles.icons, styles.iconsFlexBox]}>
             <Image
@@ -33,8 +48,12 @@ const SettingsContainer = () => {
           </Text>
         </Pressable>
         <Pressable
-          style={styles.iconsSpaceBlock}
-          onPress={() => navigation.navigate("History")}
+          style={[styles.iconsSpaceBlock, selectedButton === 4 && styles.iconsParent]}
+          onPress={() => {
+            onPressButton(4)
+            navigation.navigate(historyName)
+            }
+          }
         >
           <View style={[styles.icons, styles.iconsFlexBox]}>
             <Image
@@ -48,8 +67,12 @@ const SettingsContainer = () => {
           </Text>
         </Pressable>
         <Pressable
-          style={styles.iconsSpaceBlock}
-          onPress={() => navigation.navigate("Settings")}
+          style={[styles.iconsSpaceBlock, selectedButton === 5 && styles.iconsParent]}
+          onPress={() => {
+            onPressButton(5)
+            navigation.navigate(settingsName)
+            }
+          }
         >
           <View style={[styles.icons, styles.iconsFlexBox]}>
             <Image

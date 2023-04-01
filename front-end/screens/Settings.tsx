@@ -1,21 +1,37 @@
 import * as React from "react";
-import { FC, useState } from 'react';
-import { Pressable, Image, StyleSheet, View, ScrollView, Text, Button } from "react-native";
+import { FC, useState, useEffect } from 'react';
+import { Pressable, Image, TouchableOpacity, StyleSheet, View, Text, Button } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import EnglishSection from "../components/EnglishSection";
 import { Margin, FontFamily, Color } from "../GlobalStyles";
+import { ScrollView } from "react-native-gesture-handler";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
 import SettingsLangDropdown from "../components/SettingsLangDropdown";
+import SettingsContainer from "../components/SettingsContainer";
+import { useNavigation } from "@react-navigation/native";
 
 const Settings : FC = () => {
+  const navigation = useNavigation();
+  const [selectedButton, setSelectedButton] = useState(null);
+  
+  const onPressButton = (buttonID) => {
+    setSelectedButton(buttonID);
+    AsyncStorage.setItem('selectedButton', buttonID.toString());
+  };   
+
+  useEffect(() => {
+    AsyncStorage.getItem('selectedButton').then(value => {
+      if (value !== null) {
+        setSelectedButton(parseInt(value));
+      }
+    });
+  }, []);
+
+
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+    <ScrollView>
     <View style={[styles.settings, styles.settingsLayout]}>
-      <View style={styles.container}>
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
-          <SettingsLangDropdown />
-        </ScrollView>
-      </View>
       <View style={[styles.navbar, styles.navbarFlexBox]}>
         <Image
           style={styles.logosIcon}
@@ -74,83 +90,16 @@ const Settings : FC = () => {
       <Text style={[styles.tripsmart, styles.mt_2, styles.tripsmartLayout]}>
         TripSmart
       </Text>
+      {/* <View style={styles.container}>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <SettingsLangDropdown />
+        </ScrollView>
+      </View> */}
       <EnglishSection />
       <Text style={[styles.settings1, styles.mt_2]}>{`Settings `}</Text>
-      <View
-        style={[styles.bottomNavigation, styles.mt_2, styles.fare13Position]}
-      >
-        <View style={[styles.frameGroup, styles.navbarFlexBox]}>
-          <View style={styles.iconsSpaceBlock}>
-            <View
-              style={[styles.icons1, styles.iconsFlexBox, styles.iconsFlexBox1]}
-            >
-              <Image
-                style={[styles.bellIcon, styles.settingsLayout]}
-                resizeMode="cover"
-                source={require("../assets/map.png")}
-              />
-            </View>
-            <Text style={[styles.planlg, styles.mt8_35, styles.planlgTypo]}>
-              Map
-            </Text>
-          </View>
-          <View style={[styles.iconsGroup, styles.iconsSpaceBlock]}>
-            <View
-              style={[styles.icons1, styles.iconsFlexBox, styles.iconsFlexBox1]}
-            >
-              <Image
-                style={[styles.bellIcon, styles.settingsLayout]}
-                resizeMode="cover"
-                source={require("../assets/ticket.png")}
-              />
-            </View>
-            <Text style={[styles.billetter, styles.mt8_35, styles.planlgTypo]}>
-              History
-            </Text>
-          </View>
-          <View style={[styles.iconsContainer, styles.iconsSpaceBlock]}>
-            <View
-              style={[styles.icons1, styles.iconsFlexBox, styles.iconsFlexBox1]}
-            >
-              <Image
-                style={[styles.bellIcon, styles.settingsLayout]}
-                resizeMode="cover"
-                source={require("../assets/user.png")}
-              />
-            </View>
-            <Text style={[styles.billetter, styles.mt8_35, styles.planlgTypo]}>
-              Profile
-            </Text>
-          </View>
-          <View style={[styles.frameView, styles.iconsSpaceBlock]}>
-            <View
-              style={[styles.icons1, styles.iconsFlexBox, styles.iconsFlexBox1]}
-            >
-              <Image
-                style={[styles.bellIcon, styles.settingsLayout]}
-                resizeMode="cover"
-                source={require("../assets/cog-wheel.png")}
-              />
-            </View>
-            <Text style={[styles.billetter, styles.mt8_35, styles.planlgTypo]}>
-              Settings
-            </Text>
-          </View>
-        </View>
-        <View
-          style={[
-            styles.bottomNavigationInner,
-            styles.mt8_35,
-            styles.iconsFlexBox,
-          ]}
-        >
-          <Image
-            style={styles.frameItem}
-            resizeMode="cover"
-            source={require("../assets/vector-39.png")}
-          />
-        </View>
-      </View>
       <View
         style={[
           styles.changePasswordWrapper,
@@ -186,24 +135,46 @@ const Settings : FC = () => {
         </Text>
       </View>
       <View style={[styles.frameContainer, styles.mt_2, styles.framePosition]}>
-        <View style={[styles.kmh2Wrapper, styles.wrapperLayout]}>
-          <Image
-            style={[styles.kmh2Icon, styles.iconLayout]}
-            resizeMode="cover"
-            source={require("../assets/kmh-2.png")}
-          />
-        </View>
-        <Text style={[styles.km, styles.mt12, styles.kmTypo]}>KM</Text>
+       <Pressable
+        style={[styles.wrapperLayout, selectedButton === 1 && styles.kmh2Wrapper]}
+        onPress={() => {
+          onPressButton(1)
+          navigation.navigate("ResultList")
+        }
+        }
+       >
+          <View>
+            <Image
+              style={[styles.kmh2Icon, styles.iconLayout]}
+              resizeMode="cover"
+              source={require("../assets/kmh-2.png")}
+            />
+          </View>
+        </Pressable >
+        <Text style={[styles.km, styles.mt12, styles.kmTypo]}>
+          KM
+        </Text>
       </View>
       <View style={[styles.frameParent1, styles.mt_2, styles.framePosition]}>
-        <View style={styles.wrapperLayout}>
-          <Image
-            style={[styles.kmh1Icon, styles.iconLayout]}
-            resizeMode="cover"
-            source={require("../assets/kmh-1.png")}
-          />
-        </View>
-        <Text style={[styles.miles, styles.mt12, styles.kmTypo]}>Miles</Text>
+        <Pressable
+          style={[styles.wrapperLayout, selectedButton === 2 && styles.kmh2Wrapper]}
+          onPress={() => {
+            onPressButton(2)
+            navigation.navigate("ResultList")
+          }
+          }
+        >
+          <View>
+            <Image
+              style={[styles.kmh1Icon, styles.iconLayout]}
+              resizeMode="cover"
+              source={require("../assets/kmh-1.png")}
+            />
+          </View>
+        </Pressable >
+        <Text style={[styles.miles, styles.mt12, styles.kmTypo]}>
+          Miles
+        </Text>
       </View>
       <Text
         style={[styles.changeDistanceMetrics, styles.mt_2, styles.changeTypo]}
@@ -211,6 +182,9 @@ const Settings : FC = () => {
         Change Distance Metrics
       </Text>
     </View>
+    </ScrollView>
+      <SettingsContainer />
+    </GestureHandlerRootView>
   );
 };
 
@@ -257,7 +231,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   tripsmartLayout: {
-    width: 144,
+    width: 304,
     textAlign: "center",
   },
   planlgTypo: {
@@ -289,7 +263,7 @@ const styles = StyleSheet.create({
   },
   framePosition: {
     borderRadius: 8,
-    top: 370,
+    top: 365,
     position: "absolute",
     alignItems: "center",
   },
@@ -303,8 +277,8 @@ const styles = StyleSheet.create({
   iconLayout: {
     height: 53,
     width: 53,
-    top: 3,
-    position: "absolute",
+    top: 2.5,
+    position: "relative",
   },
   kmTypo: {
     fontFamily: FontFamily.montserratMedium,
@@ -450,14 +424,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.textColorsInverse,
   },
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    paddingVertical: 50,
-  },
   changePassword: {
     fontSize: 13,
-    lineHeight: 13,
+    lineHeight: 12,
     color: Color.black,
   },
   changePasswordWrapper: {
@@ -471,7 +440,7 @@ const styles = StyleSheet.create({
     zIndex: 7,
   },
   kmh2Icon: {
-    left: 4,
+    left: 0.5,
   },
   kmh2Wrapper: {
     borderStyle: "solid",
@@ -479,22 +448,22 @@ const styles = StyleSheet.create({
     borderWidth: 3,
   },
   km: {
-    width: 119,
+    width: 59,
     color: Color.textColorsMain,
   },
   frameContainer: {
-    left: 42,
+    left: 90,
     zIndex: 8,
   },
   kmh1Icon: {
     left: 3,
   },
   miles: {
-    color: Color.textColorsLighter,
-    width: 110,
+    color: Color.textColorsMain,
+    width: 59,
   },
   frameParent1: {
-    left: 191,
+    left: 230,
     zIndex: 9,
   },
   changeDistanceMetrics: {
@@ -511,6 +480,11 @@ const styles = StyleSheet.create({
     height: 800,
     alignItems: "center",
     backgroundColor: Color.textColorsInverse,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingVertical: 50,
   },
 });
 
