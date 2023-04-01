@@ -368,7 +368,11 @@ const App = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.buttonResult}
-                onPress={() => saveHistory()}
+                onPress={() => {
+                  saveHistory()
+                  navigation.navigate("ResultList")
+                }
+              }
               >
                 <Text style={styles.buttonTextResult}>Show Result</Text>
               </TouchableOpacity>
