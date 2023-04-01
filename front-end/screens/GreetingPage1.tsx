@@ -7,9 +7,16 @@ import {
   Image,
   Text,
   Pressable,
+  ScrollView,
 } from "react-native";
+import {
+  responsiveScreenHeight,
+  responsiveWidth,
+  responsiveScreenFontSize,
+} from "react-native-responsive-dimensions";
 import { useNavigation } from "@react-navigation/native";
 import { Margin, Color, FontFamily } from "../GlobalStyles";
+import LandingPageButton from "../components/LandingPageButton";
 
 const GreetingPage1 = () => {
   const navigation = useNavigation();
@@ -17,56 +24,58 @@ const GreetingPage1 = () => {
   const myImage = require("../assets/backgroundimg.png");
 
   return (
-    <ImageBackground source={myImage} style={styles.backgroundImage}>
-      <View style={styles.greetingPage1Child}>
-        <View style={styles.greetingPage1} />
+    <ScrollView
+    style={{
+      flexGrow: 1,
+    }}
+    >
+      <ImageBackground
+        source={myImage}
+        style={{
+          width: "100%",
+          height: "100%",
+          alignItems: "center"
+        }}
+      >
+        <View
+          style={{
+            margin: responsiveScreenFontSize(4),
+            marginTop: "90%",
+            alignItems: "center"
+            
+          }}>
+          
+            <Text
+              style={{
+                fontFamily: FontFamily.montserratBold,
+                fontSize: responsiveScreenFontSize(6.0),
+                color: "white",
+                marginBottom:  responsiveScreenFontSize(1)
+                
+              }}>Welcome to <Text style={{color: Color.brandColorsCrayolaYellow}}> TripSmart</Text></Text>
+          
+          <Text
+            style={{
+              fontFamily: FontFamily.montserratBold,
+              fontSize: responsiveScreenFontSize(2.0),
+              color: "white"
+            }}>The best trip-planning app in Singapore that makes commuting more stress-free and accessible for everyone!</Text>
+        </View>
 
-        <View style={styles.welcomeToTripsmartParent}>
-          <Text
-            style={[
-              styles.welcomeToTripsmartContainer,
-              styles.theBestTripPlanningTypo,
-            ]}
-          >
-            <Text style={styles.welcomeToTripsmartContainer1}>
-              <Text style={styles.welcomeTo}>{`Welcome to `}</Text>
-              <Text style={styles.tripsmart}>TripSmart</Text>
-            </Text>
-          </Text>
-          <Text
-            style={[
-              styles.theBestTripPlanning,
-              styles.mt7_64,
-              styles.theBestTripPlanningTypo,
-            ]}
-          >
-            The best trip-planning app in Singapore that makes commuting more
-            stress-free and accessible for everyone!
-          </Text>
-        </View>
-        <View style={styles.navigationNext}>
-          <Pressable
-            style={[
-              styles.nextWrapper,
-              styles.nextWrapperFlexBox,
-              styles.nextWrapperPosition,
-            ]}
-            onPress={() => navigation.navigate("GreetingPage2")}
-          >
-            <Text style={styles.next}>Next</Text>
-          </Pressable>
-          <View style={[styles.rectangleParent, styles.nextWrapperFlexBox]}>
-            <View style={[styles.frameChild, styles.frameLayout]} />
-            <View
-              style={[styles.frameItem, styles.ml8_3, styles.frameLayout]}
-            />
-            <View
-              style={[styles.frameItem, styles.ml8_3, styles.frameLayout]}
-            />
-          </View>
-        </View>
-      </View>
-    </ImageBackground>
+        <LandingPageButton></LandingPageButton>
+        
+        <Text>Hello</Text>
+        
+
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+        <Text>Hello</Text>
+
+        
+
+      </ImageBackground>
+    </ScrollView>
   );
 };
 
