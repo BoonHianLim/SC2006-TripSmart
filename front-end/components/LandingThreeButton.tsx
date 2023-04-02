@@ -29,7 +29,7 @@ const LandingThreeButton = (props: any) => {
                     maxHeight: "20%",
 
                     minWidth: "40%",
-                    maxWidth: "4S0%",
+                    maxWidth: "100%",
                     
                     marginLeft: "0%",
                     marginRight: "0%",
