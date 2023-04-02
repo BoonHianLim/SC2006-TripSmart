@@ -54,6 +54,7 @@ const ResultListScroll = ({changeState}) => {
     }, []);
 
     return (
+
             <View style={styles.resultList}>
                 <View style={styles.headerParent}>
                     <View style={styles.header}>
