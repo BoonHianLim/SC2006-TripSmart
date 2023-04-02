@@ -15,13 +15,14 @@ export default class Publictransport{
 
         //Call Google Map API
         const [duration, distance] = await googlemap.getDataString(start, end, "transit");
-        return [duration,distance];
+        var fare = this.getFare(distance);
+        return [duration, fare];
 
     }
 
-    getFare(start:string, end:string): number{
+    getFare(distance: number): number{
         
-        const [duration, distance] = googlemap.getDataString(start, end, "transit");
+        // const [duration, distance] = await googlemap.getDataString(start, end, "transit");
 
         // const resp = await fetch('https://api.stb.gov.sg/services/transport/v2/mrt-lrt/fare-types', {
         //     method: 'GET',
