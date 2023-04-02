@@ -1,6 +1,7 @@
 import env from "../env";
 import React, {useEffect, useState} from "react";
 import { googlemap } from "./googlemap";
+import { Result } from "../types/Result"
 
 export default class Bluesg{
     private BLUE_SG_API_KEY: string;
@@ -10,7 +11,14 @@ export default class Bluesg{
         }
         this.BLUE_SG_API_KEY = env.BLUE_SG_API_KEY || "";
     }
-    async getData(start:string, end:string): Promise<[number, number]>{
+    async getResult(start:string,end:string,pax:number = 1):Result{
+        return {
+            name:"blueSG",
+            iconURL:"https://play-lh.googleusercontent.com/zwdsPEl7NT_TxYjL83V6UnEwZjXljBHcr41o5D41xpqd0JC5odZY--yA9WWWrYIOCWw",
+            data:this.getData(start,end,pax)
+        }
+    }
+    async getData(start:string, end:string, pax:number = 1): Promise<[number,number]>[]{
         //call Google Map API
         const getStartLat = 1.3376342844358233;
         const getStartLng = 103.69414958176533;
@@ -29,8 +37,8 @@ export default class Bluesg{
         const json = await resp.json();
         console.log(json);
 
-        const [duration, distance] = await googlemap.getDrivingData(start, end);
-        return [duration,distance];
+        const [duration, fare] = await googlemap.getDrivingData(start, end);
+        return [[duration,fare],[duration,fare],[duration,fare]];
     }
 }
 
