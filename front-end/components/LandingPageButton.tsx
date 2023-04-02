@@ -15,38 +15,20 @@ const LandingPageButton = (props: any) => {
   const navigation = useNavigation();
 
   return (
-    <View
-        style={{
-            width: "30%",
-            height: "80%"
-        }}>
+    <Button
+    title="Next"
+    buttonStyle={{
+        backgroundColor: "black",
+        alignItems: "center",     
+        borderRadius: 10,
+        paddingLeft: "16%",
+        paddingRight: "16%",
 
-        <Button
-            title="Next"
-            buttonStyle={{
-                backgroundColor: "black",
-                alignItems: "center",     
-                borderRadius: 10
-            }}
 
-            onPress={()=>{navigation.navigate("GreetingPage3")}}
-        />
-        
-        
+    }}
 
-        
-
-        <View
-            style={{
-                flexDirection: "row",
-            }}>
-            <LandingThreeButton></LandingThreeButton>
-            <LandingThreeButton></LandingThreeButton>
-            <LandingThreeButton></LandingThreeButton>
-        </View>
-
-        
-    </View>
+    onPress={()=>{navigation.navigate(props.nextPage)}}
+/>
   );
 };
 

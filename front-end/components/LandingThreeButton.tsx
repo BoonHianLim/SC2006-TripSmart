@@ -16,44 +16,38 @@ const LandingThreeButton = (props: any) => {
 
   return (
 
-        <Pressable
-            style={{
-                backgroundColor: "blue"
-            }}>
-
-            <View
-                style={{
-                    marginTop: "8%",
-                    backgroundColor:"black",
-                    minHeight: "20%",
-                    maxHeight: "20%",
-
-                    minWidth: "40%",
-                    maxWidth: "4S0%",
-                    
-                    marginLeft: "0%",
-                    marginRight: "0%",
-                    
-                    alignItems: "center",
-                    alignContent: "center",
-                    
-                    borderWidth: responsiveScreenHeight(0.4),
-                    borderColor: Color.brandColorsCrayolaYellow,
-                    
-                    borderRadius: 10 ,
-
-
-                }}>
-
-            </View>
-
-        </Pressable>
+    <Pressable>
+    <View
+      style={[ props.isSelected ? styles.isTrue : styles.isFalse]}>
+      <Text style={{color: Color.backgroundColorsBackgroundLight1}}>Hi</Text>
+    </View>
+    </Pressable>
 
         
 
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  isTrue: {
+    backgroundColor:Color.brandColorsCrayolaYellow,
+    borderWidth: responsiveScreenHeight(0.5),
+    borderColor: "black",
+    borderRadius: 10 ,
+    minWidth: "10%",
+    margin: "3%"
+  },
+  isFalse: {
+    backgroundColor:Color.backgroundColorsBackgroundLight1,
+    marginTop: "10%",
+    borderWidth: responsiveScreenHeight(0.1),
+    borderColor: Color.brandColorsCrayolaYellow,
+    borderRadius: 10 ,
+    minWidth: "10%",
+    marginRight: "5%",
+  }
+
+
+});
 
 export default LandingThreeButton;

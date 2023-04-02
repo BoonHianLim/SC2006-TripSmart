@@ -6,63 +6,95 @@ import {
   Text,
   View,
   Pressable,
+  ScrollView
 } from "react-native";
+import {
+  responsiveScreenHeight,
+  responsiveWidth,
+  responsiveScreenFontSize,
+} from "react-native-responsive-dimensions";
 import { useNavigation } from "@react-navigation/native";
 import { Margin, Color, FontFamily } from "../GlobalStyles";
+
+import LandingPageButton from "../components/LandingPageButton";
+import LandingThreeButton from "../components/LandingThreeButton";
 
 const GreetingPage2 = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.greetingPage2}>
-      <View style={styles.greetingPage2Inner}>
-        <View style={styles.frameParent}>
-          <View style={styles.logosParent}>
+    <ScrollView
+    style={{
+      flexGrow: 1,
+    }}
+    >
+      <View
+        style={{
+          width: "100%",
+          height: "100%",
+          alignItems: "center",
+          backgroundColor: Color.brandColorsCrayolaYellow
+        }}
+      >
+        <View
+          style={{
+            margin: responsiveScreenHeight(6),
+            alignItems: "center",
+            marginTop: responsiveScreenHeight(10)
+          }}>
+          
+            {/* Content put here */}
+            
             <Image
-              style={styles.logosIcon}
-              resizeMode="cover"
-              source={require("../assets/logos1.png")}
-            />
-            <Image
-              style={[styles.selfDriving2Icon, styles.mt36]}
               resizeMode="cover"
               source={require("../assets/selfdriving-2.png")}
+              style={{
+                height: responsiveScreenHeight(35),
+                width: responsiveScreenHeight(35)
+              }}
             />
-            <View style={[styles.abundanceOfChoiceParent, styles.mt36]}>
-              <Text
-                style={[styles.abundanceOfChoice, styles.tripsmartLetsYouClr]}
-              >
-                Abundance of Choice
-              </Text>
-              <Text
-                style={[
-                  styles.tripsmartLetsYou,
-                  styles.mt14_29,
-                  styles.tripsmartLetsYouClr,
-                ]}
-              >{`TripSmart let’s you compare price fares and travel timings across all the major transport options available in Singapore from ride-hailing services and taxis to car rental and public transport services!   `}</Text>
-            </View>
-          </View>
-          <Pressable
-            style={styles.navigationNext}
-            onPress={() => navigation.navigate("GreetingPage3")}
-          >
-            <View style={[styles.nextWrapper, styles.nextWrapperFlexBox]}>
-              <Text style={styles.next}>Next</Text>
-            </View>
-            <View style={[styles.rectangleParent, styles.nextWrapperFlexBox]}>
-              <View style={[styles.frameChild, styles.frameLayout]} />
-              <View
-                style={[styles.frameItem, styles.ml8_3, styles.frameLayout]}
-              />
-              <View
-                style={[styles.frameChild, styles.ml8_3, styles.frameLayout]}
-              />
-            </View>
-          </Pressable>
+
+            <Text
+              style={{
+                fontFamily: FontFamily.montserratBold,
+                fontSize: responsiveScreenFontSize(6.0),
+                color: "black",
+                marginBottom:  responsiveScreenHeight(1),
+                textAlign: "center"
+                
+              }}
+            >Abundance of Choice</Text>
+
+            <Text
+              style={{
+                fontFamily: FontFamily.montserratMedium,
+                fontSize: responsiveScreenFontSize(2.0),
+                color: "black",
+                textAlign: "center"
+                
+              }}
+            >TripSmart let’s you compare price fares and travel timings across all the major transport options available in Singapore from ride-hailing services and taxis to car rental and public transport services!</Text>
+
         </View>
+        
+        <View>
+            <LandingPageButton nextPage = "GreetingPage3"></LandingPageButton>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: "1%",
+            marginBottom: "5%"
+          }}>
+            <LandingThreeButton isSelected = {false} ></LandingThreeButton>
+            <LandingThreeButton isSelected = {true}></LandingThreeButton>
+            <LandingThreeButton isSelected = {false}></LandingThreeButton>
+        </View>
+        
+
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

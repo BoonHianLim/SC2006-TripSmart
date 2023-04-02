@@ -1,68 +1,129 @@
 import * as React from "react";
 import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
+  ImageBackground,
   Dimensions,
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  Pressable,
+  ScrollView,
 } from "react-native";
+import {
+  responsiveScreenHeight,
+  responsiveWidth,
+  responsiveScreenFontSize,
+} from "react-native-responsive-dimensions";
 import { useNavigation } from "@react-navigation/native";
 import { Margin, Color, FontFamily } from "../GlobalStyles";
-
+import LandingPageButton from "../components/LandingPageButton";
+import { Button } from "@rneui/themed";
+import LandingThreeButton from "../components/LandingThreeButton";
 const GreetingPage3 = () => {
   const navigation = useNavigation();
 
+  const myImage = require("../assets/backgroundimg.png");
+
   return (
-    <View style={styles.greetingPage3}>
-      <View style={[styles.payment2Parent, styles.payment2ParentLayout]}>
-        <Image
-          style={styles.payment2Icon}
-          resizeMode="cover"
-          source={require("../assets/payment-2.png")}
-        />
-        <Text
-          style={[
-            styles.findTheCheapest,
-            styles.findTheCheapestClr,
-            styles.payment2ParentLayout,
-          ]}
-        >
-          Find the Cheapest Rides
-        </Text>
-        <Text
-          style={[styles.tripsmartHelpsTo, styles.findTheCheapestClr]}
-        >{`TripSmart helps to sort your travel options by price and time so you get the best of both worlds! `}</Text>
-      </View>
-      <Pressable
-        style={styles.navigationNext}
-        onPress={() => navigation.navigate("LoginPage")}
+    <ScrollView
+    style={{
+      flexGrow: 1,
+    }}
+    >
+      <View
+        style={{
+          width: "100%",
+          height: "100%",
+          alignItems: "center",
+          backgroundColor: Color.brandColorsCrayolaYellow
+        }}
       >
-        <View style={[styles.nextWrapper, styles.nextWrapperFlexBox]}>
-          <Text style={styles.next}>Next</Text>
+        <View
+          style={{
+            margin: responsiveScreenHeight(6),
+            alignItems: "center",
+            marginTop: responsiveScreenHeight(10)
+          }}>
+          
+            {/* Content put here */}
+            
+            <Image
+              resizeMode="cover"
+              source={require("../assets/payment-2.png")}
+              style={{
+                height: responsiveScreenHeight(35),
+                width: responsiveScreenHeight(35)
+              }}
+            />
+
+            <Text
+              style={{
+                fontFamily: FontFamily.montserratBold,
+                fontSize: responsiveScreenFontSize(6.0),
+                color: "black",
+                marginBottom:  responsiveScreenHeight(1),
+                textAlign: "center"
+                
+              }}
+            >Find the Cheapest Rides</Text>
+
+            <Text
+              style={{
+                fontFamily: FontFamily.montserratMedium,
+                fontSize: responsiveScreenFontSize(2.0),
+                color: "black",
+                textAlign: "center"
+                
+              }}
+            >TripSmart helps to sort your travel options by price and time so you get the best of both worlds! </Text>
+
         </View>
-        <View style={[styles.rectangleParent, styles.nextWrapperFlexBox]}>
-          <View style={[styles.frameChild, styles.frameLayout]} />
-          <View style={[styles.frameChild, styles.ml8_3, styles.frameLayout]} />
-          <View style={[styles.frameInner, styles.ml8_3, styles.frameLayout]} />
+        
+        <View>
+            <LandingPageButton nextPage = "LoginPage"></LandingPageButton>
         </View>
-      </Pressable>
-    </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: "1%",
+            marginBottom: "5%"
+          }}>
+            <LandingThreeButton isSelected = {false} ></LandingThreeButton>
+            <LandingThreeButton isSelected = {false}></LandingThreeButton>
+            <LandingThreeButton isSelected = {true}></LandingThreeButton>
+        </View>
+        
+
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  mt7_64: {
+    marginTop: 7.64,
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+  },
   ml8_3: {
     marginLeft: Margin.m_4xs_3,
   },
-  payment2ParentLayout: {
-    width: Dimensions.get("window").width * 0.7,
-    left: Dimensions.get("window").width * 0.08,
+  nextWrapperPosition: {
+    left: 0,
+    top: 0,
   },
-  findTheCheapestClr: {
-    color: Color.brandColorsNightPurple,
-    textAlign: "center",
-    position: "absolute",
+  theBestTripPlanningTypo: {
+    textShadowRadius: 3.39,
+    textShadowOffset: {
+      width: 0,
+      height: 3.394230842590332,
+    },
+    textShadowColor: "rgba(0, 0, 0, 0.25)",
+    textAlign: "left",
+    fontWeight: "800",
   },
   nextWrapperFlexBox: {
     flexDirection: "row",
@@ -72,37 +133,48 @@ const styles = StyleSheet.create({
     width: 25,
     borderRadius: 8297,
   },
-  payment2Icon: {
-    left: Dimensions.get("window").width * 0.23,
-    width: Dimensions.get("window").width * 0.4,
-    height: Dimensions.get("window").height * 0.25,
-    top: 0,
+  greetingPage1Child: {
+    top: "0%",
+    left: "0%",
+    width: Dimensions.get("window").width,
+    height: 1,
+    justifyContent: "space-between",
+    alignItems: "center",
     position: "absolute",
   },
-  findTheCheapest: {
-    top: Dimensions.get("window").height * 0.3,
-    fontSize: 40,
-    letterSpacing: -0.4,
-    lineHeight: 48,
-    fontWeight: "700",
-    fontFamily: FontFamily.montserratBold,
-    height: Dimensions.get("window").height * 0.2,
-    textAlign: "center",
-  },
-  tripsmartHelpsTo: {
-    top: Dimensions.get("window").height * 0.5,
-    left: Dimensions.get("window").width * 0.05,
-    fontSize: 14,
-    letterSpacing: 0.1,
-    lineHeight: 24,
-    fontFamily: FontFamily.montserratRegular,
-    width: Dimensions.get("window").width * 0.8,
-    height: Dimensions.get("window").height * 0.2,
-    textAlign: "center",
-  },
-  payment2Parent: {
-    top: Dimensions.get("window").height * 0.1,
+  adrienUwlsnmrmo0aUnsplash1Icon: {
+    width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
+    position: "absolute",
+  },
+  welcomeTo: {
+    fontSize: 30,
+    color: Color.textColorsInverse,
+  },
+  tripsmart: {
+    fontSize: 40,
+    color: Color.brandColorsCrayolaYellow,
+  },
+  welcomeToTripsmartContainer1: {
+    width: "100%",
+  },
+  welcomeToTripsmartContainer: {
+    fontFamily: FontFamily.montserratBold,
+    display: "flex",
+    width: "50%",
+    height: "50%",
+    alignItems: "center",
+  },
+  theBestTripPlanning: {
+    fontSize: 14,
+    lineHeight: 16,
+    fontFamily: FontFamily.montserratAlternatesBold,
+    width: Dimensions.get("window").width * 0.6,
+    color: Color.textColorsInverse,
+  },
+  welcomeToTripsmartParent: {
+    top: Dimensions.get("window").height * 0.4,
+    left: Dimensions.get("window").width * 0.25,
     position: "absolute",
   },
   next: {
@@ -111,30 +183,27 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     fontWeight: "800",
     fontFamily: FontFamily.montserratExtrabold,
-    color: Color.textColorsInverse,
-    width: 117,
     textAlign: "center",
+    width: "100%",
+    color: Color.textColorsInverse,
   },
   nextWrapper: {
     borderRadius: 10,
     backgroundColor: Color.brandColorsNightPurple,
     paddingHorizontal: 0,
     paddingVertical: 13,
-    width: 117,
-    top: 0,
-    left: 0,
-    flexDirection: "row",
+    width: "50%",
   },
   frameChild: {
-    backgroundColor: Color.backgroundColorsBackgroundLight1,
-    height: 10,
-  },
-  frameInner: {
     backgroundColor: Color.goldenrod_100,
     borderStyle: "solid",
     borderColor: "#000",
     borderWidth: 4.1,
     height: 17,
+  },
+  frameItem: {
+    backgroundColor: Color.backgroundColorsBackgroundLight1,
+    height: 10,
   },
   rectangleParent: {
     top: 54,
@@ -142,17 +211,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   navigationNext: {
-    top: Dimensions.get("window").height * 0.75,
-    left: Dimensions.get("window").width * 0.38,
-    height: Dimensions.get("window").height,
-    width: Dimensions.get("window").width,
-    position: "absolute",
+    top: Dimensions.get("window").height * 0.8,
+    left: "15%",
+    height: "20%",
+    width: "60%",
   },
-  greetingPage3: {
+  greetingPage1: {
     backgroundColor: Color.brandColorsCrayolaYellow,
     flex: 1,
-    width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
+    overflow: "hidden",
+    width: Dimensions.get("window").width,
   },
 });
 
