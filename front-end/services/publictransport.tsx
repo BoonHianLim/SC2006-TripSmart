@@ -11,7 +11,6 @@ export default class Publictransport{
         this.PUBLIC_TRANSPORT_API_KEY = env.PUBLIC_TRANSPORT_API_KEY || "";
     }
 
-<<<<<<< HEAD
     async getData(start:string, end:string): Promise<[String, number, number]>{
 
         //Call Google Map API
@@ -24,19 +23,6 @@ export default class Publictransport{
     getFare(distance: number): number{
         
         // const [duration, distance] = await googlemap.getDataString(start, end, "transit");
-=======
-    async getData(start:string, end:string): Promise<[number, number]>{
-
-        //Call Google Map API
-        const [duration, distance] = await googlemap.getDataString(start, end, "transit");
-        return [duration,distance];
-
-    }
-
-    getFare(start:string, end:string): number{
-        
-        const [duration, distance] = googlemap.getDataString(start, end, "transit");
->>>>>>> edffbc3 (update getfare from public transport)
 
         // const resp = await fetch('https://api.stb.gov.sg/services/transport/v2/mrt-lrt/fare-types', {
         //     method: 'GET',
