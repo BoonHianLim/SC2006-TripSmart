@@ -12,16 +12,26 @@ import {
   TextInput,
   Alert,
   SafeAreaView,
-  Button,
+  ScrollView,
+  ImageBackground
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import TextInputUser from "../components/TextInputUser";
 import { FontFamily, Color, Margin } from "../GlobalStyles";
 import { navigate } from "@react-navigation/routers/lib/typescript/src/CommonActions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  responsiveScreenHeight,
+  responsiveWidth,
+  responsiveScreenFontSize,
+} from "react-native-responsive-dimensions";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { Button } from "@rneui/themed";
+import { AntDesign } from "@expo/vector-icons";
 
 const Login = () => {
   const navigation = useNavigation();
+  const [checked, onChecked] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -97,155 +107,202 @@ const Login = () => {
   };
 
   return (
-    <View style={styles.login}>
-      <View style={[styles.loginInner, styles.loginInnerPosition]}>
-        <View style={[styles.maskGroupParent, styles.maskGroupPosition]}>
+    <ScrollView
+    style={{
+      flexGrow: 1,
+      backgroundColor: "white"
+    }}
+  >
+    <ImageBackground
+      source={require("../assets/mask-group.png")}
+      style={{
+        width: "100%",
+        height: "50%",
+        flex: 1,
+        alignItems: "center"
+      }}
+    >
+
+      <View
+        style={{
+          margin: "3%",
+          alignItems: "center"
+          
+        }}>
           <Image
-            style={[styles.maskGroupIcon, styles.maskGroupPosition]}
+            style={{
+              width: responsiveScreenHeight(12),
+              height: responsiveScreenHeight(12),
+              marginTop: "20%"
+            }}
             resizeMode="cover"
-            source={require("../assets/mask-group.png")}
+            source={require("../assets/fare-1-31.png")}
           />
-          <View style={[styles.frameParent, styles.frameSpaceBlock]}>
-            <View style={[styles.fare13Wrapper, styles.iconsWrapperFlexBox]}>
-              <Image
-                style={styles.fare13}
-                resizeMode="cover"
-                source={require("../assets/fare-1-31.png")}
+
+        <Text
+          style={{
+            fontFamily: FontFamily.montserratBold,
+            fontSize: responsiveScreenFontSize(4),
+            color: "black",
+            textAlign: "center",
+            marginBottom: "3%"
+          }}>Sign In with Password</Text>
+
+        <Text
+          style={{
+            fontFamily: FontFamily.montserratMedium,
+            fontSize: responsiveScreenFontSize(2),
+            color: "black",
+            textAlign: "center",
+            marginBottom: "5%"
+          }}>Continue to your Account</Text>
+
+        <View
+          style={{
+            margin: "5%"
+          }}>
+        <TextInputUser
+            headerText="Email"
+            placeholder="Email"
+            value={email}
+            onChangeText={handleEmailChange}
+          />
+
+        <TextInputUser
+            headerText="Password"
+            iconLabel="lock"
+            placeholder="Password"
+            value={password}
+            isPassword={true}
+            onChangeText={handlePasswordChange}
+          />
+        <View
+          style={{
+            marginBottom: "5%"
+          }}>
+        <BouncyCheckbox
+              onPress={() => onChecked(!checked)}
+              textComponent={
+                <Text
+                  style={{
+                    marginLeft: responsiveScreenFontSize(1),
+                    fontFamily: FontFamily.montserratMedium,
+                  }}
+                >
+                  Remember me
+                </Text>
+              }
+              size={23}
+              innerIconStyle={{
+                borderRadius: 3,
+              }}
+              iconStyle={{
+                borderRadius: 3,
+              }}
+            />
+          </View>
+        <Button
+              title="Log In"
+              loading={false}
+              loadingProps={{
+                size: "small",
+                color: "white",
+              }}
+              buttonStyle={{
+                backgroundColor: Color.goldenrod_300,
+                width: "100%",
+                borderRadius: 5,
+                padding: "3%",
+              }}
+              titleStyle={{
+                fontFamily: FontFamily.montserratBold,
+                fontSize: responsiveScreenFontSize(2.5),
+                color: "black",
+              }}
+              containerStyle={{
+                marginBottom: "2%",
+              }}
+              onPress={()=>{}}
+            />
+        </View>
+        <Pressable>
+        <Text
+          style={{
+            fontFamily: FontFamily.montserratMedium,
+            fontSize: responsiveScreenFontSize(2),
+            color: Color.textColorsLighter,
+            marginBottom: "3%"
+          }}>Forgot Your Password?</Text>
+        </Pressable>
+        <View
+            style={{
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: FontFamily.montserratMedium,
+                fontSize: responsiveScreenFontSize(2),
+              }}
+            >
+              Or continue with
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+              }}
+            >
+              <AntDesign
+                name="google"
+                size={responsiveScreenHeight(6)}
+                style={{
+                  margin: responsiveScreenHeight(3),
+                }}
+              />
+              <AntDesign
+                name="facebook-square"
+                size={responsiveScreenHeight(6)}
+                style={{
+                  margin: responsiveScreenHeight(3),
+                }}
               />
             </View>
-            <View style={[styles.signInWithPasswordParent, styles.mt14_84]}>
+
+            <View
+              style={{
+                flexDirection: "row",
+              }}
+            >
               <Text
-                style={[
-                  styles.signInWith,
-                  styles.signInWithFlexBox,
-                  styles.emailTypo,
-                ]}
+                style={{
+                  fontFamily: FontFamily.montserratMedium,
+                  fontSize: responsiveScreenFontSize(1.5),
+                }}
               >
-                Sign In with Password
+                Already have an account?{" "}
               </Text>
-              <Text
-                style={[
-                  styles.continueToYour,
-                  styles.mt11_13,
-                  styles.signInWithFlexBox,
-                ]}
-              >
-                Continue to your Account
-              </Text>
-            </View>
-          </View>
-          <View style={[styles.frameGroup, styles.frameSpaceBlock]}>
-            <View style={styles.loginInnerPosition}>
-              <View style={styles.frameContainer}>
-                <View style={styles.frameContainer}>
-                  <Text style={[styles.email, styles.emailTypo]}>Email</Text>
-
-                  {/* An Input for email address */}
-                  <TextInputUser
-                    placeholder="Email"
-                    keyboardType="email-address"
-                    value={email}
-                    onChangeText={handleEmailChange}
-                  />
-
-                  <Text
-                    style={[styles.email, styles.emailTypo, { marginTop: 30 }]}
-                  >
-                    Password
-                  </Text>
-
-                  {/* An input for password */}
-                  <TextInputUser
-                    placeholder="Password"
-                    secureTextEntry={true}
-                    iconLabel="lock"
-                    isPassword={true}
-                    value={password}
-                    onChangeText={handlePasswordChange}
-                  />
-
-                  <Button
-                    title="Login without password"
-                    onPress={() => {
-                      navigation.navigate("SearchPage1");
-                      storeData("User");
-                    }}
-                  />
-                  <View style={[styles.frameParent1, styles.mt14_84]}>
-                    <View style={styles.iconsWrapper}>
-                      <View
-                        style={[styles.iconsLayout, styles.iconsWrapperFlexBox]}
-                      ></View>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <View style={[styles.frameParent5, styles.mt25_98]}>
-              <Pressable
-                style={[
-                  styles.logInWrapper,
-                  styles.frameLayout,
-                  styles.iconsWrapperFlexBox,
-                ]}
-                onPress={handleLogin}
-              >
-                <Text style={[styles.logIn, styles.emailTypo]}>Log In</Text>
-              </Pressable>
-              <View style={[styles.vectorParent, styles.mt25_98]}>
-                <Image
-                  style={[styles.vectorIcon, styles.iconLayout1]}
-                  resizeMode="cover"
-                  source={require("../assets/vector-948.png")}
-                />
+              <Pressable>
                 <Text
-                  style={[
-                    styles.forgetYourPassword,
-                    styles.ml14_84,
-                    styles.emailTypo,
-                  ]}
+                  style={{
+                    fontFamily: FontFamily.montserratMedium,
+                    fontSize: responsiveScreenFontSize(1.5),
+                  }}
                 >
-                  Forgot Password?
+                  Sign in
                 </Text>
-                <Image
-                  style={[
-                    styles.vectorIcon,
-                    styles.ml14_84,
-                    styles.iconLayout1,
-                  ]}
-                  resizeMode="cover"
-                  source={require("../assets/vector-949.png")}
-                />
-              </View>
+              </Pressable>
             </View>
-            <Text
-              style={[
-                styles.poweredByTripsmart,
-                styles.mt25_98,
-                styles.emailTypo,
-              ]}
-            >
-              Powered by TripSmart 2023
-            </Text>
-            <Text
-              style={[
-                styles.dontHaveAnContainer,
-                styles.mt25_98,
-                styles.orContinueWithTypo,
-              ]}
-            >
-              <Text style={styles.dontHaveAn}>{`Dont have an account? `}</Text>
-              <Text
-                style={styles.signUp}
-                onPress={() => navigation.navigate("Register1")}
-              >
-                Sign Up
-              </Text>
-            </Text>
-          </View>
-        </View>
+            </View>
+
+
+
       </View>
-    </View>
+
+    
+
+
+    </ImageBackground>
+  </ScrollView>
   );
 };
 
