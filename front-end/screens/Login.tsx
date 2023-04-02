@@ -13,7 +13,7 @@ import {
   Alert,
   SafeAreaView,
   ScrollView,
-  ImageBackground
+  ImageBackground,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import TextInputUser from "../components/TextInputUser";
@@ -28,6 +28,7 @@ import {
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Button } from "@rneui/themed";
 import { AntDesign } from "@expo/vector-icons";
+import Register1 from "./Register1";
 
 const Login = () => {
   const navigation = useNavigation();
@@ -108,100 +109,107 @@ const Login = () => {
 
   return (
     <ScrollView
-    style={{
-      flexGrow: 1,
-      backgroundColor: "white"
-    }}
-  >
-    <ImageBackground
-      source={require("../assets/mask-group.png")}
       style={{
-        width: "100%",
-        height: "50%",
-        flex: 1,
-        alignItems: "center"
+        flexGrow: 1,
+        backgroundColor: "white",
       }}
     >
-
-      <View
+      <ImageBackground
+        source={require("../assets/mask-group.png")}
         style={{
-          margin: "3%",
-          alignItems: "center"
-          
-        }}>
+          width: "100%",
+          height: "50%",
+          flex: 1,
+          alignItems: "center",
+        }}
+      >
+        <View
+          style={{
+            margin: "3%",
+            alignItems: "center",
+          }}
+        >
           <Image
             style={{
               width: responsiveScreenHeight(12),
               height: responsiveScreenHeight(12),
-              marginTop: "20%"
+              marginTop: "20%",
             }}
             resizeMode="cover"
             source={require("../assets/fare-1-31.png")}
           />
 
-        <Text
-          style={{
-            fontFamily: FontFamily.montserratBold,
-            fontSize: responsiveScreenFontSize(4),
-            color: "black",
-            textAlign: "center",
-            marginBottom: "3%"
-          }}>Sign In with Password</Text>
+          <Text
+            style={{
+              fontFamily: FontFamily.montserratBold,
+              fontSize: responsiveScreenFontSize(4),
+              color: "black",
+              textAlign: "center",
+              marginBottom: "3%",
+            }}
+          >
+            Sign In with Password
+          </Text>
 
-        <Text
-          style={{
-            fontFamily: FontFamily.montserratMedium,
-            fontSize: responsiveScreenFontSize(2),
-            color: "black",
-            textAlign: "center",
-            marginBottom: "5%"
-          }}>Continue to your Account</Text>
+          <Text
+            style={{
+              fontFamily: FontFamily.montserratMedium,
+              fontSize: responsiveScreenFontSize(2),
+              color: "black",
+              textAlign: "center",
+              marginBottom: "5%",
+            }}
+          >
+            Continue to your Account
+          </Text>
 
-        <View
-          style={{
-            margin: "5%"
-          }}>
-        <TextInputUser
-            headerText="Email"
-            placeholder="Email"
-            value={email}
-            onChangeText={handleEmailChange}
-          />
-
-        <TextInputUser
-            headerText="Password"
-            iconLabel="lock"
-            placeholder="Password"
-            value={password}
-            isPassword={true}
-            onChangeText={handlePasswordChange}
-          />
-        <View
-          style={{
-            marginBottom: "5%"
-          }}>
-        <BouncyCheckbox
-              onPress={() => onChecked(!checked)}
-              textComponent={
-                <Text
-                  style={{
-                    marginLeft: responsiveScreenFontSize(1),
-                    fontFamily: FontFamily.montserratMedium,
-                  }}
-                >
-                  Remember me
-                </Text>
-              }
-              size={23}
-              innerIconStyle={{
-                borderRadius: 3,
-              }}
-              iconStyle={{
-                borderRadius: 3,
-              }}
+          <View
+            style={{
+              margin: "5%",
+            }}
+          >
+            <TextInputUser
+              headerText="Email"
+              placeholder="Email"
+              value={email}
+              onChangeText={handleEmailChange}
             />
-          </View>
-        <Button
+
+            <TextInputUser
+              headerText="Password"
+              iconLabel="lock"
+              placeholder="Password"
+              value={password}
+              isPassword={true}
+              onChangeText={handlePasswordChange}
+            />
+            <View
+              style={{
+                marginBottom: "5%",
+              }}
+            >
+              <BouncyCheckbox
+                onPress={() => onChecked(!checked)}
+                textComponent={
+                  <Text
+                    style={{
+                      marginLeft: responsiveScreenFontSize(1),
+                      fontFamily: FontFamily.montserratMedium,
+                    }}
+                  >
+                    Remember me
+                  </Text>
+                }
+                size={23}
+                innerIconStyle={{
+                  borderRadius: 3,
+                }}
+                iconStyle={{
+                  borderRadius: 3,
+                }}
+              />
+            </View>
+            <Button
               title="Log In"
               loading={false}
               loadingProps={{
@@ -222,19 +230,32 @@ const Login = () => {
               containerStyle={{
                 marginBottom: "2%",
               }}
-              onPress={()=>{}}
+              onPress={() => {
+                handleLogin();
+                storeData("User");
+              }}
             />
-        </View>
-        <Pressable>
-        <Text
-          style={{
-            fontFamily: FontFamily.montserratMedium,
-            fontSize: responsiveScreenFontSize(2),
-            color: Color.textColorsLighter,
-            marginBottom: "3%"
-          }}>Forgot Your Password?</Text>
-        </Pressable>
-        <View
+            <Button
+              title="Temporary: Login without password"
+              onPress={() => {
+                navigation.navigate("SearchPage1");
+                storeData("User");
+              }}
+            />
+          </View>
+          <Pressable>
+            <Text
+              style={{
+                fontFamily: FontFamily.montserratMedium,
+                fontSize: responsiveScreenFontSize(2),
+                color: Color.textColorsLighter,
+                marginBottom: "3%",
+              }}
+            >
+              Forgot Your Password?
+            </Text>
+          </Pressable>
+          <View
             style={{
               alignItems: "center",
             }}
@@ -247,26 +268,6 @@ const Login = () => {
             >
               Or continue with
             </Text>
-            <View
-              style={{
-                flexDirection: "row",
-              }}
-            >
-              <AntDesign
-                name="google"
-                size={responsiveScreenHeight(6)}
-                style={{
-                  margin: responsiveScreenHeight(3),
-                }}
-              />
-              <AntDesign
-                name="facebook-square"
-                size={responsiveScreenHeight(6)}
-                style={{
-                  margin: responsiveScreenHeight(3),
-                }}
-              />
-            </View>
 
             <View
               style={{
@@ -279,30 +280,23 @@ const Login = () => {
                   fontSize: responsiveScreenFontSize(1.5),
                 }}
               >
-                Already have an account?{" "}
+                Don't have an account?{" "}
               </Text>
-              <Pressable>
+              <Pressable onPress={() => navigation.navigate(Register1)}>
                 <Text
                   style={{
                     fontFamily: FontFamily.montserratMedium,
                     fontSize: responsiveScreenFontSize(1.5),
                   }}
                 >
-                  Sign in
+                  Register now
                 </Text>
               </Pressable>
             </View>
-            </View>
-
-
-
-      </View>
-
-    
-
-
-    </ImageBackground>
-  </ScrollView>
+          </View>
+        </View>
+      </ImageBackground>
+    </ScrollView>
   );
 };
 

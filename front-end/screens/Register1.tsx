@@ -21,6 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily } from "../GlobalStyles";
 import { Button } from "@rneui/themed";
 import { AntDesign } from "@expo/vector-icons";
+import Login from "./Login";
 
 const Register1 = () => {
   const navigation = useNavigation();
@@ -302,7 +303,7 @@ const Register1 = () => {
               >
                 Already have an account?{" "}
               </Text>
-              <Pressable>
+              <Pressable onPress={() => navigation.navigate(Login)}>
                 <Text
                   style={{
                     fontFamily: FontFamily.montserratMedium,
