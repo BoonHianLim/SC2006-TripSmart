@@ -2,22 +2,18 @@ import {Dimensions, StyleSheet, Text, View} from "react-native";
 import {Avatar, ListItem} from "@rneui/base";
 import React, {useEffect, useState} from "react";
 import ListItemScroll from "./ListItemScroll"
+import { Result } from "../types/Result"
 
-type Result = {
-    name: string;
-    iconURL: string;
-    data: Promise<[number,number]>[];
-};
 
 let resultArr:Result[] = [{
     name: "blusg",
-    iconURL: "https://www.bluesg.com.sg/sites/bluesg/files/medias/images/logo_bluesg_-_header_site.png",
+    iconURL: "https://play-lh.googleusercontent.com/zwdsPEl7NT_TxYjL83V6UnEwZjXljBHcr41o5D41xpqd0JC5odZY--yA9WWWrYIOCWw",
     data: [Promise.resolve([1,7]),
         Promise.resolve([3,6]),
         Promise.resolve([2,5])]
 },{
-    name: "grab",
-    iconURL: "https://www.bluesg.com.sg/sites/bluesg/files/medias/images/logo_bluesg_-_header_site.png",
+    name: "Grab",
+    iconURL: "https://seeklogo.com/images/G/grab-logo-7020E74857-seeklogo.com.png",
     data: [Promise.resolve([10,71]),
         Promise.resolve([0,2]),
         Promise.resolve([4,16])]

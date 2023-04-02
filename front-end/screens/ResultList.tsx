@@ -107,7 +107,7 @@ const App = () => {
         <View style={styles.settings} />
 
       </View>
-      <SettingsContainer />
+      <SettingsContainer/>
     </GestureHandlerRootView>
   );
 };

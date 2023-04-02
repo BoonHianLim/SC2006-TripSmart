@@ -7,10 +7,10 @@ const ListItemScroll = (item) => {
 
     <ListItem bottomDivider>
         <Avatar rounded
-                source={{ uri: item.iconURL }}/>
+                source={{ uri: item.item.iconURL }}/>
         <ListItem.Content>
-            <ListItem.Title>{item.name}</ListItem.Title>
-            <ListItem.Subtitle>{item.val1}</ListItem.Subtitle>
+            <ListItem.Title>{item.item.name}</ListItem.Title>
+            <ListItem.Subtitle>{item.item.val1}</ListItem.Subtitle>
         </ListItem.Content>
     </ListItem>)
 }
