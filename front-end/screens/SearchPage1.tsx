@@ -269,6 +269,12 @@ const App = () => {
       mapRef.current?.fitToCoordinates([origin, destination], { edgePadding });
     }
   };
+  // Monitor changes in the "dest" variable, when "dest" changes, traceroute is called
+  useEffect(() => {
+    if (dest) {
+      traceRoute();
+    }
+  }, [dest]);
 
   const onPlaceSelected = (
     details: GooglePlaceDetail | null,
@@ -363,9 +369,6 @@ const App = () => {
                   setDestFunction(tmp1);
                 }}
               />
-              <TouchableOpacity style={styles.button} onPress={traceRoute}>
-                <Text style={styles.buttonText}>Trace route</Text>
-              </TouchableOpacity>
               <TouchableOpacity
                 style={styles.buttonResult}
                 onPress={() => {
