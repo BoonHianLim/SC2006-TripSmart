@@ -17,3 +17,15 @@ To run the program:
 
 ## 5 March 2023
 - No news from Grab yet...
+
+## 4 April 2023   
+- Fuah it's now April!   
+- To run the app, just:   
+``` flask run ```   
+- API Example:   
+``` http://localhost:5000/farecheck?pickup=Nanyang%20Technological%20University&dropoff=National%20University%20Singapore ```   
+- Return Json:   
+{
+	"fare": "SGD 13.44 - 18.48"
+}
+- One small problem, it doesn't work with axios even tho it works with Postman, probably some firewall issues(?)

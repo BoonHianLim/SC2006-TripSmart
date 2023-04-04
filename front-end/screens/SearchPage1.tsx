@@ -27,6 +27,7 @@ import * as Location from "expo-location";
 import { LocationGeofencingEventType } from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapViewDirections from "react-native-maps-directions";
+import getGrabFare from "../services/grabscrapper";
 
 type InputAutocompleteProps = {
   label: string;
@@ -288,6 +289,19 @@ const App = () => {
     set(position);
     moveTo(position);
   };
+
+
+  // Get Grab Fare
+  const pickupLocation = 'Nanyang Technological University';
+  const dropoffLocation = 'Marina Bay';
+  
+  getGrabFare(pickupLocation, dropoffLocation)
+    .then(fare => {
+      console.log(`Fare: ${fare}`);
+    })
+    .catch(error => {
+      console.log(error);
+    });
 
   // renders
   return (
