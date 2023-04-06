@@ -12,26 +12,84 @@ import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color } from "../GlobalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const SettingsContainer = () => {
+const SettingsContainer = ({selectedButton}) => {
   const navigation = useNavigation();
   const { width, height } = Dimensions.get("window");
-  const [selectedButton, setSelectedButton] = useState(null);
 
   const mapName = "ResultList";
   const historyName = "History";
   const settingsName = "Settings";
 
-  const onPressButton = (buttonID) => {
-    setSelectedButton(buttonID);
+  const storeMap = async (text: React.SetStateAction<string>) => {
+    try {
+      await AsyncStorage.setItem("@storage_Map", "Map");
+    } catch (e) {
+      // saving error
+    }
   }
+
+  const storeHistory = async (text: React.SetStateAction<string>) => {
+    try {
+      await AsyncStorage.setItem("@storage_History", "History");
+    } catch (e) {
+      // saving error
+    }
+  }
+
+  const storeSettings = async (text: React.SetStateAction<string>) => {
+    try {
+      await AsyncStorage.setItem("@storage_Settings", "Settings");
+    } catch (e) {
+      // saving error
+    }
+  }
+
+  // const getMap = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem("@storage_Map");
+  //     if (value == "Map") {
+  //       //
+  //     } else {
+  //       //
+  //     }
+  //   } catch (e) {
+  //     // error reading value
+  //   }
+  // };
+
+  // const getHistory = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem("@storage_History");
+  //     if (value == "History") {
+  //       //
+  //     } else {
+  //       //
+  //     }
+  //   } catch (e) {
+  //     // error reading value
+  //   }
+  // };
+
+  // const getSettings = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem("@storage_Settings");
+  //     if (value == "Settings") {
+  //       //
+  //     } else {
+  //       //
+  //     }
+  //   } catch (e) {
+  //     // error reading value
+  //   }
+  // };
 
   return (
     <View style={styles.bottomNavigation}>
       <View style={styles.frameParent}>
         <Pressable
-          style={[styles.iconsSpaceBlock, selectedButton === 3 && styles.iconsParent]}
+          style={[styles.iconsSpaceBlock, selectedButton === "Map" && styles.iconsParent]}
           onPress={() => {
-            onPressButton(3)
+            storeMap("Map")
             navigation.navigate(mapName)
             }
           }
@@ -48,9 +106,9 @@ const SettingsContainer = () => {
           </Text>
         </Pressable>
         <Pressable
-          style={[styles.iconsSpaceBlock, selectedButton === 4 && styles.iconsParent]}
+          style={[styles.iconsSpaceBlock, selectedButton === "History" && styles.iconsParent]}
           onPress={() => {
-            onPressButton(4)
+            storeHistory("History")
             navigation.navigate(historyName)
             }
           }
@@ -67,9 +125,9 @@ const SettingsContainer = () => {
           </Text>
         </Pressable>
         <Pressable
-          style={[styles.iconsSpaceBlock, selectedButton === 5 && styles.iconsParent]}
+          style={[styles.iconsSpaceBlock, selectedButton === "Settings" && styles.iconsParent]}
           onPress={() => {
-            onPressButton(5)
+            storeSettings("Settings")
             navigation.navigate(settingsName)
             }
           }
