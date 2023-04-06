@@ -82,8 +82,8 @@ const GreetingPage3 = () => {
             justifyContent: 'center',
             marginBottom: "3%"
           }}>
-          <LandingThreeButton isSelected = {true} nextPage= "GreetingPage1"></LandingThreeButton>
-          <LandingThreeButton isSelected = {true} nextPage= "GreetingPage2"></LandingThreeButton>
+          <LandingThreeButton isSelected = {false} nextPage= "GreetingPage1"></LandingThreeButton>
+          <LandingThreeButton isSelected = {false} nextPage= "GreetingPage2"></LandingThreeButton>
           <LandingThreeButton isSelected = {true} nextPage= "GreetingPage3"></LandingThreeButton>
         </View>
 
