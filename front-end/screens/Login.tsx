@@ -93,7 +93,7 @@ const Login = () => {
       if (data.document != null) {
         storeData("User");
         storeEmail(email);
-        navigation.navigate("SearchPage1");
+        navigation.navigate("ResultList");
       } else {
         //alert user that email or password is incorrect
         Alert.alert("Error", "Email or password is incorrect", [
@@ -238,7 +238,7 @@ const Login = () => {
             <Button
               title="Temporary: Login without password"
               onPress={() => {
-                navigation.navigate("SearchPage1");
+                navigation.navigate("ResultList");
                 storeData("User");
               }}
             />
