@@ -21,17 +21,26 @@ let resultArr:Result[] = [{
 
 
 
-const ResultListResult = () => {
-    const [result,setResult] = useState()
-    useEffect(() => {
-        async function printSortedData(): Promise<any> {
-            const sortedData = resultArr.flatMap((result) => result.data).sort(async (dataA, dataB) => {
-                const [valA1, valA2] = await dataA;
-                const [valB1, valB2] = await dataB;
-                return valA1 - valB1;
-            });
+const ResultListResult = ({isCheap}:any) => {
+    const [result, setResult] = useState();
+    const sortBy = isCheap ? 'fare' : 'duration';
 
-            const allData: { name: string; iconURL: string; val1: number; val2: number }[] = [];
+    useEffect(() => {
+        async function printSortedData(sortBy: string): Promise<any> {
+            const sortedData = resultArr
+                .flatMap((result) => result.data)
+                .sort(async (dataA, dataB) => {
+                    const [valA1, valA2] = await dataA;
+                    const [valB1, valB2] = await dataB;
+                    return sortBy === 'duration' ? valA1 - valB1 : valA2 - valB2;
+                });
+
+            const allData: {
+                name: string;
+                iconURL: string;
+                duration: number;
+                fare: number;
+            }[] = [];
 
             for (let i = 0; i < resultArr.length; i++) {
                 const result = resultArr[i];
@@ -41,34 +50,42 @@ const ResultListResult = () => {
 
                 for (let j = 0; j < data.length; j++) {
                     const currData = data[j];
-                    const [val1, val2] = await currData;
+                    const [duration, fare] = await currData;
                     allData.push({
                         name: result.name,
                         iconURL: result.iconURL,
-                        val1,
-                        val2,
+                        duration,
+                        fare,
                     });
                 }
             }
 
-            allData.sort((dataA, dataB) => dataA.val1 - dataB.val1);
-            return allData
+            allData.sort((dataA, dataB) =>
+                sortBy === 'duration'
+                    ? dataA.duration - dataB.duration
+                    : dataA.fare - dataB.fare
+            );
+            return allData;
         }
 
-        printSortedData().then((allData) => {
-            console.log(allData)
-            setResult(allData)
-        }).catch((error) => console.error(error))
-    }, []);
+        printSortedData(sortBy)
+            .then((allData) => {
+                console.log(allData);
+                setResult(allData);
+            })
+            .catch((error) => console.error(error));
+    }, [sortBy]);
 
-    return(
-    <View style={styles.result}>
-        {result && result.map((data, index) => (
-            <ListItemScroll
-                key = {data.name + index.toString() + data.val1.toString()}
-                item = {data}
-            />
-        ))}
+    return (
+        <View style={styles.result}>
+            {result &&
+                result.map((data, index) => (
+                    <ListItemScroll
+                        key={data.name + index.toString() + data.duration.toString()}
+                        item={data}
+                        isCheap={isCheap}
+                    />
+                ))}
     <ListItem bottomDivider>
         <Avatar rounded
                 source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
