@@ -1,6 +1,6 @@
 import React, {
     useState,
-    useReducer, useMemo, useRef, useCallback,
+    useReducer, useMemo, useRef, useCallback, useEffect,
 } from "react";
 import {useNavigation} from "@react-navigation/native";
 import {
@@ -13,16 +13,19 @@ import {
     TextInput,
     Button,
 } from "react-native";
-import MapView, {PROVIDER_GOOGLE} from "react-native-maps";
+import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import {FontFamily, Color, Margin} from "../GlobalStyles";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import Constants from "expo-constants";
+import * as Location from "expo-location";
 import SettingsContainer from "../components/SettingsContainer";
 import ResultListScroll from "../components/ResultListScroll";
 import ResultFilterScroll from "../components/ResultFilterScroll";
 import ResultListResult from "../components/ResultListResult";
 import SearchPageScroll from "../components/SearchPageScroll";
 import BottomSheet, {BottomSheetScrollView} from "@gorhom/bottom-sheet";
+import MapViewDirections from "react-native-maps-directions";
+import devEnvironmentVariables from "../env";
 
 
 const App = () => {
@@ -35,17 +38,86 @@ const App = () => {
         console.log("handleSheetChanges", index);
     }, []);
     // state
-    const [searchQuery, setSearchQuery] = useState("");
-    const [destQuery, setDestQuery] = useState("");
-    const [state, setState] = useState("resultList");
+    const [state, setState] = useState("searchPage");
     const [isCheap,setCheap] = useState(true);
+    const [errorMsg, setErrorMsg] = useState("");
+    const [location, setLocation] = useState(null);
+    var longitude;
+    var latitude;
 
-    const onChangeSearch = (query: React.SetStateAction<string>) => setSearchQuery(query);
+    useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                setErrorMsg("Permission to access location was denied");
+                return;
+            }
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+        })();
+    }, []);
+
+    if (location) {
+        longitude = location.coords.longitude;
+        latitude = location.coords.latitude;
+    }
+
+    //markers
+    const [origin, setOrigin] = useState<LatLng | null>();
+    const [destination, setDestination] = useState<LatLng | null>();
+    const [showDirections, setShowDirections] = useState(false);
+    const [distance, setDistance] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const mapRef = useRef<MapView>(null);
+
+    const moveTo = async (position: LatLng) => {
+        const camera = await mapRef.current?.getCamera();
+        if (camera) {
+            camera.center = position;
+            mapRef.current?.animateCamera(camera, { duration: 1000 });
+        }
+    };
+
+    const edgePaddingValue = 70;
+
+    const edgePadding = {
+        top: edgePaddingValue,
+        right: edgePaddingValue,
+        bottom: edgePaddingValue,
+        left: edgePaddingValue,
+    };
+
+    const traceRouteOnReady = (args: any) => {
+        if (args) {
+            // args.distance
+            // args.duration
+            setDistance(args.distance);
+            setDuration(args.duration);
+        }
+    };
+
+    const traceRoute = () => {
+        if (origin && destination) {
+            setShowDirections(true);
+            mapRef.current?.fitToCoordinates([origin, destination], { edgePadding });
+        }
+    };
+    // Monitor changes in the "dest" variable, when "dest" changes, traceroute is called
+    useEffect(() => {
+        if (origin && destination) {
+            traceRoute();
+        }
+    }, [origin, destination]);
 
     function setScrollType(scrollType: string) {
         switch (scrollType) {
             case 'searchPage':
-                return <SearchPageScroll changeState={setState}/>
+                return <SearchPageScroll
+                    changeState={setState}
+                    setOrigin = {setOrigin}
+                    setDestination = {setDestination}
+                    moveTo = {moveTo}
+                />
             case 'resultFilter':
                 return <ResultFilterScroll changeState={setState}/>
             case 'resultList':
@@ -62,13 +134,13 @@ const App = () => {
         <GestureHandlerRootView style={{flex: 1}}>
             <View style={styles.container}>
                 <MapView
-                    style={{flex: 1}}
+                    style={{ flex: 1 }}
                     provider={PROVIDER_GOOGLE}
                     region={{
                         latitude: 1.3521,
                         longitude: 103.8198,
-                        latitudeDelta: 0.015,
-                        longitudeDelta: 0.0121,
+                        latitudeDelta: 0.3,
+                        longitudeDelta: 0.3,
                     }}
                     showsUserLocation={true}
                     showsMyLocationButton={true}
@@ -80,7 +152,20 @@ const App = () => {
                     pitchEnabled={true}
                     toolbarEnabled={true}
                     cacheEnabled={false}
-                />
+                >
+                    {origin && <Marker coordinate={origin} />}
+                    {destination && <Marker coordinate={destination} />}
+                    {showDirections && origin && destination && (
+                        <MapViewDirections
+                            origin={origin}
+                            destination={destination}
+                            apikey={devEnvironmentVariables.GOOGLE_MAP_API_KEY}
+                            strokeColor="#6644ff"
+                            strokeWidth={4}
+                            onReady={traceRouteOnReady}
+                        />
+                    )}
+                </MapView>
                 <BottomSheet
                     ref={bottomSheetRef}
                     index={1}

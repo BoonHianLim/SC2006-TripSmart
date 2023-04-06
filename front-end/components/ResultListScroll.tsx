@@ -30,7 +30,7 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
         console.log("handleSheetChanges", index);
     }, []);
 
-/*    function handleBackButtonClick() {
+    function handleBackButtonClick() {
         changeState("searchPage")
         return true;
     }
@@ -40,7 +40,7 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
         return () => {
             BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
         };
-    }, []);*/
+    }, []);
 
     //utility functions
     async function sortPromisesAscending(promises: Promise<[number, number]>[]) {

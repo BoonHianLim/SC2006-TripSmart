@@ -20,7 +20,7 @@ import { Button } from "@rneui/themed";
 const LoginPage = () => {
   const process = () => {
     storeData("Guest");
-    navigation.navigate("SearchPage1");
+    navigation.navigate("ResultList");
   };
 
   const storeData = async (text: React.SetStateAction<string>) => {
