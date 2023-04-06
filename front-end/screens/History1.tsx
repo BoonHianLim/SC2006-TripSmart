@@ -199,7 +199,9 @@ const History1 = () => {
     </View>
 
     </ScrollView>
-        <SettingsContainer />
+      <SettingsContainer 
+        selectedButton = {"History"}
+        />
       </GestureHandlerRootView>
 
   );

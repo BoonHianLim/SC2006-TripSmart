@@ -21,6 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily } from "../GlobalStyles";
 import { Button } from "@rneui/themed";
 import { AntDesign } from "@expo/vector-icons";
+import Login from "./Login";
 
 const Register1 = () => {
   const navigation = useNavigation();
@@ -39,24 +40,22 @@ const Register1 = () => {
 
   //Functions for handling email
   const handleEmailChange = (text: React.SetStateAction<string>) => {
-    console.log("email: ", text);
     onChangeText(text);
   };
 
   //Functions for handling password
   const handlePasswordChange = (text: React.SetStateAction<string>) => {
-    console.log("password: ", text);
     setPassword(text);
   };
 
   //Functions for handling password2
   const handlePassword2Change = (text: React.SetStateAction<string>) => {
-    console.log("password2: ", text);
     setPassword2(text);
   };
 
   const checkExistingDatabase = async () => {
     console.log("seeking records");
+    console.log("email", email);
     try {
       const response = await fetch(
         "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/findOne",
@@ -81,65 +80,74 @@ const Register1 = () => {
       );
       const data = await response.json();
       if (data.document == null) {
-        if (password != password2) {
-          Alert.alert("Error", "Passwords do not match", [
+        //if data does not exist, inform that the email does not exist
+        Alert.alert("Error", "Email does not exist", [
+          { text: "OK", onPress: () => console.log("OK Pressed") },
+        ]);
+      } else {
+        //do update password dunction
+        //check password2 and old password is not the same
+        if (password2 == password) {
+          Alert.alert(
+            "Error",
+            "New password cannot be the same as old password",
+            [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+          );
+        } else if (password != data.document.password) {
+          //alert that your password is incorrect
+          Alert.alert("Error", "Password is incorrect", [
             { text: "OK", onPress: () => console.log("OK Pressed") },
           ]);
         } else {
-          handleSignup();
+          handleUpdate();
         }
-      } else {
-        //alert user that email or password is already in database
-        console.log("plan b");
-        Alert.alert("Error", "You have already registered with us before", [
-          {
-            text: "Log me in",
-            onPress: () => navigation.navigate("Login"),
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]);
       }
     } catch (err) {
-      console.log("error signing in: ", err);
+      console.log("error: ", err);
     }
   };
 
-  const handleSignup = async () => {
-    console.log("trying to add records into the database");
-    // perform login action here using email and password
-    // mongodb api here
-    try {
-      const response = await fetch(
-        "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/insertOne",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Request-Headers": "*",
-            "api-key":
-              "gzmrGJqDsVF9pOB6XO7nDxasKLWgOh4pOZe7LlIdQ4SXaeI1UMxJN8CSDHxJTgVM",
+  const handleUpdate = async () => {
+    console.log("updating records");
+    console.log("email", email);
+    console.log("newPassword", password2);
+
+    fetch(
+      "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/updateOne",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Request-Headers": "*",
+          "api-key":
+            "gzmrGJqDsVF9pOB6XO7nDxasKLWgOh4pOZe7LlIdQ4SXaeI1UMxJN8CSDHxJTgVM",
+        },
+
+        body: JSON.stringify({
+          dataSource: "seventh",
+          database: "Account",
+          collection: "People",
+          filter: {
+            email: email,
           },
-
-          body: JSON.stringify({
-            dataSource: "seventh",
-            database: "Account",
-            collection: "People",
-            document: {
-              email: email,
-              password: password,
+          update: {
+            $set: {
+              password: password2,
             },
-          }),
+          },
+        }),
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          console.log("Update successful");
+        } else {
+          console.log("Update failed");
         }
-      );
-      const data = await response.json();
-
-      //tell user of the successful registration
-      Alert.alert("Success", "You have successfully registered with us", [
-        { text: "OK", onPress: () => console.log("OK Pressed") },
-      ]);
-    } catch (err) {
-      console.log("error signing in: ", err);
-    }
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
   };
 
   return (
@@ -173,7 +181,7 @@ const Register1 = () => {
                 fontSize: responsiveScreenFontSize(6.5),
               }}
             >
-              Create Your Account
+              Change Password
             </Text>
           </View>
 
@@ -185,7 +193,7 @@ const Register1 = () => {
           />
 
           <TextInputUser
-            headerText="Password"
+            headerText="Old Password"
             iconLabel="lock"
             placeholder="Password"
             value={password}
@@ -194,7 +202,7 @@ const Register1 = () => {
           />
 
           <TextInputUser
-            headerText="Re-type Password"
+            headerText="New Password"
             iconLabel="lock"
             isPassword={true}
             placeholder="Password2"
@@ -231,7 +239,7 @@ const Register1 = () => {
 
           <View>
             <Button
-              title="Sign Up"
+              title="Change Password"
               loading={false}
               loadingProps={{
                 size: "small",
@@ -270,26 +278,7 @@ const Register1 = () => {
               style={{
                 flexDirection: "row",
               }}
-            >
-              <Text
-                style={{
-                  fontFamily: FontFamily.montserratMedium,
-                  fontSize: responsiveScreenFontSize(1.5),
-                }}
-              >
-                Already have an account?{" "}
-              </Text>
-              <Pressable onPress={() => navigation.navigate("Login")}>
-                <Text
-                  style={{
-                    fontFamily: FontFamily.montserratMedium,
-                    fontSize: responsiveScreenFontSize(1.5),
-                  }}
-                >
-                  Sign in
-                </Text>
-              </Pressable>
-            </View>
+            ></View>
           </View>
         </View>
       </ImageBackground>

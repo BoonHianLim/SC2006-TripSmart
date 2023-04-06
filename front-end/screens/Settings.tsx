@@ -1,96 +1,107 @@
 import * as React from "react";
-import { FC, useState, useEffect } from 'react';
-import { Pressable, Image, TouchableOpacity, StyleSheet, View, Text, Button } from "react-native";
+import { FC, useState, useEffect } from "react";
+import {
+  Pressable,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  Text,
+  Button,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import EnglishSection from "../components/EnglishSection";
 import { Margin, FontFamily, Color } from "../GlobalStyles";
 import { ScrollView } from "react-native-gesture-handler";
-import {GestureHandlerRootView} from "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import SettingsLangDropdown from "../components/SettingsLangDropdown";
 import SettingsContainer from "../components/SettingsContainer";
 import { useNavigation } from "@react-navigation/native";
 
-const Settings : FC = () => {
+const Settings: FC = () => {
   const navigation = useNavigation();
   const [selectedButton, setSelectedButton] = useState(null);
-  
+
   const onPressButton = (buttonID) => {
     setSelectedButton(buttonID);
-    AsyncStorage.setItem('selectedButton', buttonID.toString());
-  };   
+    AsyncStorage.setItem("selectedButton", buttonID.toString());
+  };
 
   useEffect(() => {
-    AsyncStorage.getItem('selectedButton').then(value => {
+    AsyncStorage.getItem("selectedButton").then((value) => {
       if (value !== null) {
         setSelectedButton(parseInt(value));
       }
     });
   }, []);
 
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-    <ScrollView>
-    <View style={[styles.settings, styles.settingsLayout]}>
-      <View style={[styles.navbar, styles.navbarFlexBox]}>
-        <Image
-          style={styles.logosIcon}
-          resizeMode="cover"
-          source={require("../assets/logos.png")}
-        />
-        <View
-          style={[
-            styles.frameParent,
-            styles.iconsFlexBox,
-            styles.iconsFlexBox1,
-          ]}
-        >
-          <View style={[styles.subtractParent, styles.subtractLayout]}>
-            <View style={[styles.subtract, styles.subtractLayout]}>
-              <View
-                style={[
-                  styles.subtractChild,
-                  styles.childPosition,
-                  styles.subtractLayout,
-                ]}
-              />
-              <View style={styles.subtractItem} />
-            </View>
+      <ScrollView>
+        <View style={[styles.settings, styles.settingsLayout]}>
+          <View style={[styles.navbar, styles.navbarFlexBox]}>
             <Image
-              style={[styles.frameChild, styles.childPosition]}
+              style={styles.logosIcon}
               resizeMode="cover"
-              source={require("../assets/rectangle-2051.png")}
+              source={require("../assets/logos.png")}
             />
             <View
-              style={[styles.icons, styles.iconsFlexBox, styles.iconsFlexBox1]}
+              style={[
+                styles.frameParent,
+                styles.iconsFlexBox,
+                styles.iconsFlexBox1,
+              ]}
             >
+              <View style={[styles.subtractParent, styles.subtractLayout]}>
+                <View style={[styles.subtract, styles.subtractLayout]}>
+                  <View
+                    style={[
+                      styles.subtractChild,
+                      styles.childPosition,
+                      styles.subtractLayout,
+                    ]}
+                  />
+                  <View style={styles.subtractItem} />
+                </View>
+                <Image
+                  style={[styles.frameChild, styles.childPosition]}
+                  resizeMode="cover"
+                  source={require("../assets/rectangle-2051.png")}
+                />
+                <View
+                  style={[
+                    styles.icons,
+                    styles.iconsFlexBox,
+                    styles.iconsFlexBox1,
+                  ]}
+                >
+                  <Image
+                    style={[styles.bellIcon, styles.settingsLayout]}
+                    resizeMode="cover"
+                    source={require("../assets/bell.png")}
+                  />
+                </View>
+              </View>
               <Image
-                style={[styles.bellIcon, styles.settingsLayout]}
+                style={[
+                  styles.pexelsPhoto115973081Icon,
+                  styles.ml18,
+                  styles.subtractLayout,
+                ]}
                 resizeMode="cover"
-                source={require("../assets/bell.png")}
+                source={require("../assets/pexelsphoto11597308-1.png")}
               />
             </View>
           </View>
           <Image
-            style={[
-              styles.pexelsPhoto115973081Icon,
-              styles.ml18,
-              styles.subtractLayout,
-            ]}
+            style={[styles.fare13, styles.mt_2, styles.fare13Position]}
             resizeMode="cover"
-            source={require("../assets/pexelsphoto11597308-1.png")}
+            source={require("../assets/fare-1-3.png")}
           />
-        </View>
-      </View>
-      <Image
-        style={[styles.fare13, styles.mt_2, styles.fare13Position]}
-        resizeMode="cover"
-        source={require("../assets/fare-1-3.png")}
-      />
-      <Text style={[styles.tripsmart, styles.mt_2, styles.tripsmartLayout]}>
-        TripSmart
-      </Text>
-      {/* <View style={styles.container}>
+          <Text style={[styles.tripsmart, styles.mt_2, styles.tripsmartLayout]}>
+            TripSmart
+          </Text>
+          {/* <View style={styles.container}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
@@ -98,92 +109,109 @@ const Settings : FC = () => {
           <SettingsLangDropdown />
         </ScrollView>
       </View> */}
-      <EnglishSection />
-      <Text style={[styles.settings1, styles.mt_2]}>{`Settings `}</Text>
-      <View
-        style={[
-          styles.changePasswordWrapper,
-          styles.mt_2,
-          styles.changeWrapperFlexBox,
-        ]}
-      >
-        <Text
-          style={[
-            styles.changePassword,
-            styles.changeTypo,
-            styles.tripsmartLayout,
-          ]}
-        >
-          Change Password
-        </Text>
-      </View>
-      <View
-        style={[
-          styles.changeEmailWrapper,
-          styles.mt_2,
-          styles.changeWrapperFlexBox,
-        ]}
-      >
-        <Text
-          style={[
-            styles.changePassword,
-            styles.changeTypo,
-            styles.tripsmartLayout,
-          ]}
-        >
-          Change Email
-        </Text>
-      </View>
-      <View style={[styles.frameContainer, styles.mt_2, styles.framePosition]}>
-       <Pressable
-        style={[styles.wrapperLayout, selectedButton === 1 && styles.kmh2Wrapper]}
-        onPress={() => {
-          onPressButton(1)
-          navigation.navigate("ResultList")
-        }
-        }
-       >
-          <View>
-            <Image
-              style={[styles.kmh2Icon, styles.iconLayout]}
-              resizeMode="cover"
-              source={require("../assets/kmh-2.png")}
-            />
+          <EnglishSection />
+          <Text style={[styles.settings1, styles.mt_2]}>{`Settings `}</Text>
+
+          <View
+            style={[
+              styles.changePasswordWrapper,
+              styles.mt_2,
+              styles.changeWrapperFlexBox,
+            ]}
+          >
+            <Pressable onPress={() => navigation.navigate("LoginPage")}>
+              <Text
+                style={[
+                  styles.changePassword,
+                  styles.changeTypo,
+                  styles.tripsmartLayout,
+                ]}
+              >
+                Log Out
+              </Text>
+            </Pressable>
           </View>
-        </Pressable >
-        <Text style={[styles.km, styles.mt12, styles.kmTypo]}>
-          KM
-        </Text>
-      </View>
-      <View style={[styles.frameParent1, styles.mt_2, styles.framePosition]}>
-        <Pressable
-          style={[styles.wrapperLayout, selectedButton === 2 && styles.kmh2Wrapper]}
-          onPress={() => {
-            onPressButton(2)
-            navigation.navigate("ResultList")
-          }
-          }
-        >
-          <View>
-            <Image
-              style={[styles.kmh1Icon, styles.iconLayout]}
-              resizeMode="cover"
-              source={require("../assets/kmh-1.png")}
-            />
+
+          <View
+            style={[
+              styles.changeEmailWrapper,
+              styles.mt_2,
+              styles.changeWrapperFlexBox,
+            ]}
+          >
+            <Pressable onPress={() => navigation.navigate("changePassword")}>
+              <Text
+                style={[
+                  styles.changePassword,
+                  styles.changeTypo,
+                  styles.tripsmartLayout,
+                ]}
+              >
+                Change Password
+              </Text>
+            </Pressable>
           </View>
-        </Pressable >
-        <Text style={[styles.miles, styles.mt12, styles.kmTypo]}>
-          Miles
-        </Text>
-      </View>
-      <Text
-        style={[styles.changeDistanceMetrics, styles.mt_2, styles.changeTypo]}
-      >
-        Change Distance Metrics
-      </Text>
-    </View>
-    </ScrollView>
-      <SettingsContainer />
+
+          <View
+            style={[styles.frameContainer, styles.mt_2, styles.framePosition]}
+          >
+            <Pressable
+              style={[
+                styles.wrapperLayout,
+                selectedButton === 1 && styles.kmh2Wrapper,
+              ]}
+              onPress={() => {
+                onPressButton(1);
+                //navigation.navigate("ResultList");
+              }}
+            >
+              <View>
+                <Image
+                  style={[styles.kmh2Icon, styles.iconLayout]}
+                  resizeMode="cover"
+                  source={require("../assets/kmh-2.png")}
+                />
+              </View>
+            </Pressable>
+            <Text style={[styles.km, styles.mt12, styles.kmTypo]}>KM</Text>
+          </View>
+          <View
+            style={[styles.frameParent1, styles.mt_2, styles.framePosition]}
+          >
+            <Pressable
+              style={[
+                styles.wrapperLayout,
+                selectedButton === 2 && styles.kmh2Wrapper,
+              ]}
+              onPress={() => {
+                onPressButton(2);
+                //navigation.navigate("ResultList");
+              }}
+            >
+              <View>
+                <Image
+                  style={[styles.kmh1Icon, styles.iconLayout]}
+                  resizeMode="cover"
+                  source={require("../assets/kmh-1.png")}
+                />
+              </View>
+            </Pressable>
+            <Text style={[styles.miles, styles.mt12, styles.kmTypo]}>
+              Miles
+            </Text>
+          </View>
+          <Text
+            style={[
+              styles.changeDistanceMetrics,
+              styles.mt_2,
+              styles.changeTypo,
+            ]}
+          >
+            Change Distance Metrics
+          </Text>
+        </View>
+      </ScrollView>
+      <SettingsContainer selectedButton={"Settings"} />
     </GestureHandlerRootView>
   );
 };
@@ -483,7 +511,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     paddingVertical: 50,
   },
 });

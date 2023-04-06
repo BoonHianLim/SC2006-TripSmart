@@ -28,7 +28,6 @@ import {
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Button } from "@rneui/themed";
 import { AntDesign } from "@expo/vector-icons";
-import Register1 from "./Register1";
 
 const Login = () => {
   const navigation = useNavigation();
@@ -93,7 +92,7 @@ const Login = () => {
       if (data.document != null) {
         storeData("User");
         storeEmail(email);
-        navigation.navigate("SearchPage1");
+        navigation.navigate("ResultList");
       } else {
         //alert user that email or password is incorrect
         Alert.alert("Error", "Email or password is incorrect", [
@@ -238,23 +237,12 @@ const Login = () => {
             <Button
               title="Temporary: Login without password"
               onPress={() => {
-                navigation.navigate("SearchPage1");
+                navigation.navigate("ResultList");
                 storeData("User");
               }}
             />
           </View>
-          <Pressable>
-            <Text
-              style={{
-                fontFamily: FontFamily.montserratMedium,
-                fontSize: responsiveScreenFontSize(2),
-                color: Color.textColorsLighter,
-                marginBottom: "3%",
-              }}
-            >
-              Forgot Your Password?
-            </Text>
-          </Pressable>
+          <Pressable></Pressable>
           <View
             style={{
               alignItems: "center",
@@ -282,7 +270,7 @@ const Login = () => {
               >
                 Don't have an account?{" "}
               </Text>
-              <Pressable onPress={() => navigation.navigate(Register1)}>
+              <Pressable onPress={() => navigation.navigate("Register1")}>
                 <Text
                   style={{
                     fontFamily: FontFamily.montserratMedium,

@@ -25,11 +25,6 @@ const GreetingPage1 = () => {
   const myImage = require("../assets/backgroundimg.png");
 
   return (
-    <ScrollView
-    style={{
-      flexGrow: 1,
-    }}
-    >
       <ImageBackground
         source={myImage}
         style={{
@@ -37,50 +32,55 @@ const GreetingPage1 = () => {
           height: "100%",
           alignItems: "center"
         }}
+        resizeMode='cover'
       >
-        <View
+        <ScrollView
           style={{
-            margin: responsiveScreenFontSize(4),
-            marginTop: "90%",
-            alignItems: "center"
-            
+            flexGrow: 1,
           }}>
-          
+
+          <View
+            style={{
+              margin: "10%",
+              marginTop: "90%",
+              alignItems: "center",
+              
+            }}>
+            
+              <Text
+                style={{
+                  fontFamily: FontFamily.montserratBold,
+                  fontSize: responsiveScreenFontSize(6.0),
+                  color: "white",
+                  marginBottom: "3%",
+                }}>Welcome to <Text style={{color: Color.brandColorsCrayolaYellow}}> TripSmart</Text></Text>
+            
             <Text
               style={{
                 fontFamily: FontFamily.montserratBold,
-                fontSize: responsiveScreenFontSize(6.0),
+                fontSize: responsiveScreenFontSize(2.0),
                 color: "white",
-                marginBottom:  responsiveScreenFontSize(1)
-                
-              }}>Welcome to <Text style={{color: Color.brandColorsCrayolaYellow}}> TripSmart</Text></Text>
+              }}>The best trip-planning app in Singapore that makes commuting more stress-free and accessible for everyone!</Text>
+          </View>
+
+          <LandingPageButton nextPage = "GreetingPage2"></LandingPageButton>
           
-          <Text
+          <View
             style={{
-              fontFamily: FontFamily.montserratBold,
-              fontSize: responsiveScreenFontSize(2.0),
-              color: "white"
-            }}>The best trip-planning app in Singapore that makes commuting more stress-free and accessible for everyone!</Text>
-        </View>
-        
-        <View>
-            <LandingPageButton nextPage = "GreetingPage2"></LandingPageButton>
-        </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: "1%",
-            marginBottom: "5%"
-          }}>
-            <LandingThreeButton isSelected = {true} ></LandingThreeButton>
-            <LandingThreeButton isSelected = {false}></LandingThreeButton>
-            <LandingThreeButton isSelected = {false}></LandingThreeButton>
-        </View>
+              flexDirection: "row",
+              paddingBottom: "3%",
+              justifyContent: 'center',
+            }}>
+            <LandingThreeButton isSelected = {true} nextPage= "GreetingPage1"></LandingThreeButton>
+            <LandingThreeButton isSelected = {false} nextPage= "GreetingPage2"></LandingThreeButton>
+            <LandingThreeButton isSelected = {false} nextPage= "GreetingPage3"></LandingThreeButton>
+          </View>
         
 
+
+        </ScrollView>
       </ImageBackground>
-    </ScrollView>
+   
   );
 };
 
