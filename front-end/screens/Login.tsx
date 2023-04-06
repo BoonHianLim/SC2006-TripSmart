@@ -28,7 +28,6 @@ import {
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Button } from "@rneui/themed";
 import { AntDesign } from "@expo/vector-icons";
-import Register1 from "./Register1";
 
 const Login = () => {
   const navigation = useNavigation();
@@ -282,7 +281,7 @@ const Login = () => {
               >
                 Don't have an account?{" "}
               </Text>
-              <Pressable onPress={() => navigation.navigate(Register1)}>
+              <Pressable onPress={() => navigation.navigate("Register1")}>
                 <Text
                   style={{
                     fontFamily: FontFamily.montserratMedium,
