@@ -28,75 +28,67 @@ const GreetingPage3 = () => {
     <ScrollView
     style={{
       flexGrow: 1,
-    }}
-    >
-      <View
+      backgroundColor: Color.brandColorsCrayolaYellow
+    }}>
+
+    <View
         style={{
-          width: "100%",
-          height: "100%",
+          marginTop: "15%",
           alignItems: "center",
-          backgroundColor: Color.brandColorsCrayolaYellow
-        }}
-      >
-        <View
-          style={{
-            margin: responsiveScreenHeight(6),
-            alignItems: "center",
-            marginTop: responsiveScreenHeight(10)
-          }}>
-          
-            {/* Content put here */}
-            
-            <Image
-              resizeMode="cover"
-              source={require("../assets/payment-2.png")}
-              style={{
-                height: responsiveScreenHeight(35),
-                width: responsiveScreenHeight(35)
-              }}
-            />
-
-            <Text
-              style={{
-                fontFamily: FontFamily.montserratBold,
-                fontSize: responsiveScreenFontSize(6.0),
-                color: "black",
-                marginBottom:  responsiveScreenHeight(1),
-                textAlign: "center"
-                
-              }}
-            >Find the Cheapest Rides</Text>
-
-            <Text
-              style={{
-                fontFamily: FontFamily.montserratMedium,
-                fontSize: responsiveScreenFontSize(2.0),
-                color: "black",
-                textAlign: "center"
-                
-              }}
-            >TripSmart helps to sort your travel options by price and time so you get the best of both worlds! </Text>
-
-        </View>
+          margin: "10%"
+        }}>
         
-        <View>
-            <LandingPageButton nextPage = "LoginPage"></LandingPageButton>
-        </View>
+          {/* Content put here */}
+          
+          <Image
+            resizeMode="cover"
+            source={require("../assets/payment-2.png")}
+            style={{
+              flex: 0.25,
+              marginBottom: "10%"
+            }}
+          />
 
+          <Text
+            style={{
+              fontFamily: FontFamily.montserratBold,
+              fontSize: responsiveScreenFontSize(6.0),
+              color: "black",
+              marginBottom:  "5%",
+              textAlign: "center"
+              
+            }}
+          >Abundance of Choice</Text>
+
+          <Text
+            style={{
+              fontFamily: FontFamily.montserratMedium,
+              fontSize: responsiveScreenFontSize(2.0),
+              color: "black",
+              textAlign: "center"
+              
+            }}
+          >TripSmart let’s you compare price fares and travel timings across all the major transport options available in Singapore from ride-hailing services and taxis to car rental and public transport services!</Text>
+
+      </View>
+
+
+      <LandingPageButton nextPage = "GreetingPage2"></LandingPageButton>
+        
         <View
           style={{
             flexDirection: "row",
-            marginTop: "1%",
-            marginBottom: "5%"
+            paddingBottom: "3%",
+            justifyContent: 'center',
+            marginBottom: "3%"
           }}>
-            <LandingThreeButton isSelected = {false} ></LandingThreeButton>
-            <LandingThreeButton isSelected = {false}></LandingThreeButton>
-            <LandingThreeButton isSelected = {true}></LandingThreeButton>
+          <LandingThreeButton isSelected = {false} nextPage= "GreetingPage1"></LandingThreeButton>
+          <LandingThreeButton isSelected = {false} nextPage= "GreetingPage2"></LandingThreeButton>
+          <LandingThreeButton isSelected = {true} nextPage= "GreetingPage3"></LandingThreeButton>
         </View>
-        
 
-      </View>
-    </ScrollView>
+
+  </ScrollView>
   );
 };
 

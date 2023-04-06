@@ -16,11 +16,16 @@ const LandingThreeButton = (props: any) => {
 
   return (
 
-    <Pressable>
-    <View
-      style={[ props.isSelected ? styles.isTrue : styles.isFalse]}>
-      <Text style={{color: Color.backgroundColorsBackgroundLight1}}>Hi</Text>
-    </View>
+    <Pressable
+      style={[ props.isSelected ? styles.isTrue : styles.isFalse]}
+      onPress={()=>{navigation.navigate(props.nextPage)}}
+    >
+      
+      <View
+        // style={[ props.isSelected ? styles.isTrue : styles.isFalse]}
+        >
+        {/* <Text style={{color: Color.backgroundColorsBackgroundLight1}}>Hi</Text> */}
+      </View>
     </Pressable>
 
         
@@ -34,17 +39,20 @@ const styles = StyleSheet.create({
     borderWidth: responsiveScreenHeight(0.5),
     borderColor: "black",
     borderRadius: 10 ,
-    minWidth: "10%",
-    margin: "3%"
+    minWidth: "25%",
+    maxWidth: "25%",
+    minHeight: "3%",
+    margin: "1%"
   },
   isFalse: {
-    backgroundColor:Color.backgroundColorsBackgroundLight1,
-    marginTop: "10%",
-    borderWidth: responsiveScreenHeight(0.1),
-    borderColor: Color.brandColorsCrayolaYellow,
+    backgroundColor:"white",
+    borderWidth: responsiveScreenHeight(0.5),
+    borderColor: "black",
     borderRadius: 10 ,
-    minWidth: "10%",
-    marginRight: "5%",
+    minWidth: "25%",
+    maxWidth: "25%",
+    minHeight: "3%",
+    margin: "1%"
   }
 
 
