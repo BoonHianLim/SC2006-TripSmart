@@ -11,12 +11,12 @@ export default class Publictransport{
         this.PUBLIC_TRANSPORT_API_KEY = env.PUBLIC_TRANSPORT_API_KEY || "";
     }
 
-    async getData(start:string, end:string): Promise<[number, number]>{
+    async getData(start:string, end:string): Promise<[String, number, number]>{
 
         //Call Google Map API
         const [duration, distance] = await googlemap.getDataString(start, end, "transit");
         var fare = this.getFare(distance);
-        return [duration, fare];
+        return ["Public Transport", duration, fare];
 
     }
 
