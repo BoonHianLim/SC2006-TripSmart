@@ -1,14 +1,6 @@
 import * as React from "react";
 import { FC, useState, useEffect } from "react";
-import {
-  Pressable,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  Text,
-  Button,
-} from "react-native";
+import { Pressable, Image, StyleSheet, View, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import EnglishSection from "../components/EnglishSection";
 import { Margin, FontFamily, Color } from "../GlobalStyles";
@@ -160,10 +152,7 @@ const Settings: FC = () => {
                 styles.wrapperLayout,
                 selectedButton === 1 && styles.kmh2Wrapper,
               ]}
-              onPress={() => {
-                onPressButton(1);
-                //navigation.navigate("ResultList");
-              }}
+              onPress={() => {onPressButton(1)}}
             >
               <View>
                 <Image
@@ -183,10 +172,7 @@ const Settings: FC = () => {
                 styles.wrapperLayout,
                 selectedButton === 2 && styles.kmh2Wrapper,
               ]}
-              onPress={() => {
-                onPressButton(2);
-                //navigation.navigate("ResultList");
-              }}
+              onPress={() => {onPressButton(2)}}
             >
               <View>
                 <Image

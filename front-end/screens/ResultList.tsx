@@ -182,9 +182,7 @@ const App = () => {
                 <View style={styles.settings}/>
 
             </View>
-            <SettingsContainer 
-            selectedButton = {"Map"}
-            />
+            <SettingsContainer selectedButton={"Map"}/>
         </GestureHandlerRootView>
     );
 };
