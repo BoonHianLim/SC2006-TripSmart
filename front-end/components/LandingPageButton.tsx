@@ -15,20 +15,28 @@ const LandingPageButton = (props: any) => {
   const navigation = useNavigation();
 
   return (
-    <Button
-    title="Next"
-    buttonStyle={{
-        backgroundColor: "black",
-        alignItems: "center",     
-        borderRadius: 10,
-        paddingLeft: "16%",
-        paddingRight: "16%",
+    <View
+      style={{
+        alignItems: "center"
+      }}>
+      <View
+        style={{
+          width: "80%",     
+          marginBottom: "2%"     
+        }}>
+        <Button
+          title="Next"
+          buttonStyle={{
+              backgroundColor: "black",  
+              borderRadius: 10,
+              paddingLeft: "16%",
+              paddingRight: "16%",
+          }}
 
-
-    }}
-
-    onPress={()=>{navigation.navigate(props.nextPage)}}
-/>
+          onPress={()=>{navigation.navigate(props.nextPage)}}
+        />
+      </View>
+    </View>
   );
 };
 
