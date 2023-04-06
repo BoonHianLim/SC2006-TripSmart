@@ -8,205 +8,81 @@ import {
   Pressable,
 } from "react-native";
 import SectionCard from "../components/SectionCard";
-import BottomNavigationContainer from "../components/BottomNavigationContainer";
 import { Margin, FontFamily, Color } from "../GlobalStyles";
 import { ScrollView } from "react-native-gesture-handler";
 import { CSSProperties } from "react";
 import SettingsContainer from "../components/SettingsContainer";
-import {GestureHandlerRootView} from "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const History1 = () => {
+  const [email, setEmail] = React.useState("");
+
+  //database api to retrieve the history
+  const retrieveHistory = async () => {
+    //console.log("looking for records from database");
+    // perform login action here using email and password
+    // mongodb api here
+    try {
+      const response = await fetch(
+        "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/findAll",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Request-Headers": "*",
+            "api-key":
+              "gzmrGJqDsVF9pOB6XO7nDxasKLWgOh4pOZe7LlIdQ4SXaeI1UMxJN8CSDHxJTgVM",
+          },
+
+          body: JSON.stringify({
+            dataSource: "seventh",
+            database: "Account",
+            collection: "deepLinkHistory",
+            filter: {
+              email: email,
+            },
+          }),
+        }
+      );
+      const data = await response.json();
+      if (data.document != null) {
+        console.log(data);
+      } else {
+        console.log("History might be empty");
+      }
+    } catch (err) {
+      console.log("error retrieving data: ", err);
+    }
+  };
+
+  //get email from localstorage
+  const getStatus = async () => {
+    try {
+      const value = await AsyncStorage.getItem("@storage_Email");
+      if (value != null) {
+        setEmail(value);
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
+
   const { width, height } = Dimensions.get("window");
   return (
+    getStatus(),
+    (
       <GestureHandlerRootView style={{ flex: 1 }}>
-    <ScrollView>
-    <View style={styles.history}>
-      <View style={[styles.navbar, styles.navbarFlexBox]}>
-        <Image
-          style={styles.logosIcon}
-          resizeMode="cover"
-          source={require("../assets/logos.png")}
-        />
-        <View style={[styles.frameParent, styles.iconsFlexBox]}>
-          <View style={[styles.subtractParent, styles.subtractLayout]}>
-            <View style={[styles.subtract, styles.subtractLayout]}>
-              <View
-                style={[
-                  styles.subtractChild,
-                  styles.framePosition,
-                  styles.subtractLayout,
-                ]}
-              />
-              <View style={styles.subtractItem} />
-            </View>
-            <Image
-              style={styles.frameChild}
-              resizeMode="cover"
-              source={require("../assets/rectangle-2051.png")}
-            />
-            <View
-              style={[styles.icons, styles.iconsPosition, styles.iconsFlexBox]}
-            >
-              <Image
-                style={styles.iconLayout}
-                resizeMode="cover"
-                source={require("../assets/bell.png")}
-              />
-            </View>
-          </View>
-          <Image
-            style={[
-              styles.pexelsPhoto115973081Icon,
-              styles.ml18,
-              styles.subtractLayout,
-            ]}
-            resizeMode="cover"
-            source={require("../assets/pexelsphoto11597308-1.png")}
-          />
-        </View>
-      </View>
-      <Image
-        style={[styles.fare13, styles.mt_2, styles.iconPosition]}
-        resizeMode="cover"
-        source={require("../assets/fare-1-3.png")}
-      />
-      <Text style={[styles.tripsmart, styles.mt_2, styles.tripsmartTypo]}>
-        TripSmart
-      </Text>
-      <Text
-        style={[
-          styles.overallMonthlyTrip,
-          styles.mt_2,
-          styles.yourTypo,
-          styles.overallMonthlyTripTypo,
-        ]}
-      >
-        Overall Monthly Trip Stats
-      </Text>
-      <View style={[styles.frameGroup, styles.mt_2, styles.frameLayout]}>
-        <View
-          style={[
-            styles.frameContainer,
-            styles.framePosition,
-            styles.navbarFlexBox,
-          ]}
-        >
-          <View style={styles.iconsLayout}>
-            <View
-              style={[styles.icons1, styles.icons1Layout, styles.iconsFlexBox]}
-            >
-              <Image
-                style={[styles.walletIcon, styles.iconLayout]}
-                resizeMode="cover"
-                source={require("../assets/wallet.png")}
-              />
-            </View>
-            <Image
-              style={[
-                styles.walletFilledMoneyTool1Icon,
-                styles.ml8_01,
-                styles.iconPosition,
-              ]}
-              resizeMode="cover"
-              source={require("../assets/walletfilledmoneytool-1.png")}
-            />
-          </View>
-          <View style={styles.ml11_21}>
-            <Text style={[styles.moneySpent, styles.yourTypo]}>
-              Money Spent
-            </Text>
-            <View style={[styles.wrapperFlexBox, styles.mt8_01]}>
-              <Text style={[styles.text, styles.kmTypo]}>$95.38</Text>
-            </View>
-          </View>
-        </View>
-        <View style={[styles.frameView, styles.frameLayout]}>
-          <View
-            style={[
-              styles.iconsGroup,
-              styles.iconsLayout,
-              styles.framePosition,
-            ]}
-          >
-            <View
-              style={[styles.icons1, styles.icons1Layout, styles.iconsFlexBox]}
-            >
-              <Image
-                style={[styles.walletIcon, styles.iconLayout]}
-                resizeMode="cover"
-                source={require("../assets/wallet1.png")}
-              />
-            </View>
-            <Image
-              style={[
-                styles.icons1Layout,
-                styles.ml8_01,
-                styles.iconPosition,
-                styles.iconsPosition,
-              ]}
-              resizeMode="cover"
-              source={require("../assets/distance-1.png")}
-            />
-          </View>
-          <View style={styles.distanceTravelledParent}>
-            <Text style={[styles.moneySpent, styles.yourTypo]}>
-              Distance Travelled
-            </Text>
-            <View
-              style={[styles.kmWrapper, styles.mt8_01, styles.wrapperFlexBox]}
-            >
-              <Text style={[styles.km, styles.kmTypo]}>65.43km</Text>
-            </View>
-          </View>
-        </View>
-      </View>
-      <Text style={[styles.tripHistory, styles.mt_2, styles.tripsmartTypo]}>
-        Trip History
-      </Text>
-      <View style={[styles.frameParent1, styles.mt_2, styles.framePosition]}>
-        <View style={styles.yourStatisticsParent}>
-          <Text style={[styles.yourStatistics, styles.yourTypo]}>
-            Your Statistics
-          </Text>
-          <Text
-            style={[styles.gainInsightInto, styles.mt8_78, styles.gainTypo]}
-          >
-            Gain insight into your trips where you have used TripSmart
-          </Text>
-        </View>
-        <SectionCard />
-      </View>
-      <View style={[styles.yourDetailedHistoryParent, styles.mt_2]}>
-        <Text
-          style={[
-            styles.yourDetailedHistory,
-            styles.yourTypo,
-            styles.overallMonthlyTripTypo,
-          ]}
-        >
-          Your Detailed History
-        </Text>
-        <Text style={[styles.gainInsightInto1, styles.mt10, styles.gainTypo]}>
-          Gain insight into your TripSmart Trip History
-        </Text>
-        <Image
-          resizeMode="contain"
-          source={require("../assets/history.png")}
-          style= {{width: "100%",top:"-22%"}}
-        />
-      </View>
-
-    </View>
-
-    </ScrollView>
-      <SettingsContainer 
-        selectedButton = {"History"}
-        />
+        <ScrollView>
+          {/* render the history using the retrieveHistory function */}
+        </ScrollView>
+        <SettingsContainer selectedButton={"History"} />
       </GestureHandlerRootView>
-
+    )
   );
 };
 
+//most of these styles are not being used here
 const styles = StyleSheet.create({
   ml18: {
     marginLeft: Margin.m_lg,
@@ -501,7 +377,7 @@ const styles = StyleSheet.create({
   },
   history: {
     backgroundColor: Color.textColorsInverse,
-    height: Dimensions.get("window").height *1.63, 
+    height: Dimensions.get("window").height * 1.63,
     alignItems: "center",
     overflow: "hidden",
     width: "100%",
