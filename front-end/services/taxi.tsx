@@ -2,6 +2,31 @@ import env from "../env";
 import React, { useEffect, useState } from "react";
 import { googlemap } from "./googlemap";
 import { Result } from "../types/Result";
+<<<<<<< HEAD
+=======
+
+//figure out the number of pax, the prices for different number of people selected
+const getComfortRIDE() = (minutes: any, distance: any) => {
+    const baseFare = 2.8;
+    const perKm = 0.5;
+    const perMin = 0.15;
+    var totalCost = 0;
+
+    totalCost = (baseFare + (perKm*distance) + (perMin*minutes));
+
+    if(totalCost < 6.00)
+    {
+        totalCost = 6.00;
+    }
+    return totalCost;
+}
+
+const getFare() = (minutes: any, distance: any) => {
+
+    
+}
+
+>>>>>>> 204e9f2 (taxi_update)
 
 //1) taxi calculation using (ComfortRIDE* FARE)
 const getComfortRIDEFare = (minutes: number, distance: number, pax: number) => {
@@ -182,6 +207,7 @@ export default class Taxi{
         this.TAXI_API_KEY = env.TAXI_API_KEY || "";
     }
 
+<<<<<<< HEAD
     async getResult(start: string, end: string, pax: number = 1): Promise<Result> {
         return {
             name: "taxi",
@@ -189,6 +215,15 @@ export default class Taxi{
                 "https://store-images.s-microsoft.com/image/apps.9463.13510798886741576.cfb94528-9fce-4968-a11c-6e8254d7348a.5a2ccb0a-c7da-4314-b0da-d36586068cde",
             data: this.getData(start, end, pax),
         };
+=======
+    async getData(start:string, end:string, pax: number = 1): Promise<[number, number]>{
+        // Please complete the code here
+        const getStartLat = 1.3376342844358233;
+        const getStartLng = 103.69414958176533;
+
+
+
+>>>>>>> 204e9f2 (taxi_update)
     }
     async getData(start:string, end:string, pax: number = 1): Promise<[string, number, number][]>{
         
