@@ -1,4 +1,12 @@
-import {Dimensions, Image, Pressable, StyleSheet, Text, View, TouchableHighlight, ScrollView } from "react-native";
+import {
+    Dimensions,
+    Image,
+    Pressable,
+    StyleSheet,
+    Text,
+    View,
+    BackHandler
+} from "react-native";
 import {Avatar, ListItem} from "@rneui/base";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
@@ -10,15 +18,8 @@ const promises: Promise<[number,number]>[] = [
     Promise.resolve([3,6]),
     Promise.resolve([2,5])
 ];
-const ResultListScroll = ({changeState}) => {
-
-    // variables
-    const snapPoints = useMemo(() => ["25%", "76.5%"], []);
-    const bottomSheetRef = useRef<BottomSheet>(null);
-    const navigation = useNavigation();
-
+const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
     const [sortedValues, setSortedValues] = useState<number[][]>([]);
-    const [isCheap, setCheap] = useState<boolean>(true);
 
     const lightArrowLink = require("../assets/arrow-2.png");
     const dimArrowLink = require("../assets/arrow-21.png");
@@ -27,6 +28,18 @@ const ResultListScroll = ({changeState}) => {
     // callbacks
     const handleSheetChanges = useCallback((index: number) => {
         console.log("handleSheetChanges", index);
+    }, []);
+
+    function handleBackButtonClick() {
+        changeState("searchPage")
+        return true;
+    }
+
+    useEffect(() => {
+        BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+        return () => {
+            BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
+        };
     }, []);
 
     //utility functions
@@ -59,7 +72,7 @@ const ResultListScroll = ({changeState}) => {
                     <View style={styles.header}>
                         <Pressable
                             style={[styles.leftButton,styles.headerChild]}
-                            onPress={() => navigation.navigate("SearchPage1")}
+                            onPress={() => changeState("searchPage")}
                         >
                             <Image
                                 style={styles.headerChild}
@@ -86,7 +99,8 @@ const ResultListScroll = ({changeState}) => {
                     <View style = {styles.sortingHeader}>
                         <View style={[styles.groupLayout]}>
                             <Pressable
-                                onPress={() => setCheap(true)}
+                                onPress={() => {setCheap(true);
+                                }}
                                 style = {{flexDirection:"row"}}
                             >
                                 <Text style={[isCheap? styles.lightText: styles.dimText, styles.sortingHeaderText]}>
@@ -100,7 +114,7 @@ const ResultListScroll = ({changeState}) => {
                         </View>
                         <View style={[styles.groupLayout]}>
                             <Pressable
-                                onPress={() => setCheap(false)}
+                                onPress={() => {setCheap(false);}}
                                 style = {{flexDirection:"row"}}
                             >
                                 <Text style={[isCheap? styles.dimText: styles.lightText, styles.sortingHeaderText]}>
