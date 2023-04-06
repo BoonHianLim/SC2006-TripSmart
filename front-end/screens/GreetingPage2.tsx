@@ -6,7 +6,7 @@ import {
   Text,
   View,
   Pressable,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import {
   responsiveScreenHeight,
@@ -26,65 +26,75 @@ const GreetingPage2 = () => {
     <ScrollView
       style={{
         flexGrow: 1,
-        backgroundColor: Color.brandColorsCrayolaYellow
-      }}>
+        backgroundColor: Color.brandColorsCrayolaYellow,
+      }}
+    >
+      <View
+        style={{
+          marginTop: "25%",
+          alignItems: "center",
+          margin: "10%",
+        }}
+      >
+        {/* Content put here */}
+
+        <Image
+          resizeMode="cover"
+          source={require("../assets/selfdriving-2.png")}
+          style={{
+            flex: 1,
+            marginBottom: "10%",
+          }}
+        />
+
+        <Text
+          style={{
+            fontFamily: FontFamily.montserratBold,
+            fontSize: responsiveScreenFontSize(6.0),
+            color: "black",
+            marginBottom: "5%",
+            textAlign: "center",
+          }}
+        >
+          Abundance of Choice
+        </Text>
+
+        <Text
+          style={{
+            fontFamily: FontFamily.montserratMedium,
+            fontSize: responsiveScreenFontSize(2.0),
+            color: "black",
+            textAlign: "center",
+          }}
+        >
+          TripSmart let’s you compare price fares and travel timings across all
+          the major transport options available in Singapore from ride-hailing
+          services and taxis to car rental and public transport services!
+        </Text>
+      </View>
+
+      <LandingPageButton nextPage="GreetingPage3"></LandingPageButton>
 
       <View
-          style={{
-            marginTop: "25%",
-            alignItems: "center",
-            margin: "10%"
-          }}>
-          
-            {/* Content put here */}
-            
-            <Image
-              resizeMode="cover"
-              source={require("../assets/selfdriving-2.png")}
-              style={{
-                flex: 1,
-                marginBottom: "10%"
-              }}
-            />
-
-            <Text
-              style={{
-                fontFamily: FontFamily.montserratBold,
-                fontSize: responsiveScreenFontSize(6.0),
-                color: "black",
-                marginBottom:  "5%",
-                textAlign: "center"
-                
-              }}
-            >Abundance of Choice</Text>
-
-            <Text
-              style={{
-                fontFamily: FontFamily.montserratMedium,
-                fontSize: responsiveScreenFontSize(2.0),
-                color: "black",
-                textAlign: "center"
-                
-              }}
-            >TripSmart let’s you compare price fares and travel timings across all the major transport options available in Singapore from ride-hailing services and taxis to car rental and public transport services!</Text>
-
-        </View>
-
-
-        <LandingPageButton nextPage = "GreetingPage2"></LandingPageButton>
-          
-          <View
-            style={{
-              flexDirection: "row",
-              paddingBottom: "3%",
-              justifyContent: 'center',
-            }}>
-            <LandingThreeButton isSelected = {false} nextPage= "GreetingPage1"></LandingThreeButton>
-            <LandingThreeButton isSelected = {true} nextPage= "GreetingPage2"></LandingThreeButton>
-            <LandingThreeButton isSelected = {false} nextPage= "GreetingPage3"></LandingThreeButton>
-          </View>
-
-
+        style={{
+          flexDirection: "row",
+          paddingBottom: "3%",
+          justifyContent: "center",
+        }}
+      >
+        <LandingThreeButton
+          isSelected={false}
+          nextPage="GreetingPage1"
+        ></LandingThreeButton>
+        <LandingThreeButton
+          isSelected={true}
+          nextPage="GreetingPage2"
+        ></LandingThreeButton>
+        <LandingThreeButton
+          isSelected={false}
+          nextPage="GreetingPage3"
+        ></LandingThreeButton>
+      </View>
     </ScrollView>
   );
 };

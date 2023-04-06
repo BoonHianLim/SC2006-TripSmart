@@ -242,18 +242,7 @@ const Login = () => {
               }}
             />
           </View>
-          <Pressable>
-            <Text
-              style={{
-                fontFamily: FontFamily.montserratMedium,
-                fontSize: responsiveScreenFontSize(2),
-                color: Color.textColorsLighter,
-                marginBottom: "3%",
-              }}
-            >
-              Forgot Your Password?
-            </Text>
-          </Pressable>
+          <Pressable></Pressable>
           <View
             style={{
               alignItems: "center",

@@ -26,69 +26,79 @@ const GreetingPage3 = () => {
 
   return (
     <ScrollView
-    style={{
-      flexGrow: 1,
-      backgroundColor: Color.brandColorsCrayolaYellow
-    }}>
-
-    <View
+      style={{
+        flexGrow: 1,
+        backgroundColor: Color.brandColorsCrayolaYellow,
+      }}
+    >
+      <View
         style={{
           marginTop: "15%",
           alignItems: "center",
-          margin: "10%"
-        }}>
-        
-          {/* Content put here */}
-          
-          <Image
-            resizeMode="cover"
-            source={require("../assets/payment-2.png")}
-            style={{
-              flex: 0.25,
-              marginBottom: "10%"
-            }}
-          />
+          margin: "10%",
+        }}
+      >
+        {/* Content put here */}
 
-          <Text
-            style={{
-              fontFamily: FontFamily.montserratBold,
-              fontSize: responsiveScreenFontSize(6.0),
-              color: "black",
-              marginBottom:  "5%",
-              textAlign: "center"
-              
-            }}
-          >Abundance of Choice</Text>
+        <Image
+          resizeMode="cover"
+          source={require("../assets/payment-2.png")}
+          style={{
+            flex: 0.25,
+            marginBottom: "10%",
+          }}
+        />
 
-          <Text
-            style={{
-              fontFamily: FontFamily.montserratMedium,
-              fontSize: responsiveScreenFontSize(2.0),
-              color: "black",
-              textAlign: "center"
-              
-            }}
-          >TripSmart let’s you compare price fares and travel timings across all the major transport options available in Singapore from ride-hailing services and taxis to car rental and public transport services!</Text>
+        <Text
+          style={{
+            fontFamily: FontFamily.montserratBold,
+            fontSize: responsiveScreenFontSize(6.0),
+            color: "black",
+            marginBottom: "5%",
+            textAlign: "center",
+          }}
+        >
+          Abundance of Choice
+        </Text>
 
+        <Text
+          style={{
+            fontFamily: FontFamily.montserratMedium,
+            fontSize: responsiveScreenFontSize(2.0),
+            color: "black",
+            textAlign: "center",
+          }}
+        >
+          TripSmart let’s you compare price fares and travel timings across all
+          the major transport options available in Singapore from ride-hailing
+          services and taxis to car rental and public transport services!
+        </Text>
       </View>
 
+      <LandingPageButton nextPage="Login"></LandingPageButton>
 
-      <LandingPageButton nextPage = "GreetingPage2"></LandingPageButton>
-        
-        <View
-          style={{
-            flexDirection: "row",
-            paddingBottom: "3%",
-            justifyContent: 'center',
-            marginBottom: "3%"
-          }}>
-          <LandingThreeButton isSelected = {false} nextPage= "GreetingPage1"></LandingThreeButton>
-          <LandingThreeButton isSelected = {false} nextPage= "GreetingPage2"></LandingThreeButton>
-          <LandingThreeButton isSelected = {true} nextPage= "GreetingPage3"></LandingThreeButton>
-        </View>
-
-
-  </ScrollView>
+      <View
+        style={{
+          flexDirection: "row",
+          paddingBottom: "3%",
+          justifyContent: "center",
+          marginBottom: "3%",
+        }}
+      >
+        <LandingThreeButton
+          isSelected={false}
+          nextPage="GreetingPage1"
+        ></LandingThreeButton>
+        <LandingThreeButton
+          isSelected={false}
+          nextPage="GreetingPage2"
+        ></LandingThreeButton>
+        <LandingThreeButton
+          isSelected={true}
+          nextPage="GreetingPage3"
+        ></LandingThreeButton>
+      </View>
+    </ScrollView>
   );
 };
 
