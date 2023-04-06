@@ -16,6 +16,7 @@ import LoginPage from "./screens/LoginPage";
 import GreetingPage3 from "./screens/GreetingPage3";
 import GreetingPage2 from "./screens/GreetingPage2";
 import LoadingScreen from "./screens/LoadingScreen";
+import changePassword from "./screens/changePassword";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
@@ -69,6 +70,11 @@ const App = () => {
             <Stack.Screen
               name="SearchPage2"
               component={SearchPage2}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="changePassword"
+              component={changePassword}
               options={{ headerShown: false }}
             />
             <Stack.Screen
