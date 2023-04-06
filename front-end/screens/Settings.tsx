@@ -139,7 +139,7 @@ const Settings : FC = () => {
         style={[styles.wrapperLayout, selectedButton === 1 && styles.kmh2Wrapper]}
         onPress={() => {
           onPressButton(1)
-          navigation.navigate("ResultList")
+          // navigation.navigate("ResultList")
         }
         }
        >
@@ -160,7 +160,7 @@ const Settings : FC = () => {
           style={[styles.wrapperLayout, selectedButton === 2 && styles.kmh2Wrapper]}
           onPress={() => {
             onPressButton(2)
-            navigation.navigate("ResultList")
+            // navigation.navigate("ResultList")
           }
           }
         >
@@ -183,7 +183,9 @@ const Settings : FC = () => {
       </Text>
     </View>
     </ScrollView>
-      <SettingsContainer />
+      <SettingsContainer 
+      selectedButton = {"Settings"}
+      />
     </GestureHandlerRootView>
   );
 };
