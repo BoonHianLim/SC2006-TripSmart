@@ -10,4 +10,4 @@ ip_address = s.getsockname()[0]
 print(ip_address)
 s.close()
 
-os.system('flask run --host='+ip_address)
+os.system('python -m flask run --host='+ip_address)
