@@ -1,4 +1,7 @@
 import os
+
+os.system('pip install -r requirements.txt')
+
 import socket
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
