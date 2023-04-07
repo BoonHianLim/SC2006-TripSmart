@@ -26,6 +26,7 @@ import SearchPageScroll from "../components/SearchPageScroll";
 import BottomSheet, {BottomSheetScrollView} from "@gorhom/bottom-sheet";
 import MapViewDirections from "react-native-maps-directions";
 import devEnvironmentVariables from "../env";
+import {grab} from "../services/grabscrapper";
 
 
 const App = () => {
@@ -130,6 +131,7 @@ const App = () => {
                 throw new Error();
         }
     }
+
     return (
         <GestureHandlerRootView style={{flex: 1}}>
             <View style={styles.container}>
@@ -182,9 +184,7 @@ const App = () => {
                 <View style={styles.settings}/>
 
             </View>
-            <SettingsContainer 
-            selectedButton = {"Map"}
-            />
+            <SettingsContainer selectedButton={"Map"}/>
         </GestureHandlerRootView>
     );
 };

@@ -1,27 +1,35 @@
 import * as React from "react";
-import { useState } from "react";
-import {
-  Dimensions,
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  Pressable,
-} from "react-native";
+import { useState, useEffect } from "react";
+import { Dimensions, StyleSheet, View, Image, Text, Pressable } from "react-native";
 import { Margin, FontFamily, Color, FontSize } from "../GlobalStyles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const PassengersSection = () => {
   const [num, setNum] = useState(0);
+
   const handleMinusPress = () => {
     if (num > 0) {
       setNum(num - 1);
+      AsyncStorage.setItem("num", (num - 1).toString());
     }
   };
+
   const handlePlusPress = () => {
     if (num < 9) {
       setNum(num + 1);
+      AsyncStorage.setItem("num", (num + 1).toString());
     }
   };
+
+  useEffect(() => {
+    AsyncStorage.getItem("num").then(value => {
+      if (value !== null) {
+        setNum(parseInt(value));
+      }
+    });
+  }, []);
+
   return (
     <View style={styles.numberOfPassengersParent}>
       <Text style={[styles.numberOfPassengers, styles.passengersTypo]}>
@@ -36,9 +44,9 @@ const PassengersSection = () => {
             <View style={[styles.frameParent, styles.parentFlexBox]}>
               <View style={styles.iconsWrapper}>
                 <Pressable
-                    style={[styles.iconsFlexBox, styles.iconsLayout]}
-                    onPress={handleMinusPress}
-                  >
+                  style={[styles.iconsFlexBox, styles.iconsLayout]}
+                  onPress={handleMinusPress}
+                >
                   <Image
                     style={[styles.minusIcon, styles.minusIconFlexBox]}
                     resizeMode="cover"
@@ -52,8 +60,8 @@ const PassengersSection = () => {
               <View style={[styles.iconsContainer, styles.ml29]}>
                 <Pressable
                   style={[styles.icons1,styles.iconsFlexBox,styles.iconsLayout,]}
-                    onPress={handlePlusPress}
-                  >
+                  onPress={handlePlusPress}
+                >
                   <Image
                     style={[styles.minusIcon, styles.minusIconFlexBox]}
                     resizeMode="cover"

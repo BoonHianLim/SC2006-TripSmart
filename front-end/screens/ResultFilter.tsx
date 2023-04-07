@@ -65,7 +65,7 @@ const ResultFilter = () => {
         </Text>
       </View>
       </View>
-      <SettingsContainer />
+      <SettingsContainer selectedButton={undefined} />
     </View>
   );
 };
