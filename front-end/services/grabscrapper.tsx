@@ -15,9 +15,30 @@ export default class Grab {
       console.log(url)
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data.fare[0]);
       // data.fare = ["JustGrab", "21 mins", "SGD 14.24 - 19.58", "GrabCar", "21 mins", "SGD 15.84 - 21.78", "GrabCar 6", "21 mins", "SGD 19.84 - 27.28"]
-      return data;
+      const result: Result = {
+        name: "Grab",
+        iconURL: "https://seeklogo.com/images/G/grab-logo-7020E74857-seeklogo.com.png",
+        data: [
+            Promise.resolve([data.fare[0], parseInt(data.fare[1], 10), parseFloat(data.fare[2].split(" ")[1])]),
+            Promise.resolve([data.fare[3], parseInt(data.fare[4], 10), parseFloat(data.fare[5].split(" ")[1])]),
+            Promise.resolve([data.fare[6], parseInt(data.fare[7], 10), parseFloat(data.fare[8].split(" ")[1])])
+        ]
+      };
+      result.data[0].then(([service, duration, price]) => {
+        console.log(`Service: ${service}, Duration: ${duration} minutes, Price: $${price}`);
+      });
+      result.data[1].then(([service, duration, price]) => {
+        console.log(`Service: ${service}, Duration: ${duration} minutes, Price: $${price}`);
+      });
+      result.data[2].then(([service, duration, price]) => {
+        console.log(`Service: ${service}, Duration: ${duration} minutes, Price: $${price}`);
+      });
+      // Showing the console.log examples for the code above:
+      // LOG  Service: JustGrab, Duration: 23 minutes, Price: $13.44
+      // LOG  Service: GrabCar, Duration: 23 minutes, Price: $14.24
+      // LOG  Service: GrabCar 6, Duration: 23 minutes, Price: $18.24
+      return result;
     } catch (error) {
       console.log(error);
       return null;

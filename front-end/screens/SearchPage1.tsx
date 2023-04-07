@@ -28,6 +28,7 @@ import { LocationGeofencingEventType } from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapViewDirections from "react-native-maps-directions";
 import Grab from "../services/grabscrapper";
+import { Result } from "../types/Result";
 
 type InputAutocompleteProps = {
   label: string;
@@ -114,7 +115,7 @@ const App = () => {
     const dropoffLocation = 'Marina Bay';
     
     const grab = new Grab();
-    console.log(grab.getGrabFare(pickupLocation, dropoffLocation,1));
+    grab.getGrabFare(pickupLocation, dropoffLocation,1);
     grab.getURL();
     getAccount();
   };
@@ -301,7 +302,6 @@ const App = () => {
 
   // renders
   return (
-    grab.getURL(),
     getHistory(),
     (emailAccount = JSON.stringify(emailAccount)),
     getStatus(),
