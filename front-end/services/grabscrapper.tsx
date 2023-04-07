@@ -15,7 +15,8 @@ export default class Grab {
       console.log(url)
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data);
+      console.log(data.fare[0]);
+      // data.fare = ["JustGrab", "21 mins", "SGD 14.24 - 19.58", "GrabCar", "21 mins", "SGD 15.84 - 21.78", "GrabCar 6", "21 mins", "SGD 19.84 - 27.28"]
       return data;
     } catch (error) {
       console.log(error);
