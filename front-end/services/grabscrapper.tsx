@@ -1,16 +1,33 @@
-import axios from 'axios';
+import env from "../env";
+import React, { useEffect, useState } from "react";
+import Constants from "expo-constants";
+import { googlemap } from "./googlemap";
+import { Result } from "../types/Result";
 
-const API_URL = 'http://localhost:5000/farecheck'; // replace with your API URL
+export default class Grab {
+  constructor() {
 
-const getGrabFare = async (pickupLocation: string, dropoffLocation: string) => {
-  try {
-    const response = await axios.get(`${API_URL}?pickup=${pickupLocation}&dropoff=${dropoffLocation}`);
-    const data = response.data;
-    return data.fare;
-  } catch (error) {
-    console.log(error);
-    return null;
   }
-};
+  async getGrabFare(pickupLocation: string, dropoffLocation: string, pax: number = 1) {
+    try {
+      const url = this.getURL() + "/farecheck?pickup=" + pickupLocation + "&dropoff=" + dropoffLocation;
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
 
-export default getGrabFare;
+  getURL() {
+    const { manifest } = Constants;
+    const url = `http://${manifest.debuggerHost.split(':').shift()}:5000`;
+    console.log("This is where the expo think the flask server is started: ",url);
+    return url
+  }
+}
+
+export const grab = new Grab();
+//<Text>{JSON.stringify(data)}</Text>
