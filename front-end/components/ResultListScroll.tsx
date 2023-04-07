@@ -12,6 +12,7 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {Color, FontFamily} from "../GlobalStyles";
 import {useNavigation} from "@react-navigation/native";
+import {grab} from "../services/grabscrapper";
 
 const promises: Promise<[number,number]>[] = [
     Promise.resolve([1,7]),
@@ -65,6 +66,15 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
             });
         });
     }, []);
+
+    try{
+        grab.getGrabFare("Nanyang Technological University",
+            "National University Singapore")
+    }catch (e){
+        console.error(e);
+        console.log("grab getGrabFare fail to return. This may because of the flask server is not started, or " +
+            "connection issues between the localserver and expo.")
+    }
 
     return (
             <View style={styles.resultList}>
