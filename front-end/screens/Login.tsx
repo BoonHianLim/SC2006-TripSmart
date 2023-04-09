@@ -98,8 +98,6 @@ const Login = () => {
         Alert.alert("Error", "Email or password is incorrect", [
           { text: "OK", onPress: () => console.log("OK Pressed") },
         ]);
-        setEmail("");
-        setPassword("");
       }
     } catch (err) {
       console.log("error signing in: ", err);

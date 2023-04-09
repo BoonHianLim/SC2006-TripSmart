@@ -111,11 +111,11 @@ const App = () => {
       // error reading value
     }
     // Get Grab Fare
-    const pickupLocation = 'Nanyang Technological University';
-    const dropoffLocation = 'Marina Bay';
-    
+    const pickupLocation = "Nanyang Technological University";
+    const dropoffLocation = "Marina Bay";
+
     const grab = new Grab();
-    grab.getGrabFare(pickupLocation, dropoffLocation,1);
+    grab.getGrabFare(pickupLocation, dropoffLocation, 1);
     grab.getURL();
     getAccount();
   };
@@ -181,7 +181,7 @@ const App = () => {
             sort: {
               completedAt: 1,
             },
-            limit: 10,
+            limit: 5,
           }),
         }
       );
@@ -296,9 +296,6 @@ const App = () => {
     set(position);
     moveTo(position);
   };
-
-
-
 
   // renders
   return (
