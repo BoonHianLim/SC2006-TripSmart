@@ -9,10 +9,26 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import SettingsLangDropdown from "../components/SettingsLangDropdown";
 import SettingsContainer from "../components/SettingsContainer";
 import { useNavigation } from "@react-navigation/native";
+import { Dimensions } from "react-native";
 
 const Settings: FC = () => {
   const navigation = useNavigation();
   const [selectedButton, setSelectedButton] = useState(null);
+  const [status, setStatus] = useState("");
+
+  //get status from localstorage
+  const getStatus = async () => {
+    try {
+      const value = await AsyncStorage.getItem("@storage_Key");
+      if (value == "Guest") {
+        setStatus("Guest");
+      } else {
+        setStatus("User");
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
 
   const onPressButton = (buttonID) => {
     setSelectedButton(buttonID);
@@ -28,72 +44,77 @@ const Settings: FC = () => {
   }, []);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ScrollView>
-        <View style={[styles.settings, styles.settingsLayout]}>
-          <View style={[styles.navbar, styles.navbarFlexBox]}>
-            <Image
-              style={styles.logosIcon}
-              resizeMode="cover"
-              source={require("../assets/logos.png")}
-            />
-            <View
-              style={[
-                styles.frameParent,
-                styles.iconsFlexBox,
-                styles.iconsFlexBox1,
-              ]}
-            >
-              <View style={[styles.subtractParent, styles.subtractLayout]}>
-                <View style={[styles.subtract, styles.subtractLayout]}>
+    getStatus(),
+    console.log("here", status),
+    (
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ScrollView>
+          <View style={[styles.settings, styles.settingsLayout]}>
+            <View style={[styles.navbar, styles.navbarFlexBox]}>
+              <Image
+                style={styles.logosIcon}
+                resizeMode="cover"
+                source={require("../assets/logos.png")}
+              />
+              <View
+                style={[
+                  styles.frameParent,
+                  styles.iconsFlexBox,
+                  styles.iconsFlexBox1,
+                ]}
+              >
+                <View style={[styles.subtractParent, styles.subtractLayout]}>
+                  <View style={[styles.subtract, styles.subtractLayout]}>
+                    <View
+                      style={[
+                        styles.subtractChild,
+                        styles.childPosition,
+                        styles.subtractLayout,
+                      ]}
+                    />
+                    <View style={styles.subtractItem} />
+                  </View>
+                  <Image
+                    style={[styles.frameChild, styles.childPosition]}
+                    resizeMode="cover"
+                    source={require("../assets/rectangle-2051.png")}
+                  />
                   <View
                     style={[
-                      styles.subtractChild,
-                      styles.childPosition,
-                      styles.subtractLayout,
+                      styles.icons,
+                      styles.iconsFlexBox,
+                      styles.iconsFlexBox1,
                     ]}
-                  />
-                  <View style={styles.subtractItem} />
+                  >
+                    <Image
+                      style={[styles.bellIcon, styles.settingsLayout]}
+                      resizeMode="cover"
+                      source={require("../assets/bell.png")}
+                    />
+                  </View>
                 </View>
                 <Image
-                  style={[styles.frameChild, styles.childPosition]}
-                  resizeMode="cover"
-                  source={require("../assets/rectangle-2051.png")}
-                />
-                <View
                   style={[
-                    styles.icons,
-                    styles.iconsFlexBox,
-                    styles.iconsFlexBox1,
+                    styles.pexelsPhoto115973081Icon,
+                    styles.ml18,
+                    styles.subtractLayout,
                   ]}
-                >
-                  <Image
-                    style={[styles.bellIcon, styles.settingsLayout]}
-                    resizeMode="cover"
-                    source={require("../assets/bell.png")}
-                  />
-                </View>
+                  resizeMode="cover"
+                  source={require("../assets/pexelsphoto11597308-1.png")}
+                />
               </View>
-              <Image
-                style={[
-                  styles.pexelsPhoto115973081Icon,
-                  styles.ml18,
-                  styles.subtractLayout,
-                ]}
-                resizeMode="cover"
-                source={require("../assets/pexelsphoto11597308-1.png")}
-              />
             </View>
-          </View>
-          <Image
-            style={[styles.fare13, styles.mt_2, styles.fare13Position]}
-            resizeMode="cover"
-            source={require("../assets/fare-1-3.png")}
-          />
-          <Text style={[styles.tripsmart, styles.mt_2, styles.tripsmartLayout]}>
-            TripSmart
-          </Text>
-          {/* <View style={styles.container}>
+            <Image
+              style={[styles.fare13, styles.mt_2, styles.fare13Position]}
+              resizeMode="cover"
+              source={require("../assets/fare-1-3.png")}
+            />
+            <Text
+              style={[styles.tripsmart, styles.mt_2, styles.tripsmartLayout]}
+            >
+              TripSmart
+            </Text>
+            {/* <View style={styles.container}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
@@ -101,104 +122,128 @@ const Settings: FC = () => {
           <SettingsLangDropdown />
         </ScrollView>
       </View> */}
-          <EnglishSection />
-          <Text style={[styles.settings1, styles.mt_2]}>{`Settings `}</Text>
+            <EnglishSection />
+            <Text style={[styles.settings1, styles.mt_2]}>{`Settings `}</Text>
 
-          <View
-            style={[
-              styles.changePasswordWrapper,
-              styles.mt_2,
-              styles.changeWrapperFlexBox,
-            ]}
-          >
-            <Pressable onPress={() => navigation.navigate("LoginPage")}>
-              <Text
+            {/*Can reder to this to be dynamic */}
+            {status === "User" ? (
+              <View
                 style={[
-                  styles.changePassword,
-                  styles.changeTypo,
-                  styles.tripsmartLayout,
+                  styles.changePasswordWrapper,
+                  styles.mt_2,
+                  styles.changeWrapperFlexBox,
                 ]}
               >
-                Log Out
-              </Text>
-            </Pressable>
-          </View>
+                <Pressable
+                  onPress={() => navigation.navigate("changePassword")}
+                >
+                  <Text
+                    style={[
+                      styles.changePassword,
+                      styles.changeTypo,
+                      styles.tripsmartLayout,
+                    ]}
+                  >
+                    Change Password
+                  </Text>
+                </Pressable>
+              </View>
+            ) : null}
 
-          <View
-            style={[
-              styles.changeEmailWrapper,
-              styles.mt_2,
-              styles.changeWrapperFlexBox,
-            ]}
-          >
-            <Pressable onPress={() => navigation.navigate("changePassword")}>
-              <Text
+            <View
+              style={[
+                styles.changeEmailWrapper,
+                styles.mt_2,
+                styles.changeWrapperFlexBox,
+              ]}
+            >
+              {status === "User" ? (
+                <Pressable onPress={() => navigation.navigate("LoginPage")}>
+                  <Text
+                    style={[
+                      styles.changePassword,
+                      styles.changeTypo,
+                      styles.tripsmartLayout,
+                    ]}
+                  >
+                    Log Out
+                  </Text>
+                </Pressable>
+              ) : (
+                <Pressable onPress={() => navigation.navigate("Login")}>
+                  <Text
+                    style={[
+                      styles.changePassword,
+                      styles.changeTypo,
+                      styles.tripsmartLayout,
+                    ]}
+                  >
+                    Log in
+                  </Text>
+                </Pressable>
+              )}
+            </View>
+
+            <View
+              style={[styles.frameContainer, styles.mt_2, styles.framePosition]}
+            >
+              <Pressable
                 style={[
-                  styles.changePassword,
-                  styles.changeTypo,
-                  styles.tripsmartLayout,
+                  styles.wrapperLayout,
+                  selectedButton === 1 && styles.kmh2Wrapper,
                 ]}
+                onPress={() => {
+                  onPressButton(1);
+                }}
               >
-                Change Password
+                <View>
+                  <Image
+                    style={[styles.kmh2Icon, styles.iconLayout]}
+                    resizeMode="cover"
+                    source={require("../assets/kmh-2.png")}
+                  />
+                </View>
+              </Pressable>
+              <Text style={[styles.km, styles.mt12, styles.kmTypo]}>KM</Text>
+            </View>
+            <View
+              style={[styles.frameParent1, styles.mt_2, styles.framePosition]}
+            >
+              <Pressable
+                style={[
+                  styles.wrapperLayout,
+                  selectedButton === 2 && styles.kmh2Wrapper,
+                ]}
+                onPress={() => {
+                  onPressButton(2);
+                }}
+              >
+                <View>
+                  <Image
+                    style={[styles.kmh1Icon, styles.iconLayout]}
+                    resizeMode="cover"
+                    source={require("../assets/kmh-1.png")}
+                  />
+                </View>
+              </Pressable>
+              <Text style={[styles.miles, styles.mt12, styles.kmTypo]}>
+                Miles
               </Text>
-            </Pressable>
-          </View>
-
-          <View
-            style={[styles.frameContainer, styles.mt_2, styles.framePosition]}
-          >
-            <Pressable
+            </View>
+            <Text
               style={[
-                styles.wrapperLayout,
-                selectedButton === 1 && styles.kmh2Wrapper,
+                styles.changeDistanceMetrics,
+                styles.mt_2,
+                styles.changeTypo,
               ]}
-              onPress={() => {onPressButton(1)}}
             >
-              <View>
-                <Image
-                  style={[styles.kmh2Icon, styles.iconLayout]}
-                  resizeMode="cover"
-                  source={require("../assets/kmh-2.png")}
-                />
-              </View>
-            </Pressable>
-            <Text style={[styles.km, styles.mt12, styles.kmTypo]}>KM</Text>
-          </View>
-          <View
-            style={[styles.frameParent1, styles.mt_2, styles.framePosition]}
-          >
-            <Pressable
-              style={[
-                styles.wrapperLayout,
-                selectedButton === 2 && styles.kmh2Wrapper,
-              ]}
-              onPress={() => {onPressButton(2)}}
-            >
-              <View>
-                <Image
-                  style={[styles.kmh1Icon, styles.iconLayout]}
-                  resizeMode="cover"
-                  source={require("../assets/kmh-1.png")}
-                />
-              </View>
-            </Pressable>
-            <Text style={[styles.miles, styles.mt12, styles.kmTypo]}>
-              Miles
+              Change Distance Metrics
             </Text>
           </View>
-          <Text
-            style={[
-              styles.changeDistanceMetrics,
-              styles.mt_2,
-              styles.changeTypo,
-            ]}
-          >
-            Change Distance Metrics
-          </Text>
-        </View>
-      </ScrollView>
-      <SettingsContainer selectedButton={"Settings"} />
-    </GestureHandlerRootView>
+        </ScrollView>
+        <SettingsContainer selectedButton={"Settings"} />
+      </GestureHandlerRootView>
+    )
   );
 };
 
@@ -363,14 +408,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   fare13: {
-    top: 27,
+    top: Dimensions.get("window").height * 0.07,
     width: 48,
     height: 48,
     zIndex: 1,
   },
   tripsmart: {
-    top: 35,
-    left: 62,
+    top: Dimensions.get("window").height * 0.07,
+    left: Dimensions.get("window").width * 0.12,
     fontSize: 24,
     letterSpacing: -0.2,
     lineHeight: 29,
@@ -383,8 +428,8 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   settings1: {
-    top: 85,
-    left: 94,
+    top: Dimensions.get("window").height * 0.12,
+    left: Dimensions.get("window").width * 0.3,
     fontSize: 40,
     letterSpacing: -0.4,
     lineHeight: 52,

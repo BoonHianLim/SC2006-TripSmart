@@ -1,3 +1,4 @@
+//variable - data contains json object of history
 import * as React from "react";
 import {
   Dimensions,
@@ -7,25 +8,35 @@ import {
   Text,
   Pressable,
 } from "react-native";
+
 import SectionCard from "../components/SectionCard";
 import { Margin, FontFamily, Color } from "../GlobalStyles";
+import EnglishSection from "../components/EnglishSection";
 import { ScrollView } from "react-native-gesture-handler";
 import { CSSProperties } from "react";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import SettingsContainer from "../components/SettingsContainer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 const History1 = () => {
+  const navigation = useNavigation();
+  const { width, height } = Dimensions.get("window");
   const [email, setEmail] = React.useState("");
+  const [data, setData] = React.useState([]);
+  const [status, setStatus] = React.useState("");
 
   //database api to retrieve the history
   const retrieveHistory = async () => {
+    console.log("retrieveHistory");
+    console.log("email: ", email);
     //console.log("looking for records from database");
     // perform login action here using email and password
     // mongodb api here
     try {
       const response = await fetch(
-        "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/findAll",
+        "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/find",
         {
           method: "POST",
           headers: {
@@ -46,8 +57,9 @@ const History1 = () => {
         }
       );
       const data = await response.json();
-      if (data.document != null) {
-        console.log(data);
+      console.log("data: ", data);
+      if (data != null) {
+        setData(data);
       } else {
         console.log("History might be empty");
       }
@@ -59,22 +71,76 @@ const History1 = () => {
   //get email from localstorage
   const getStatus = async () => {
     try {
+      const isGuest = await AsyncStorage.getItem("@storage_Key");
       const value = await AsyncStorage.getItem("@storage_Email");
-      if (value != null) {
-        setEmail(value);
-      }
+      if (isGuest == "Guest") {
+        setEmail("Guest");
+      } else if (value != null) setEmail(value);
     } catch (e) {
       // error reading value
     }
   };
 
-  const { width, height } = Dimensions.get("window");
+  //useEffect
+  React.useEffect(() => {
+    if (email) {
+      retrieveHistory();
+    }
+  }, [email]);
+
   return (
     getStatus(),
+    console.log("here", data.documents),
     (
       <GestureHandlerRootView style={{ flex: 1 }}>
         <ScrollView>
-          {/* render the history using the retrieveHistory function */}
+          <View style={[styles.settings, styles.settingsLayout]}>
+            <View style={[styles.navbar, styles.navbarFlexBox]}>
+              <View
+                style={[
+                  styles.frameParent,
+                  styles.iconsFlexBox,
+                  styles.iconsFlexBox1,
+                ]}
+              ></View>
+            </View>
+            <Image
+              style={[styles.fare13, styles.mt_2, styles.fare13Position]}
+              resizeMode="cover"
+              source={require("../assets/fare-1-3.png")}
+            />
+
+            <Text
+              style={[styles.tripsmart, styles.mt_2, styles.tripsmartLayout]}
+            >
+              TripSmart
+            </Text>
+
+            <Text style={[styles.settings1, styles.mt_2]}>{`History `}</Text>
+          </View>
+
+          {/*dynamic rendering */}
+          {email === "Guest" ? (
+            <View
+              style={[
+                styles.changePasswordWrapper,
+                styles.mt_2,
+                styles.changeWrapperFlexBox,
+              ]}
+            >
+              <Pressable onPress={() => navigation.navigate("Login")}>
+                <Text
+                  style={[
+                    styles.changePassword,
+                    styles.changeTypo,
+                    styles.tripsmartLayout,
+                  ]}
+                >
+                  Login to Save and View History
+                </Text>
+              </Pressable>
+            </View>
+          ) : null}
         </ScrollView>
         <SettingsContainer selectedButton={"History"} />
       </GestureHandlerRootView>
@@ -87,116 +153,101 @@ const styles = StyleSheet.create({
   ml18: {
     marginLeft: Margin.m_lg,
   },
-  ml8_01: {
-    marginLeft: 8.01,
+  mt8_35: {
+    marginTop: 8.35,
   },
-  mt8_01: {
-    marginTop: 8.01,
-  },
-  ml11_21: {
-    marginLeft: 11.21,
-  },
-  mt8_78: {
-    marginTop: 8.78,
-  },
-  mt7_9: {
-    marginTop: 7.9,
-  },
-  mt10: {
-    marginTop: Margin.m_3xs,
+  mt12: {
+    marginTop: Margin.m_xs,
   },
   mt_2: {
     marginTop: Margin.m_15xs,
   },
+  settingsLayout: {
+    overflow: "hidden",
+    width: "100%",
+    flex: 1,
+  },
   navbarFlexBox: {
+    justifyContent: "space-between",
     flexDirection: "row",
-    alignItems: "center",
   },
   iconsFlexBox: {
     justifyContent: "center",
-    flexDirection: "row",
     alignItems: "center",
+  },
+  iconsFlexBox1: {
+    flexDirection: "row",
+    justifyContent: "center",
   },
   subtractLayout: {
     height: 40,
     width: 40,
   },
-  framePosition: {
-    left: 0,
+  childPosition: {
+    top: 0,
     position: "absolute",
   },
-  iconsPosition: {
-    left: 6,
-    top: 6,
-  },
-  iconPosition: {
-    zIndex: 1,
+  fare13Position: {
+    left: 14,
     position: "absolute",
   },
-  tripsmartTypo: {
+  tripsmartLayout: {
+    width: 304,
     textAlign: "center",
-    fontFamily: FontFamily.montserratBold,
-    fontWeight: "700",
-    position: "absolute",
   },
-  yourTypo: {
-    textAlign: "left",
-    fontFamily: FontFamily.montserratBold,
-    fontWeight: "700",
+  planlgTypo: {
+    lineHeight: 10,
+    fontSize: 10,
+    textAlign: "center",
   },
-  overallMonthlyTripTypo: {
-    lineHeight: 20,
-    fontSize: 20,
-    textAlign: "left",
-    color: Color.textColorsMain,
-    letterSpacing: -0.2,
-  },
-  frameLayout: {
-    height: 35,
-    position: "absolute",
-  },
-  icons1Layout: {
-    height: 22,
-    width: 22,
-  },
-  iconLayout: {
-    maxHeight: "100%",
-    maxWidth: "100%",
-    alignSelf: "stretch",
-    overflow: "hidden",
-    width: "100%",
-    flex: 1,
-  },
-  kmTypo: {
-    height: 13,
-    lineHeight: 16,
-    fontSize: 16,
-    textAlign: "left",
-    color: Color.textColorsMain,
-    fontFamily: FontFamily.montserratBold,
-    fontWeight: "700",
-    letterSpacing: -0.2,
-  },
-  iconsLayout: {
-    padding: 4,
-    width: 35,
-    borderRadius: 13,
-    height: 35,
-    justifyContent: "center",
-    flexDirection: "row",
-    backgroundColor: Color.brandColorsCrayolaYellow,
+  iconsSpaceBlock: {
+    padding: 8,
+    width: 74,
     alignItems: "center",
   },
-  wrapperFlexBox: {
-    alignItems: "flex-end",
-    flexDirection: "row",
-  },
-  gainTypo: {
-    color: Color.textColorsLight,
-    fontFamily: FontFamily.montserratSemibold,
-    fontWeight: "600",
-    textAlign: "left",
+  changeWrapperFlexBox: {
+    paddingVertical: 16,
+    paddingHorizontal: 8,
+    height: 43,
+    backgroundColor: Color.goldenrod_200,
+    borderRadius: 12,
     alignSelf: "stretch",
+    position: "absolute",
+    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  changeTypo: {
+    letterSpacing: 0.4,
+    fontFamily: FontFamily.montserratBold,
+    fontWeight: "700",
+  },
+  framePosition: {
+    borderRadius: 8,
+    top: 365,
+    position: "absolute",
+    alignItems: "center",
+  },
+  wrapperLayout: {
+    height: 60,
+    width: 60,
+    backgroundColor: Color.brandColorsPeachBlossom,
+    borderRadius: 24,
+    overflow: "hidden",
+  },
+  iconLayout: {
+    height: 53,
+    width: 53,
+    top: 2.5,
+    position: "relative",
+  },
+  kmTypo: {
+    fontFamily: FontFamily.montserratMedium,
+    fontWeight: "500",
+    lineHeight: 12,
+    letterSpacing: 0.2,
+    fontSize: 12,
+    textAlign: "center",
   },
   logosIcon: {
     width: 152,
@@ -204,9 +255,9 @@ const styles = StyleSheet.create({
     display: "none",
   },
   subtractChild: {
+    left: 0,
     borderRadius: 16,
     backgroundColor: Color.gainsboro,
-    top: 0,
   },
   subtractItem: {
     top: -3,
@@ -226,10 +277,15 @@ const styles = StyleSheet.create({
     borderRadius: 999999,
     width: 10,
     height: 10,
-    top: 0,
-    position: "absolute",
+  },
+  bellIcon: {
+    maxWidth: "100%",
+    maxHeight: "100%",
+    alignSelf: "stretch",
   },
   icons: {
+    top: 6,
+    left: 6,
     width: 28,
     height: 28,
     position: "absolute",
@@ -249,139 +305,150 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 6,
     paddingBottom: 10,
-    justifyContent: "space-between",
     zIndex: 0,
     backgroundColor: Color.brandColorsCrayolaYellow,
-    flexDirection: "row",
+    alignItems: "center",
   },
   fare13: {
-    top: 27,
+    top: Dimensions.get("window").height * 0.07,
     width: 48,
     height: 48,
-    left: 14,
+    zIndex: 1,
   },
   tripsmart: {
-    top: 35,
-    left: 62,
+    top: Dimensions.get("window").height * 0.07,
+    left: Dimensions.get("window").width * 0.12,
     fontSize: 24,
+    letterSpacing: -0.2,
     lineHeight: 29,
-    color: Color.brandColorsNightPurple,
-    width: 144,
     height: 31,
     zIndex: 2,
-    letterSpacing: -0.2,
-  },
-  overallMonthlyTrip: {
-    top: 185,
-    width: 266,
-    height: 115,
-    zIndex: 3,
-    color: Color.textColorsMain,
-    left: 14,
+    color: Color.brandColorsNightPurple,
+    fontFamily: FontFamily.montserratBold,
+    fontWeight: "700",
+    width: 144,
     position: "absolute",
   },
-  walletIcon: {
-    display: "none",
-  },
-  icons1: {
-    zIndex: 0,
-  },
-  walletFilledMoneyTool1Icon: {
-    top: 9,
-    left: 9,
-    width: 18,
-    height: 18,
-  },
-  moneySpent: {
-    letterSpacing: 0.3,
-    lineHeight: 9,
-    textTransform: "capitalize",
-    color: Color.textColorsLighter,
-    fontSize: 10,
-  },
-  text: {
-    width: 65,
-  },
-  frameContainer: {
-    top: 0,
-  },
-  iconsGroup: {
-    top: 0,
-  },
-  km: {
-    width: 79,
-  },
-  kmWrapper: {
-    alignSelf: "stretch",
-  },
-  distanceTravelledParent: {
-    top: 2,
-    left: 46,
-    position: "absolute",
-  },
-  frameView: {
-    left: 168,
-    width: 120,
-    top: 0,
-  },
-  frameGroup: {
-    top: 222,
-    width: 306,
-    zIndex: 4,
-    left: 14,
-  },
-  tripHistory: {
-    top: 85,
-    left: 60,
+  settings1: {
+    top: Dimensions.get("window").height * 0.12,
+    left: Dimensions.get("window").width * 0.3,
     fontSize: 40,
     letterSpacing: -0.4,
     lineHeight: 52,
-    zIndex: 5,
+    zIndex: 4,
     color: Color.textColorsMain,
-  },
-  yourStatistics: {
-    fontSize: 18,
-    lineHeight: 17,
-    color: Color.textColorsMain,
-    letterSpacing: -0.2,
-  },
-  gainInsightInto: {
-    lineHeight: 13,
-    fontSize: 10,
-  },
-  yourStatisticsParent: {
-    alignSelf: "stretch",
-  },
-  frameParent1: {
-    top: 276,
-    backgroundColor: Color.backgroundColorsBackgroundLighter1,
-    paddingHorizontal: 21,
-    paddingTop: 8,
-    zIndex: 6,
-    alignSelf: "stretch",
-  },
-  yourDetailedHistory: {
-    color: Color.textColorsMain,
-  },
-  gainInsightInto1: {
-    fontSize: 11,
-    lineHeight: 15,
-  },
-  yourDetailedHistoryParent: {
-    top: 665,
-    left: 21,
-    width: "95%",
-    height: 455,
-    zIndex: 7,
+    textAlign: "center",
+    fontFamily: FontFamily.montserratBold,
+    fontWeight: "700",
     position: "absolute",
   },
-  history: {
+  icons1: {
+    width: 20,
+    height: 20,
+  },
+  planlg: {
+    color: Color.brandColorsNightPurple,
+  },
+  billetter: {
+    color: Color.textColorsLight,
+  },
+  iconsGroup: {
     backgroundColor: Color.textColorsInverse,
-    height: Dimensions.get("window").height * 1.63,
+  },
+  iconsContainer: {
+    display: "none",
+  },
+  frameView: {
+    backgroundColor: Color.brandColorsCrayolaYellow,
+  },
+  frameGroup: {
+    alignSelf: "stretch",
+    backgroundColor: Color.textColorsInverse,
+  },
+  frameItem: {
+    width: 89,
+    height: 0,
+  },
+  bottomNavigationInner: {
+    paddingLeft: 17,
+    alignSelf: "stretch",
+    display: "none",
+  },
+  bottomNavigation: {
+    top: 734,
+    width: 360,
+    height: 132,
+    paddingLeft: 8,
+    paddingRight: 17,
+    paddingBottom: 23,
+    zIndex: 5,
     alignItems: "center",
-    overflow: "hidden",
-    width: "100%",
+    backgroundColor: Color.textColorsInverse,
+  },
+  changePassword: {
+    fontSize: 13,
+    lineHeight: 12,
+    color: Color.black,
+  },
+  changePasswordWrapper: {
+    top: Dimensions.get("window").height * 0.5,
+    zIndex: 6,
+    left: Dimensions.get("window").width * 0.1,
+  },
+  changeEmailWrapper: {
+    top: 488,
+    left: 31,
+    zIndex: 7,
+  },
+  kmh2Icon: {
+    left: 0.5,
+  },
+  kmh2Wrapper: {
+    borderStyle: "solid",
+    borderColor: "#1a1528",
+    borderWidth: 3,
+  },
+  km: {
+    width: 59,
+    color: Color.textColorsMain,
+  },
+  frameContainer: {
+    left: 90,
+    zIndex: 8,
+  },
+  kmh1Icon: {
+    left: 3,
+  },
+  miles: {
+    color: Color.textColorsMain,
+    width: 59,
+  },
+  frameParent1: {
+    left: 230,
+    zIndex: 9,
+  },
+  changeDistanceMetrics: {
+    top: 335,
+    fontSize: 14,
+    lineHeight: 14,
+    textAlign: "left",
+    zIndex: 10,
+    left: 32,
+    color: Color.textColorsMain,
+    position: "absolute",
+  },
+  settings: {
+    height: 800,
+    alignItems: "center",
+    backgroundColor: Color.textColorsInverse,
+  },
+  container: {
     flex: 1,
+    backgroundColor: "white",
+    paddingVertical: 50,
+  },
+  result: {
+    width: "100%",
   },
 });
 

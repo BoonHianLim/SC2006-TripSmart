@@ -6,7 +6,7 @@ import {
   Text,
   View,
   Pressable,
-  ImageBackground
+  ImageBackground,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -31,6 +31,16 @@ const LoginPage = () => {
     }
   };
 
+  //reset localstorage
+  const resetLocalStorage = async () => {
+    try {
+      await AsyncStorage.setItem("@storage_Key", "Guest");
+      await AsyncStorage.setItem("@storage_Email", "");
+    } catch (e) {
+      // saving error
+    }
+  };
+
   const navigation = useNavigation();
 
   const { width, height } = Dimensions.get("window");
@@ -38,34 +48,38 @@ const LoginPage = () => {
   console.log("width:", width);
 
   return (
-    <View
-      style={{
-        backgroundColor: Color.brandColorsCrayolaYellow
-      }}>
-      <ImageBackground
-        source={require("../assets/dk01-1.png")}
+    resetLocalStorage(),
+    (
+      <View
         style={{
-          width: "100%",
-          height: "100%",
-          // alignItems: "center",
-          // justifyContent: "flex-start"
-        }}>
-
-        <View
+          backgroundColor: Color.brandColorsCrayolaYellow,
+        }}
+      >
+        <ImageBackground
+          source={require("../assets/dk01-1.png")}
           style={{
-            margin: "10%",
-            marginTop: responsiveScreenFontSize(22)
-          }}>
-
+            width: "100%",
+            height: "100%",
+            // alignItems: "center",
+            // justifyContent: "flex-start"
+          }}
+        >
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-            }}>
-            <Image
+              margin: "10%",
+              marginTop: responsiveScreenFontSize(22),
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Image
                 style={{
                   height: responsiveScreenHeight(10),
-                  width: responsiveScreenHeight(10)
+                  width: responsiveScreenHeight(10),
                 }}
                 resizeMode="cover"
                 source={require("../assets/fare-1-1.png")}
@@ -75,24 +89,35 @@ const LoginPage = () => {
                   fontFamily: FontFamily.montserratBold,
                   fontSize: responsiveScreenFontSize(4.5),
                   marginLeft: "3%",
-                  marginTop: "10%"
-                }}>TripSmart</Text>
-          </View>
+                  marginTop: "10%",
+                }}
+              >
+                TripSmart
+              </Text>
+            </View>
 
-          <Text
-            style={{
-              fontFamily: FontFamily.montserratBold,
-              fontSize: responsiveScreenFontSize(3.5),
-              marginBottom: "3%"
-            }}>Here to meet all your travel needs </Text>
+            <Text
+              style={{
+                fontFamily: FontFamily.montserratBold,
+                fontSize: responsiveScreenFontSize(3.5),
+                marginBottom: "3%",
+              }}
+            >
+              Here to meet all your travel needs{" "}
+            </Text>
 
-        <Text
-          style={{
-            fontFamily: FontFamily.montserratMedium,
-            fontSize: responsiveScreenFontSize(1.8),
-            marginBottom: "10%"
-          }}>Feel the ease of picking a transport option of your choice from the comfort of your own home and find the best offers in SG with us!</Text>
-<Button
+            <Text
+              style={{
+                fontFamily: FontFamily.montserratMedium,
+                fontSize: responsiveScreenFontSize(1.8),
+                marginBottom: "10%",
+              }}
+            >
+              Feel the ease of picking a transport option of your choice from
+              the comfort of your own home and find the best offers in SG with
+              us!
+            </Text>
+            <Button
               title="Login"
               loading={false}
               loadingProps={{
@@ -113,10 +138,12 @@ const LoginPage = () => {
               containerStyle={{
                 marginBottom: "5%",
               }}
-              onPress={()=>{navigation.navigate("Login")}}
+              onPress={() => {
+                navigation.navigate("Login");
+              }}
             />
-          
-          <Button
+
+            <Button
               title="Sign Up"
               loading={false}
               loadingProps={{
@@ -137,27 +164,29 @@ const LoginPage = () => {
               containerStyle={{
                 marginBottom: "5%",
               }}
-              onPress={()=>{navigation.navigate("Register1")}}
+              onPress={() => {
+                navigation.navigate("Register1");
+              }}
             />
             <Pressable
               style={{
-                alignItems: "center"
+                alignItems: "center",
               }}
-              onPress={() => process()}>
-                <Text
-                  style={{
-                    fontFamily: FontFamily.montserratMedium,
-                    fontSize: responsiveScreenFontSize(2.0),
-                  }}
-                >
-                  Continue as Guest
-                </Text>
+              onPress={() => process()}
+            >
+              <Text
+                style={{
+                  fontFamily: FontFamily.montserratMedium,
+                  fontSize: responsiveScreenFontSize(2.0),
+                }}
+              >
+                Continue as Guest
+              </Text>
             </Pressable>
-        </View>
-
-
-      </ImageBackground>
-    </View>
+          </View>
+        </ImageBackground>
+      </View>
+    )
   );
 };
 
