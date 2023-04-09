@@ -27,6 +27,7 @@ import { LocationGeofencingEventType } from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapViewDirections from "react-native-maps-directions";
 import getGrabFare from "../services/grabscrapper";
+import { useFocusEffect } from '@react-navigation/native';
 
 type InputAutocompleteProps = {
     label: string;
@@ -62,25 +63,29 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
     const [email, setEmail] = useState("");
     const [startLocation, setLocationFunction] = useState("");
     const [dest, setDestFunction] = useState("");
-    const [resultText, setResultText] = useState("");
+    const [resultText, setResultText] = useState("Show Result");
 
     var emailAccount: string = "";
     // get current status, is it a guess or user
 
-    AsyncStorage.getItem("language").then((value) => {
-        if (value == 'en'){
-            setResultText("Show Result")
-        } 
-        else if (value == 'ch'){
-            setResultText("显示结果")
-        } 
-        else if (value == 'ms'){
-            setResultText("Paparkan Hasil")
-        } 
-        else if (value == 'ta'){
-            setResultText("முடிவு காட்டு")
-        } 
-    })
+    useFocusEffect(
+        () => {
+            AsyncStorage.getItem("language").then((value) => {
+                if (value == 'en'){
+                    setResultText("Show Result")
+                }
+                else if (value == 'ch'){
+                    setResultText("显示结果")
+                }
+                else if (value == 'ms'){
+                    setResultText("Paparkan Hasil")
+                }
+                else if (value == 'ta'){
+                    setResultText("முடிவு காட்டு")
+                }
+            })
+        }
+    );
 
     const getStatus = async () => {
         try {
