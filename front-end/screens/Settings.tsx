@@ -6,7 +6,6 @@ import EnglishSection from "../components/EnglishSection";
 import { Margin, FontFamily, Color } from "../GlobalStyles";
 import { ScrollView } from "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import SettingsLangDropdown from "../components/SettingsLangDropdown";
 import SettingsContainer from "../components/SettingsContainer";
 import { useNavigation } from "@react-navigation/native";
 import { Dimensions } from "react-native";
@@ -114,14 +113,6 @@ const Settings: FC = () => {
             >
               TripSmart
             </Text>
-            {/* <View style={styles.container}>
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
-          <SettingsLangDropdown />
-        </ScrollView>
-      </View> */}
             <EnglishSection />
             <Text style={[styles.settings1, styles.mt_2]}>{`Settings `}</Text>
 
