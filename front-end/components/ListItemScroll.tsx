@@ -25,7 +25,7 @@ const ListItemScroll = ({ item, isCheap = true }: any) => {
       console.log("It is a guest, so do nothing");
     } else {
       await getEmail();
-      setAppName(item.name);
+      setAppName(item.serviceType);
 
       //deep link function here
     }
@@ -90,7 +90,8 @@ const ListItemScroll = ({ item, isCheap = true }: any) => {
             collection: "deepLinkHistory",
             document: {
               email: email,
-              nameOfApp: appName,
+              nameOfApp: item.serviceType,
+              url: item.iconURL,
               duration: durationText,
               fare: fareText,
             },

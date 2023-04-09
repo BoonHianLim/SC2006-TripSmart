@@ -536,7 +536,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   settings: {
-    height: 800,
+    height: Dimensions.get("window").height,
     alignItems: "center",
     backgroundColor: Color.textColorsInverse,
   },
