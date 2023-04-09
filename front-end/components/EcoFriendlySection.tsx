@@ -101,7 +101,7 @@ const EcoFriendlySection = () => {
           </View>
         </Pressable>
         <Text style={[styles.wheelchairAccessibility, styles.mt12]}>
-          Eco-friendly
+          Eco-Friendly
         </Text>
       </View>
     </View>
