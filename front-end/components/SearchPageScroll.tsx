@@ -56,13 +56,14 @@ function InputAutocomplete({
                 }}
                 query={{
                     key: devEnvironmentVariables.GOOGLE_MAP_API_KEY,
-                    language: "pt-BR",
+                    language: "en",
                 }}
             />
         </>
     );
 }
 
+<<<<<<< HEAD
 const messages = {
     en,
     ch,
@@ -101,8 +102,11 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
         }
     );
 
+=======
+const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, setStartLoc, destLoc, setDestLoc, moveTo}:any) => {
+    const [email, setEmail] = useState("");
+>>>>>>> 4976cef (feat: get startLoc and destLoc, require real startLoc and destLoc to search)
     var emailAccount: string = "";
-    // get current status, is it a guess or user
 
     const getStatus = async () => {
         try {
@@ -191,8 +195,8 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
                         collection: "History",
                         document: {
                             email: emailAccount,
-                            starting_location: startLocation,
-                            destination: dest,
+                            starting_location: startLoc,
+                            destination: destLoc,
                         },
                     }),
                 }
@@ -231,7 +235,7 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
             onPlaceSelected={(details) => {
                 onPlaceSelected(details, "origin");
                 var tmp = JSON.stringify(details.name);
-                setLocationFunction(tmp);
+                setStartLoc(tmp);
             }}
         />
         <InputAutocomplete
@@ -239,14 +243,16 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
             onPlaceSelected={(details) => {
                 onPlaceSelected(details, "destination");
                 var tmp1 = JSON.stringify(details.name);
-                setDestFunction(tmp1);
+                setDestLoc(tmp1);
             }}
         />
         <TouchableOpacity
             style={styles.buttonResult}
             onPress={() => {
-                saveHistory();
-                changeState("resultList");
+                if(startLoc && destLoc){
+                    saveHistory();
+                    changeState("resultList");
+                }
             }}
         >
             <Text style={styles.buttonTextResult}>
