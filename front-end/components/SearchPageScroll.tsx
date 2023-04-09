@@ -12,7 +12,13 @@ import {
     TextInput,
     Button,
     TouchableOpacity,
+    Image
 } from "react-native";
+import {
+    responsiveScreenHeight,
+    responsiveWidth,
+    responsiveScreenFontSize,
+  } from "react-native-responsive-dimensions";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { Marker } from "react-native-maps";
 import { Searchbar } from "react-native-paper";
@@ -27,6 +33,9 @@ import { LocationGeofencingEventType } from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapViewDirections from "react-native-maps-directions";
 import getGrabFare from "../services/grabscrapper";
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { Entypo } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons'; 
 
 type InputAutocompleteProps = {
     label: string;
@@ -41,9 +50,8 @@ function InputAutocomplete({
                            }: InputAutocompleteProps) {
     return (
         <>
-            <Text>{label}</Text>
             <GooglePlacesAutocomplete
-                styles={{ textInput: styles.input }}
+                styles={{ textInput: styles.input, textInputContainer: styles.inputContainer }}
                 placeholder={placeholder || ""}
                 fetchDetails
                 onPress={(data, details = null) => {
@@ -53,6 +61,25 @@ function InputAutocomplete({
                     key: devEnvironmentVariables.GOOGLE_MAP_API_KEY,
                     language: "pt-BR",
                 }}
+                renderLeftButton={() => {
+                    if (label === "Origin") {
+                      return (
+                        <MaterialCommunityIcons name="target" size={24} color="black" style={styles.icon}/>
+                      );
+                    } else {
+                      return <Entypo name="location" size={24} color="black" style={styles.icon}/>; // empty fragment
+                    }
+                  }}
+
+                renderRightButton={() => {
+                    if (label === "Origin") {
+                      return (
+                        <AntDesign name="close" size={24} color="black" style={styles.icon}/>
+                      );
+                    } else {
+                      return <MaterialCommunityIcons name="compare-vertical" size={24} color="black" style={styles.icon}/>; // empty fragment
+                    }
+                  }}
             />
         </>
     );
@@ -187,33 +214,64 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
         getHistory(),
             (emailAccount = JSON.stringify(emailAccount)),
             getStatus(),
-    <View style={styles.searchContainer}>
-        <InputAutocomplete
-            label="Origin"
-            onPlaceSelected={(details) => {
-                onPlaceSelected(details, "origin");
-                var tmp = JSON.stringify(details.name);
-                setLocationFunction(tmp);
-            }}
-        />
-        <InputAutocomplete
-            label="Destination"
-            onPlaceSelected={(details) => {
-                onPlaceSelected(details, "destination");
-                var tmp1 = JSON.stringify(details.name);
-                setDestFunction(tmp1);
-            }}
-        />
-        <TouchableOpacity
-            style={styles.buttonResult}
-            onPress={() => {
-                saveHistory();
-                changeState("resultList");
-            }}
-        >
-            <Text style={styles.buttonTextResult}>Show Result</Text>
-        </TouchableOpacity>
-    </View>)
+
+
+        <View style={styles.searchContainer}>
+
+            <View
+                style={{
+                    flexDirection: "row",
+                    width: "100%",
+                    height: "100%"
+                }}>
+                <Image
+                    resizeMode="cover"
+                    source={require("../assets/searchDecoration.png")}
+                    style={{
+                        margin: "3%"
+                    }}
+                />
+                
+                    <View
+                        style={{
+                            backgroundColor: "blue",
+                            width: "85%",
+
+
+                        }}>
+                        <InputAutocomplete
+                            label="Origin"
+                            onPlaceSelected={(details) => {
+                                onPlaceSelected(details, "origin");
+                                var tmp = JSON.stringify(details.name);
+                                setLocationFunction(tmp);
+                            }}
+                            placeholder="Pickup Location"
+                        />
+
+                        <InputAutocomplete
+                            label="Destination"
+                            onPlaceSelected={(details) => {
+                                onPlaceSelected(details, "destination");
+                                var tmp1 = JSON.stringify(details.name);
+                                setDestFunction(tmp1);
+                            }}
+                            placeholder="Destination"
+                        />
+                    </View>
+                </View>
+
+                <TouchableOpacity
+                        style={styles.buttonResult}
+                        onPress={() => {
+                            saveHistory();
+                            changeState("resultList");
+                        }}
+                    >
+                        <Text style={styles.buttonTextResult}>Show Result</Text>
+                </TouchableOpacity>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -290,10 +348,23 @@ const styles = StyleSheet.create({
         padding: 8,
         borderRadius: 8,
         top: Constants.statusBarHeight,
+        
+
     },
     input: {
-        borderColor: "#888",
-        borderWidth: 1,
+
+
+    },
+    inputContainer : {
+        borderColor: "black",
+        borderWidth : 2,
+        alignItems: "center",
+        borderRadius: 18,
+        width: "100%",
+    },
+    icon : {
+        marginLeft: "3%",
+        marginRight: "3%"
     },
 });
 

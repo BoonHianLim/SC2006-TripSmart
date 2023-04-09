@@ -71,7 +71,7 @@ const GreetingPage2 = () => {
         </View>
 
 
-        <LandingPageButton nextPage = "GreetingPage2"></LandingPageButton>
+        <LandingPageButton nextPage = "GreetingPage3"></LandingPageButton>
           
           <View
             style={{
