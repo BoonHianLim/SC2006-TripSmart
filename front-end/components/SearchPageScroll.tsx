@@ -62,9 +62,25 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
     const [email, setEmail] = useState("");
     const [startLocation, setLocationFunction] = useState("");
     const [dest, setDestFunction] = useState("");
+    const [resultText, setResultText] = useState("");
+
     var emailAccount: string = "";
     // get current status, is it a guess or user
 
+    AsyncStorage.getItem("language").then((value) => {
+        if (value == 'en'){
+            setResultText("Show Result")
+        } 
+        else if (value == 'ch'){
+            setResultText("显示结果")
+        } 
+        else if (value == 'ms'){
+            setResultText("Paparkan Hasil")
+        } 
+        else if (value == 'ta'){
+            setResultText("முடிவு காட்டு")
+        } 
+    })
 
     const getStatus = async () => {
         try {
@@ -211,7 +227,9 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
                 changeState("resultList");
             }}
         >
-            <Text style={styles.buttonTextResult}>Show Result</Text>
+            <Text style={styles.buttonTextResult}>
+                {resultText}
+            </Text>
         </TouchableOpacity>
     </View>)
 }
