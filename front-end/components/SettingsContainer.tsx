@@ -11,10 +11,50 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color } from "../GlobalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from '@react-navigation/native';
 
 const SettingsContainer = ({selectedButton}) => {
   const navigation = useNavigation();
   const { width, height } = Dimensions.get("window");
+
+  const message1 = "Map";
+  const message2 = "History";
+  const message3 = "Settings";
+  const [resultText1, setResultText1] = useState(message1);
+  const [resultText2, setResultText2] = useState(message2);
+  const [resultText3, setResultText3] = useState(message3);
+
+  useFocusEffect(() => {
+    AsyncStorage.getItem("language").then((value) => {
+      switch(value){
+        case 'en':
+          setResultText1(message1);
+          setResultText2(message2);
+          setResultText3(message3);
+          break;
+        case 'ch':
+          setResultText1("地图");
+          setResultText2("历史记录");
+          setResultText3("设置");
+          break;
+        case 'ms':
+          setResultText1("Peta");
+          setResultText2("Sejarah");
+          setResultText3("Tetapan");
+          break;
+        case 'ta':
+          setResultText1("வரைபடம்");
+          setResultText2("வரலாறு");
+          setResultText3("அமைப்புகள்");
+          break;
+        default:
+          setResultText1(message1);
+          setResultText2(message2);
+          setResultText3(message3);
+      }
+    })
+    }
+);
 
   const mapName = "ResultList";
   const historyName = "History";
@@ -102,7 +142,7 @@ const SettingsContainer = ({selectedButton}) => {
             />
           </View>
           <Text style={[styles.planlg, styles.mt8_35, styles.planlgTypo]}>
-            Map
+            {resultText1}
           </Text>
         </Pressable>
         <Pressable
@@ -121,7 +161,7 @@ const SettingsContainer = ({selectedButton}) => {
             />
           </View>
           <Text style={[styles.billetter, styles.mt8_35, styles.planlgTypo]}>
-            History
+          {resultText2}
           </Text>
         </Pressable>
         <Pressable
@@ -140,7 +180,7 @@ const SettingsContainer = ({selectedButton}) => {
             />
           </View>
           <Text style={[styles.billetter, styles.mt8_35, styles.planlgTypo]}>
-            Settings
+          {resultText3}
           </Text>
         </Pressable>
       </View>
