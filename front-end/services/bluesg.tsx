@@ -11,22 +11,10 @@ export default class Bluesg {
     }
     this.BLUE_SG_API_KEY = env.BLUE_SG_API_KEY || "";
   }
-<<<<<<< HEAD
 
   
   async getData(start: string, end: string, pax: number ): Promise<[string, number, number]> {
    
-=======
-  async getResult(start: string, end: string, pax: number = 1): Result {
-    return {
-      name: "blueSG",
-      iconURL:
-        "https://play-lh.googleusercontent.com/zwdsPEl7NT_TxYjL83V6UnEwZjXljBHcr41o5D41xpqd0JC5odZY--yA9WWWrYIOCWw",
-      data: this.getData(start, end, pax),
-    };
-  }
-  async getData(start: string, end: string, pax: number = 1): Promise<[number, number]>[] {
->>>>>>> 040d313 (TaxiAPI_updated functions)
     //call Google Map API
     const getStartLat = 1.3376342844358233;
     const getStartLng = 103.69414958176533;
