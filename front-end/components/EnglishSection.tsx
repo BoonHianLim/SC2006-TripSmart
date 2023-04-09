@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Text, StyleSheet, Image, View } from "react-native";
+import { Text, StyleSheet, Image, View, ScrollView } from "react-native";
 import { Margin, Color, FontFamily, FontSize } from "../GlobalStyles";
+import SettingsLangDropdown from "../components/SettingsLangDropdown";
 
 const EnglishSection = () => {
   return (
@@ -8,7 +9,8 @@ const EnglishSection = () => {
       <Text style={[styles.englishTypo, styles.textLayout]}>
         Change Language
       </Text>
-      <View style={[styles.frameWrapper, styles.mt24]}>
+      <SettingsLangDropdown />
+      {/* <View style={[styles.frameWrapper, styles.mt24]}>
         <View style={styles.frameParent}>
           <View style={[styles.frameGroup, styles.frameFlexBox]}>
             <View style={[styles.frameContainer, styles.frameFlexBox]}>
@@ -43,6 +45,7 @@ const EnglishSection = () => {
                 </View>
               </View>
             </View>
+            
             <Text
               style={[
                 styles.english,
@@ -53,9 +56,7 @@ const EnglishSection = () => {
               English
             </Text>
           </View>
-          <View
-            style={[styles.mapSettings, styles.mt10, styles.englishPosition]}
-          >
+          <View style={[styles.mapSettings, styles.mt10, styles.englishPosition]}>
             <View style={styles.frameView}>
               <View style={[styles.iconsFrame, styles.iconsSpaceBlock]}>
                 <View style={[styles.icons2, styles.iconsLayout]}>
@@ -109,7 +110,7 @@ const EnglishSection = () => {
             </View>
           </View>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -129,6 +130,9 @@ const styles = StyleSheet.create({
   },
   mt24: {
     marginTop: Margin.m_5xl,
+  },
+  mt_2: {
+    marginTop: Margin.m_15xs,
   },
   textLayout: {
     lineHeight: 14,
@@ -305,9 +309,15 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderColor: "#efeded",
     borderWidth: 1,
+    height: 80,
     flexDirection: "row",
     overflow: "hidden",
     alignSelf: "stretch",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingVertical: 50,
   },
   changeLanguageParent: {
     height: 134,
