@@ -22,14 +22,15 @@ let resultArr:Result[] = [{
 
 
 
-const ResultListResult = ({isCheap}:any) => {
+const ResultListResult = ({isCheap, startLoc, destLoc}:any) => {
     const [result, setResult] = useState();
     const [resultArr, setResultArr] = useState([]);
     const sortBy = isCheap ? 'fare' : 'duration';
 
     const refreshData = () => {
-        grab.updateResult("Nanyang Technological University",
-            "National University Singapore",
+        console.log(startLoc,destLoc);
+        grab.updateResult(startLoc,
+            destLoc,
             1,
             setResultArr);
     }

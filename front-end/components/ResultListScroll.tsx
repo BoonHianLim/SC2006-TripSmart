@@ -14,11 +14,6 @@ import {Color, FontFamily} from "../GlobalStyles";
 import {useNavigation} from "@react-navigation/native";
 import {grab} from "../services/grabscrapper";
 
-const promises: Promise<[number,number]>[] = [
-    Promise.resolve([1,7]),
-    Promise.resolve([3,6]),
-    Promise.resolve([2,5])
-];
 const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
     const [sortedValues, setSortedValues] = useState<number[][]>([]);
 
@@ -42,41 +37,6 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
             BackHandler.removeEventListener("hardwareBackPress", handleBackButtonClick);
         };
     }, []);
-
-    //utility functions
-    async function sortPromisesAscending(promises: Promise<[number, number]>[]) {
-        const resolvedValues = await Promise.all(promises);
-        return promises.sort((promiseA, promiseB) => {
-            const valueA = resolvedValues[promises.indexOf(promiseA)][0];
-            const valueB = resolvedValues[promises.indexOf(promiseB)][0];
-            if (valueA < valueB) {
-                return -1;
-            }
-            if (valueA > valueB) {
-                return 1;
-            }
-            return 0;
-        });
-    }
-
-    useEffect(() => {
-        sortPromisesAscending(promises).then(sortedPromises => {
-            Promise.all(sortedPromises.map(p => p.then(v => v))).then(values => {
-                setSortedValues(values);
-            });
-        });
-    }, []);
-
-/*
-    try{
-        grab.getGrabFare("Nanyang Technological University",
-            "National University Singapore")
-    }catch (e){
-        console.error(e);
-        console.log("grab getGrabFare fail to return. This may because of the flask server is not started, or " +
-            "connection issues between the localserver and expo.")
-    }
-*/
 
     return (
             <View style={styles.resultList}>
