@@ -2,9 +2,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Avatar, ListItem } from "@rneui/base";
 import React, { useEffect } from "react";
 import { Value } from "react-native-reanimated";
+import {View} from "react-native";
 
 const HistoryScroll = ({ item }: any) => {
-  console.log("item: ", item);
+  console.log("item",item)
+
   const fareText = "$" + item.fare;
   const durationText = item.duration + " min";
   return (

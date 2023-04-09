@@ -20,12 +20,11 @@ import HistoryScroll from "../components/HistoryRendering";
 const History1 = () => {
   const navigation = useNavigation();
   const [email, setEmail] = React.useState("");
-  const [data, setData] = React.useState([]);
+  const [history, setHistory] = React.useState([]);
 
   //database api to retrieve the history
   const retrieveHistory = async () => {
     console.log("retrieveHistory");
-    console.log("email: ", email);
     //console.log("looking for records from database");
     // perform login action here using email and password
     // mongodb api here
@@ -51,10 +50,10 @@ const History1 = () => {
           }),
         }
       );
-      const data = await response.json();
-      console.log("data: ", data.documents);
-      if (data != null) {
-        setData(data);
+      const history = await response.json();
+      console.log("data: ", history);
+      if (history != null) {
+        setHistory(history);
       } else {
         console.log("History might be empty");
       }
@@ -68,8 +67,6 @@ const History1 = () => {
     try {
       const isGuest = await AsyncStorage.getItem("@storage_Key");
       const value = await AsyncStorage.getItem("@storage_Email");
-      console.log("isGuest: ", isGuest);
-      console.log("value: ", value);
 
       if (isGuest == "Guest") {
         setEmail("Guest");
@@ -86,7 +83,7 @@ const History1 = () => {
     if (email) {
       retrieveHistory();
     }
-  }, [email]);
+  }, []);
 
   return (
     getStatus(),
@@ -142,16 +139,13 @@ const History1 = () => {
             </View>
           ) : (
             <View>
-              {data.length > 0 ? (
-                data.map((data, index) => (
-                  <HistoryScroll
-                    key={data.name + data.serviceType + index.toString()}
-                    item={data.documents}
-                  />
-                ))
-              ) : (
-                <Text>No History Found</Text>
-              )}
+
+              {history.documents && history.documents.map((item, index) => (
+                  <HistoryScroll key={index} item={item} />
+              ))}
+
+
+
             </View>
           )}
         </ScrollView>
