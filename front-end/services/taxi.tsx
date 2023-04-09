@@ -14,7 +14,6 @@ or should i output a range for the price (i.e. output a string: '$10-13' instead
 const getComfortRIDE() = (minutes: any, distance: any) => {
     
     const comfortRIDEFareMap = new Map<string, [string, number]>();
-
     type Prices = {
         name: string;
         fareType: string;
@@ -22,19 +21,15 @@ const getComfortRIDE() = (minutes: any, distance: any) => {
         perKm: number;
         perMin: number;
     };
-
     const priceTier: Prices = { name: "ComfortRide", fareType: "ComfortRIDE (Car or Taxi Flat Fare)", baseFare: 2.8, perKm: 0.5, perMin: 0.15 };
-
     let totalFare = (priceTier.baseFare + (priceTier.perKm * distance) + (priceTier.perMin * minutes));
     if (totalFare < 6.00) {
         totalFare = 6.00;
     }
-
     comfortRIDEFareMap.set(priceTier.name, [priceTier.fareType, totalFare]);
 
     //console.log(`total cost = $${totalFare}`);
     //console.log(comfortRIDEFareMap);
-
 
     //returns a Map data structure with the single taxi/car ComfortRIDE* FARE
     return comfortRIDEFareMap;
@@ -47,7 +42,15 @@ const getComfortRIDE() = (minutes: any, distance: any) => {
 
 //2) taxi calculation using (METERED FARE). 4 fare types:{Hyundai i-40 Taxi, Toyota Prius/Hyundai Ioniq Hybrid Taxis, Hyundai Ioniq EV/Hyundai Kona EV/BYD e6 Electric Vehicle Taxis, Limousine Cab}
 const getMeteredFare() = (minutes: any, distance: any) => {
-   
+
+    //To get the current time:
+    //1) if the time is between 12am and 6am (00 to 06)hr Late Night surcharge applies (50% extra Of Metered Fare)
+    //2) if the time is between (6am - 9.30am) or (6pm - 12am) Peak Period surcharge applies (25% extra Of Metered Fare)
+    const currentDate: Date = new Date();
+    const currentHour: number = currentDate.getHours();
+    const currentDayOfWeek: number = currentDate.getDay();
+    const currentMinute: number = currentDate.getMinutes();
+
     const meteredFareMap = new Map<string, [string, number]>();
     type Prices = {
         name: string;
@@ -64,7 +67,6 @@ const getMeteredFare() = (minutes: any, distance: any) => {
         { name: "Metered Limousine Taxi", fareType: "Metered Limousine Cab", flagDown: 4.10, perDistance: 0.35, perTime: 0.35 },
     ];
 
-
     for (let i = 0; i < priceTiers.length; i++) {
         let fare = 0;
         let distanceLeft = distance;
@@ -76,6 +78,17 @@ const getMeteredFare() = (minutes: any, distance: any) => {
         else {
             distanceLeft -= 1;
             fare = priceTiers[i].flagDown + (priceTiers[i].perDistance * Math.ceil(distanceLeft / 0.4)) + (priceTiers[i].perTime * Math.ceil(minutes * (60 / 45)));
+        }
+        
+        //Peak Period surcharge
+        if ((currentDayOfWeek >= 1 && currentDayOfWeek <= 5 && ((currentHour >= 6 && currentHour < 9) || (currentHour == 9 && currentMinute < 30))) || (currentHour >= 18 && currentHour < 00)) {
+            fare *= 1.25;
+        } 
+        
+        //Late Night surcharge
+        if (currentHour >= 0 && currentHour < 6)
+        {
+            fare *= 1.5;
         }
 
         meteredFareMap.set(priceTiers[i].name, [priceTiers[i].fareType, fare]);
