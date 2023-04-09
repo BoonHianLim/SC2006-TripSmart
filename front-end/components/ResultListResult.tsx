@@ -8,15 +8,15 @@ import { Result } from "../types/Result"
 let resultArr:Result[] = [{
     name: "blusg",
     iconURL: "https://play-lh.googleusercontent.com/zwdsPEl7NT_TxYjL83V6UnEwZjXljBHcr41o5D41xpqd0JC5odZY--yA9WWWrYIOCWw",
-    data: [Promise.resolve([1,7]),
-        Promise.resolve([3,6]),
-        Promise.resolve([2,5])]
+    data: [Promise.resolve(["bluesg",1,7]),
+        Promise.resolve(["bluesg",3,6]),
+        Promise.resolve(["bluesg",2,5])]
 },{
     name: "Grab",
     iconURL: "https://seeklogo.com/images/G/grab-logo-7020E74857-seeklogo.com.png",
-    data: [Promise.resolve([10,71]),
-        Promise.resolve([0,2]),
-        Promise.resolve([4,16])]
+    data: [Promise.resolve(["JustGrab",10,71]),
+        Promise.resolve(["GrabCar Premium",0,2]),
+        Promise.resolve(["GrabCar Plus",4,16])]
 }]
 
 
@@ -38,6 +38,7 @@ const ResultListResult = ({isCheap}:any) => {
             const allData: {
                 name: string;
                 iconURL: string;
+                serviceType:string;
                 duration: number;
                 fare: number;
             }[] = [];
@@ -50,10 +51,11 @@ const ResultListResult = ({isCheap}:any) => {
 
                 for (let j = 0; j < data.length; j++) {
                     const currData = data[j];
-                    const [duration, fare] = await currData;
+                    const [serviceType,duration, fare] = await currData;
                     allData.push({
                         name: result.name,
                         iconURL: result.iconURL,
+                        serviceType,
                         duration,
                         fare,
                     });
@@ -81,7 +83,7 @@ const ResultListResult = ({isCheap}:any) => {
             {result &&
                 result.map((data, index) => (
                     <ListItemScroll
-                        key={data.name + index.toString() + data.duration.toString()}
+                        key={data.name + data.serviceType + index.toString()}
                         item={data}
                         isCheap={isCheap}
                     />
