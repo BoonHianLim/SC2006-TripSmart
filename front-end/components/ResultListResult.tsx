@@ -6,7 +6,7 @@ import { Result } from "../types/Result"
 
 
 let resultArr:Result[] = [{
-    name: "blusg",
+    name: "blueSG",
     iconURL: "https://play-lh.googleusercontent.com/zwdsPEl7NT_TxYjL83V6UnEwZjXljBHcr41o5D41xpqd0JC5odZY--yA9WWWrYIOCWw",
     data: [Promise.resolve(["bluesg",1,7]),
         Promise.resolve(["bluesg",3,6]),
