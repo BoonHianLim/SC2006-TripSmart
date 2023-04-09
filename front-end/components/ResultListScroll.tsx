@@ -67,6 +67,7 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
         });
     }, []);
 
+/*
     try{
         grab.getGrabFare("Nanyang Technological University",
             "National University Singapore")
@@ -75,6 +76,7 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
         console.log("grab getGrabFare fail to return. This may because of the flask server is not started, or " +
             "connection issues between the localserver and expo.")
     }
+*/
 
     return (
             <View style={styles.resultList}>

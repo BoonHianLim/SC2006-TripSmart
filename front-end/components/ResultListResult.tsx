@@ -3,6 +3,7 @@ import {Avatar, ListItem} from "@rneui/base";
 import React, {useEffect, useState} from "react";
 import ListItemScroll from "./ListItemScroll"
 import { Result } from "../types/Result"
+import {grab} from "../services/grabscrapper";
 
 
 let resultArr:Result[] = [{
@@ -23,7 +24,18 @@ let resultArr:Result[] = [{
 
 const ResultListResult = ({isCheap}:any) => {
     const [result, setResult] = useState();
+    const [resultArr, setResultArr] = useState([]);
     const sortBy = isCheap ? 'fare' : 'duration';
+
+    const refreshData = () => {
+        grab.updateResult("Nanyang Technological University",
+            "National University Singapore",
+            1,
+            setResultArr);
+    }
+    useEffect(() => {
+        refreshData()
+    }, []);
 
     useEffect(() => {
         async function printSortedData(sortBy: string): Promise<any> {
@@ -72,11 +84,10 @@ const ResultListResult = ({isCheap}:any) => {
 
         printSortedData(sortBy)
             .then((allData) => {
-                console.log(allData);
                 setResult(allData);
             })
             .catch((error) => console.error(error));
-    }, [sortBy]);
+    }, [sortBy, resultArr]);
 
     return (
         <View style={styles.result}>
@@ -88,108 +99,7 @@ const ResultListResult = ({isCheap}:any) => {
                         isCheap={isCheap}
                     />
                 ))}
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John Doe</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John Doe</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John Doe</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John Doe</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John Doe</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-{/*    <View>
-        {sortedValues.map((arr, index) => (
-            <Text key={index}>{arr.join(', ')}</Text>
-        ))}
-    </View>*/}
-</View>)
+        </View>)
 }
 
 const styles = StyleSheet.create({

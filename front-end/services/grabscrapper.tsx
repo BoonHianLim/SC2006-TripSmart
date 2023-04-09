@@ -9,7 +9,11 @@ export default class Grab {
 
   }
 
-  async getGrabFare(pickupLocation: string, dropoffLocation: string, pax: number = 1) {
+  async updateResult(pickupLocation: string, dropoffLocation: string, pax: number = 1, updateFn:any) {
+    const newData = await this.getResult(pickupLocation,dropoffLocation,pax);
+    updateFn((prevResults:any) => [...prevResults, newData]);
+  }
+  async getResult(pickupLocation: string, dropoffLocation: string, pax: number = 1) {
     try {
       const url = this.getURL() + "/farecheck?pickup=" + pickupLocation + "&dropoff=" + dropoffLocation;
       console.log(url)
