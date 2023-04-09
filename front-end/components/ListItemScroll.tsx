@@ -3,7 +3,7 @@ import { Avatar, ListItem } from "@rneui/base";
 import React, { useEffect } from "react";
 import { Value } from "react-native-reanimated";
 
-const ListItemScroll = ({ item, isCheap }: any) => {
+const ListItemScroll = ({ item, isCheap = true }: any) => {
   const [email, setEmail] = React.useState("");
   const [appName, setAppName] = React.useState("");
 
@@ -111,7 +111,7 @@ const ListItemScroll = ({ item, isCheap }: any) => {
     <ListItem onPress={() => process()} bottomDivider>
       <Avatar rounded source={{ uri: item.iconURL }} />
       <ListItem.Content>
-        <ListItem.Title>{item.name}</ListItem.Title>
+        <ListItem.Title>{item.serviceType}</ListItem.Title>
         <ListItem.Subtitle>
           {isCheap ? durationText : fareText}
         </ListItem.Subtitle>
