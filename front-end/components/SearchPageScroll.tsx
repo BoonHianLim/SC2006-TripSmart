@@ -32,36 +32,55 @@ type InputAutocompleteProps = {
     label: string;
     placeholder?: string;
     onPlaceSelected: (details: GooglePlaceDetail | null) => void;
+    autoFillRef:any;
 };
 
-function InputAutocomplete({
-                               label,
-                               placeholder,
-                               onPlaceSelected,
-                           }: InputAutocompleteProps) {
-    return (
-        <>
-            <Text>{label}</Text>
-            <GooglePlacesAutocomplete
-                styles={{ textInput: styles.input }}
-                placeholder={placeholder || ""}
-                fetchDetails
-                onPress={(data, details = null) => {
-                    onPlaceSelected(details);
-                }}
-                query={{
-                    key: devEnvironmentVariables.GOOGLE_MAP_API_KEY,
-                    language: "en",
-                }}
-            />
-        </>
-    );
-}
 
-const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, setStartLoc, destLoc, setDestLoc, moveTo}:any) => {
+
+const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc,
+                              setStartLoc, destLoc, setDestLoc, moveTo,
+                              startLocRef, destLocRef}:any) => {
     const [email, setEmail] = useState("");
+
+    const [gpsLoc, setGPSLoc] = useState<[number,number]>([0,0]);
     var emailAccount: string = "";
 
+    function InputAutocomplete({
+                                   label,
+                                   placeholder,
+                                   onPlaceSelected,
+                                   autoFillRef
+                               }: InputAutocompleteProps) {
+        console.log("ref:",autoFillRef)
+        return (
+            <>
+                <Text>{label}</Text>
+                <GooglePlacesAutocomplete
+                    ref = {autoFillRef}
+                    styles={{ textInput: styles.input }}
+                    placeholder={placeholder || ""}
+                    fetchDetails
+                    onPress={(data, details = null) => {
+                        onPlaceSelected(details);
+                    }}
+                    query={{
+                        key: devEnvironmentVariables.GOOGLE_MAP_API_KEY,
+                        language: "en",
+                        components: 'country:sg',
+                    }}
+                />
+            </>
+        );
+    }
+    const getLocation = async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+            console.log("not granted!")
+            return;
+        }
+        let location = await Location.getCurrentPositionAsync({});
+        setGPSLoc([location.coords.latitude,location.coords.longitude])
+    };
 
     const getStatus = async () => {
         try {
@@ -180,13 +199,15 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
         moveTo(position);
     };
 
-    return (
+    return (getLocation(),
         getHistory(),
             (emailAccount = JSON.stringify(emailAccount)),
             getStatus(),
+        <View style = {{flex:1}}>
     <View style={styles.searchContainer}>
         <InputAutocomplete
             label="Origin"
+            autoFillRef={startLocRef}
             onPlaceSelected={(details) => {
                 onPlaceSelected(details, "origin");
                 var tmp = JSON.stringify(details.name);
@@ -195,6 +216,7 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
         />
         <InputAutocomplete
             label="Destination"
+            autoFillRef={destLocRef}
             onPlaceSelected={(details) => {
                 onPlaceSelected(details, "destination");
                 var tmp1 = JSON.stringify(details.name);
@@ -212,7 +234,9 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
         >
             <Text style={styles.buttonTextResult}>Show Result</Text>
         </TouchableOpacity>
-    </View>)
+        <Text>{gpsLoc.toString()}</Text>
+    </View>
+        </View>)
 }
 
 const styles = StyleSheet.create({
@@ -275,7 +299,7 @@ const styles = StyleSheet.create({
     },
     buttonTextResult: {
         textAlign: "center",
-        color: "white",
+        color: "white"
     },
     searchContainer: {
         position: "absolute",
@@ -288,7 +312,7 @@ const styles = StyleSheet.create({
         elevation: 4,
         padding: 8,
         borderRadius: 8,
-        top: Constants.statusBarHeight,
+
     },
     input: {
         borderColor: "#888",

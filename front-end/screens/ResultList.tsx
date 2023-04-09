@@ -27,13 +27,15 @@ import BottomSheet, {BottomSheetScrollView} from "@gorhom/bottom-sheet";
 import MapViewDirections from "react-native-maps-directions";
 import devEnvironmentVariables from "../env";
 import {grab} from "../services/grabscrapper";
+import SearchPageHistory from "../components/SearchPageHistory";
 
 
 const App = () => {
     // ref
     const snapPoints = useMemo(() => ["25%", "76.5%"], []);
     const bottomSheetRef = useRef<BottomSheet>(null);
-
+    const startLocRef = useRef(null);
+    const destLocRef = useRef(null);
     // callbacks
     const handleSheetChanges = useCallback((index: number) => {
         console.log("handleSheetChanges", index);
@@ -43,20 +45,9 @@ const App = () => {
     const [isCheap,setCheap] = useState(true);
     const [startLoc, setStartLoc] = useState("");
     const [destLoc, setDestLoc] = useState("");
-    const [gpsLoc, setGPSLoc] = useState<any>();
 
-    useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== "granted") {
-                console.log("not granted!")
-                return;
-            }
-            let location = await Location.getCurrentPositionAsync({});
-            setGPSLoc(location)
-            console.log(location);
-        })();
-    }, []);
+
+
     //markers
     const [origin, setOrigin] = useState<LatLng | null>();
     const [destination, setDestination] = useState<LatLng | null>();
@@ -116,6 +107,8 @@ const App = () => {
                     setStartLoc = {setStartLoc}
                     destLoc = {destLoc}
                     setDestLoc = {setDestLoc}
+                    startLocRef = {startLocRef}
+                    destLocRef = {destLocRef}
                 />
             case 'resultFilter':
                 return <ResultFilterScroll changeState={setState}/>
@@ -178,6 +171,12 @@ const App = () => {
                         isCheap = {isCheap}
                         startLoc = {startLoc}
                         destLoc = {destLoc}
+                        />
+                    </BottomSheetScrollView>}
+                    {state == "searchPage" &&  <BottomSheetScrollView>
+                        <SearchPageHistory
+                            startLocRef = {startLocRef}
+                            destLocRef = {destLocRef}
                         />
                     </BottomSheetScrollView>}
                 </BottomSheet>
