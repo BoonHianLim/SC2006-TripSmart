@@ -26,13 +26,13 @@ export default class Grab {
         ]
       };
       result.data[0].then(([service, duration, price]) => {
-        console.log(`Service: ${service}, Duration: ${duration} minutes, Price: $${price}`);
+        console.log(`Service: ${service}, Duration: ${duration} minutes, Price: $${price * (Math.floor(pax/4)+1)}`);
       });
       result.data[1].then(([service, duration, price]) => {
-        console.log(`Service: ${service}, Duration: ${duration} minutes, Price: $${price}`);
+        console.log(`Service: ${service}, Duration: ${duration} minutes, Price: $${price * (Math.floor(pax/4)+1)}`);
       });
       result.data[2].then(([service, duration, price]) => {
-        console.log(`Service: ${service}, Duration: ${duration} minutes, Price: $${price}`);
+        console.log(`Service: ${service}, Duration: ${duration} minutes, Price: $${price * (Math.floor(pax/6)+1)}`);
       });
       // Showing the console.log examples for the code above:
       // LOG  Service: JustGrab, Duration: 23 minutes, Price: $13.44
