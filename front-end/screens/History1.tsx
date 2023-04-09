@@ -16,11 +16,13 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import HistoryScroll from "../components/HistoryRendering";
+import { Button } from "react-native";
 
 const History1 = () => {
-  const navigation = useNavigation();
+  const [counter, setCounter] = React.useState(0);
   const [email, setEmail] = React.useState("");
   const [history, setHistory] = React.useState([]);
+  const navigation = useNavigation();
 
   //database api to retrieve the history
   const retrieveHistory = async () => {
@@ -83,11 +85,11 @@ const History1 = () => {
     if (email) {
       retrieveHistory();
     }
-  }, []);
+  }, [email]);
 
   return (
     getStatus(),
-    console.log("email: ", email),
+    console.log("status: ", email),
     (
       <GestureHandlerRootView style={{ flex: 1 }}>
         <ScrollView>
@@ -139,16 +141,14 @@ const History1 = () => {
             </View>
           ) : (
             <View>
-
-              {history.documents && history.documents.map((item, index) => (
+              {history.documents &&
+                history.documents.map((item, index) => (
                   <HistoryScroll key={index} item={item} />
-              ))}
-
-
-
+                ))}
             </View>
           )}
         </ScrollView>
+
         <SettingsContainer selectedButton={"History"} />
       </GestureHandlerRootView>
     )
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     color: Color.textColorsMain,
   },
   settings: {
-    height: Dimensions.get("window").height,
+    height: 170,
     alignItems: "center",
     backgroundColor: Color.textColorsInverse,
   },

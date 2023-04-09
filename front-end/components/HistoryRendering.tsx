@@ -2,10 +2,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Avatar, ListItem } from "@rneui/base";
 import React, { useEffect } from "react";
 import { Value } from "react-native-reanimated";
-import {View} from "react-native";
+import { View } from "react-native";
 
 const HistoryScroll = ({ item }: any) => {
-  console.log("item",item)
+  console.log("item", item);
 
   const fareText = "$" + item.fare;
   const durationText = item.duration + " min";
@@ -14,14 +14,13 @@ const HistoryScroll = ({ item }: any) => {
       onPress={() => console.log("pressed, but should do nothing")}
       bottomDivider
     >
-      <Avatar rounded source={{ uri: item.iconURL }} />
+      <Avatar rounded source={{ uri: item.url }} />
       <ListItem.Content>
-        <ListItem.Title>{item.serviceType}</ListItem.Title>
+        <ListItem.Title>{item.nameOfApp}</ListItem.Title>
+        <ListItem.Subtitle>{item.duration}</ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Content right>
-        <ListItem.Subtitle>
-          {fareText} {durationText}
-        </ListItem.Subtitle>
+        <ListItem.Subtitle>{item.fare}</ListItem.Subtitle>
       </ListItem.Content>
     </ListItem>
   );
