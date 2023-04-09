@@ -63,29 +63,33 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
     const [email, setEmail] = useState("");
     const [startLocation, setLocationFunction] = useState("");
     const [dest, setDestFunction] = useState("");
-    const [resultText, setResultText] = useState("Show Result");
+    const message = "Show Result";
+    const [resultText, setResultText] = useState(message);
+
+    useFocusEffect(() => {
+        AsyncStorage.getItem("language").then((value) => {
+            switch(value){
+                case 'en':
+                    setResultText(message);
+                    break;
+                case 'ch':
+                    setResultText("显示结果");
+                    break;
+                case 'ms':
+                    setResultText("Paparkan Hasil");
+                    break;
+                case 'ta':
+                    setResultText("முடிவு காட்டு");
+                    break;
+                default:
+                    setResultText(message);
+            }
+        })
+        }
+    );
 
     var emailAccount: string = "";
     // get current status, is it a guess or user
-
-    useFocusEffect(
-        () => {
-            AsyncStorage.getItem("language").then((value) => {
-                if (value == 'en'){
-                    setResultText("Show Result")
-                }
-                else if (value == 'ch'){
-                    setResultText("显示结果")
-                }
-                else if (value == 'ms'){
-                    setResultText("Paparkan Hasil")
-                }
-                else if (value == 'ta'){
-                    setResultText("முடிவு காட்டு")
-                }
-            })
-        }
-    );
 
     const getStatus = async () => {
         try {

@@ -13,6 +13,8 @@ import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {Color, FontFamily} from "../GlobalStyles";
 import {useNavigation} from "@react-navigation/native";
 import {grab} from "../services/grabscrapper";
+import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const promises: Promise<[number,number]>[] = [
     Promise.resolve([1,7]),
@@ -21,6 +23,44 @@ const promises: Promise<[number,number]>[] = [
 ];
 const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
     const [sortedValues, setSortedValues] = useState<number[][]>([]);
+    const message1 = "Results";
+    const message2 = "Cheapest";
+    const message3 = "Fastest";
+    const [resultText1, setResultText1] = useState(message1);
+    const [resultText2, setResultText2] = useState(message2);
+    const [resultText3, setResultText3] = useState(message3);
+
+    useFocusEffect(() => {
+        AsyncStorage.getItem("language").then((value) => {
+            switch(value){
+                case 'en':
+                    setResultText1(message1);
+                    setResultText2(message2);
+                    setResultText3(message3);
+                    break;
+                case 'ch':
+                    setResultText1("结果");
+                    setResultText2("最便宜");
+                    setResultText3("最快");
+                    break;
+                case 'ms':
+                    setResultText1("Hasil");
+                    setResultText2("Termurah");
+                    setResultText3("Terpantas");
+                    break;
+                case 'ta':
+                    setResultText1("முடிவுகள்");
+                    setResultText2("கடைசியான");
+                    setResultText3("விரைவான");
+                    break;
+                default:
+                    setResultText1(message1);
+                    setResultText2(message2);
+                    setResultText3(message3);
+            }
+        })
+        }
+    );
 
     const lightArrowLink = require("../assets/arrow-2.png");
     const dimArrowLink = require("../assets/arrow-21.png");
@@ -90,7 +130,7 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
                                 source={require("../assets/arrow-11.png")}
                             />
                         </Pressable>
-                        <Text style={[styles.headerChildText,styles.resultText]}>Results</Text>
+                        <Text style={[styles.headerChildText,styles.resultText]}>{resultText1}</Text>
                         <View style = {{marginLeft:"auto",paddingRight:20}}>
                             <Pressable
                                 style={[styles.headerChild,styles.image3]}
@@ -114,7 +154,7 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
                                 style = {{flexDirection:"row"}}
                             >
                                 <Text style={[isCheap? styles.lightText: styles.dimText, styles.sortingHeaderText]}>
-                                    Cheapest
+                                {resultText2}
                                 </Text>
                                 <Image
                                     style = {styles.sortingHeaderArrow}
@@ -128,7 +168,7 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
                                 style = {{flexDirection:"row"}}
                             >
                                 <Text style={[isCheap? styles.dimText: styles.lightText, styles.sortingHeaderText]}>
-                                    Fastest
+                                {resultText3}
                                 </Text>
                                 <Image
                                     style = {styles.sortingHeaderArrow}
