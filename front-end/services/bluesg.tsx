@@ -28,18 +28,13 @@ export default class Bluesg {
       data: this.getData(start, end, pax),
     };
   }
-  async getData(
-    start: string,
-    end: string,
-    pax: number = 1
-  ): Promise<[number, number]>[] {
+  async getData(start: string, end: string, pax: number = 1): Promise<[number, number]>[] {
     //call Google Map API
     const getStartLat = 1.3376342844358233;
     const getStartLng = 103.69414958176533;
     const query = (lat: number, lng: number) => {
       return {
-        query:
-          "query ($lat: Float!, $lng: Float!, $providers: [String]) {vehicles(lat: $lat, lng: $lng, includeProviders: $providers) {lat lng provider{name website}}}",
+        query:"query ($lat: Float!, $lng: Float!, $providers: [String]) {vehicles(lat: $lat, lng: $lng, includeProviders: $providers) {lat lng provider{name website}}}",
         variables: { lat: lat, lng: lng, providers: ["bluesg"] },
       };
     };
