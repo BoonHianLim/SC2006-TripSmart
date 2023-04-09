@@ -1,57 +1,81 @@
 {
-    "Welcome to": "வருகைப் பரவலாக",
-    "TripSmart": "டிரிப் ஸ்மார்ட்",
-    "The best trip-planning app in Singapore that makes commuting more stress-free and accessible for everyone!": "எல்லாருக்கும் எளிதாகச் செயல்படும் சிங்கப்பூரின் சிறந்த பயணம் திட்டமிடும் பயனர்களுக்கு உள்ளது!",
+    "Welcome_to_TripSmart": {
+      "Welcome to": "வருகைப் பரவலாக",
+      "TripSmart": "டிரிப் ஸ்மார்ட்",
+      "The best trip-planning app in Singapore that makes commuting more stress-free and accessible for everyone!": "எல்லாருக்கும் எளிதாகச் செயல்படும் சிங்கப்பூரின் சிறந்த பயணம் திட்டமிடும் பயனர்களுக்கு உள்ளது!"
+    },
     "Next": "அடுத்து",
-    "Abundance of Choice": "மிகவும் பெரிய தேர்வு",
-    "let's you compare price fares and travel timings across all the major transport options available in Singapore from ride-hailing services and taxis to car rental and public transport services!": "ரைட்-ஹெயிலிங் சேவைகள் மற்றும் டாக்சிகள் முதலியன சிங்கப்பூரில் கிடைக்கும் பிற முக்கிய போக்கு விருப்பங்களில் விலைகளையும், பயண நேரங்களையும் ஒப்பிட்டு உங்களுக்கு சிறந்த தேர்வுகளைத் தேர்ந்தெடுக்க அனுமதிக்குகின்றது!",
-    "Here to meet all your travel needs": "உங்கள் அனைத்து பயண தேவைகளுக்கும் இங்கு பரப்பப்பட்டுள்ளது",
-    "Feel the ease of picking a transport option of your choice from the comfort of your own home and find the best offers in SG with us!": "உங்கள் வீட்டிலிருந்து உங்கள் தேர்ந்தெடுத்த போக்குவரத்து விரும்புவதன் மேல் எளிதில் உணர்வை அனுபவிக்கவும், எங்குடன் என்றும் எச்ஜி இலவசம் சிக்கலில்லாதும் எச்ஜி முதலிடப்பட்ட முறைகள் மூலம் எச்ஜி கட்டணங்களை மற்றும் பயண நேரங்களை சரிபார்க்க வைக்கவும்!",
-    "Login": "உள் நுழைய",
-    "Log in": "உள் நுழைய",
-    "Sign Up": "பதிவுபெறுக",
-    "Continue as Guest": "விருந்தினராக தொடரவும்",
-    "Sign In with": "உள் நுழைவதற்கு",
-    "Continue to your Account": "உங்கள் கணக்கிற்கு தொடருங்கள்",
-    "Email": "மின்னஞ்சல்",
-    "Password": "கடவுச்சொல்",
-    "Remember me": "என்னை நினைவில் கொள்ளுங்கள்",
-    "Or continue with": "அல்லது தொடரவும்",
-    "Don't have an account? Register now": "கணக்கு இல்லையா? இப்போது பதிவு செய்யவும்",
-    "Create Your Account": "உங்கள் கணக்கை உருவாக்கவும்",
-    "Re-type": "மீண்டும் தட்டச்சு செய்",
-    "I accept the Terms and the Privacy Policy": "நான் விதிகளையும் தனியுரிமை கொள்கையையும் ஏற்றுக்கொள்கிறேன்",
-    "Origin": "தொடக்கம்",
-    "Destination": "இலக்கு இடம்",
-    "Show Result": "முடிவு காட்டு",
-    "Map": "வரைபடம்",
-    "History": "வரலாறு",
-    "Settings": "அமைப்புகள்",
-    "Results": "முடிவுகள்",
-    "Cheapest": "கடைசியான",
-    "Fastest": "விரைவான",
-    "Grab": "Grab",
-    "blueSG": "blueSG",
-    "ComfortDelgro": "ComfortDelgro",
-    "min": "நிமிடம்",
-    "Filter": "வடிகட்டி",
-    "Number of": "பயனர் எண்ணிக்கை",
-    "Passengers": "பயணிகள்",
-    "Ride Types": "சவாரி வகைகள்",
-    "Wheelchair Accessibility": "சுட்டை அணுகல்",
-    "Pet-Friendly": "நாய் மற்றும் பூச்சி அனுபவம்",
-    "Eco-Friendly": "சூழல் அனுபவம்",
-    "Apply Filters": "வடிகட்டிகளை பயன்படுத்தவும்",
-    "Change Language": "மொழியை மாற்றவும்",
-    "English": "English",
-    "中文": "中文",
-    "Bahasa Melayu": "Bahasa Melayu",
-    "தமிழ்": "தமிழ்",
-    "Change Distance Metrics": "தொடர்பு அளவு மற்றும் மெத்ரிக் மாற்றுங்கள்",
-    "Change Password": "கடவுச்சொல் மாற்றம்",
-    "Log Out": "வெளியேறு",
-    "KM": "கிமீ",
-    "Miles": "மைல்கள்",
+    "Abundance_of_Choice": {
+      "Abundance of Choice": "மிகவும் பெரிய தேர்வு",
+      "let's you compare price fares and travel timings across all the major transport options available in Singapore from ride-hailing services and taxis to car rental and public transport services!": "ரைட்-ஹெயிலிங் சேவைகள் மற்றும் டாக்சிகள் முதலியன சிங்கப்பூரில் கிடைக்கும் பிற முக்கிய போக்கு விருப்பங்களில் விலைகளையும், பயண நேரங்களையும் ஒப்பிட்டு உங்களுக்கு சிறந்த தேர்வுகளைத் தேர்ந்தெடுக்க அனுமதிக்குகின்றது!"
+    },
+    "Welcome_page_3": {
+      "Here to meet all your travel needs": "உங்கள் அனைத்து பயண தேவைகளுக்கும் இங்கு பரப்பப்பட்டுள்ளது",
+      "Feel the ease of picking a transport option of your choice from the comfort of your own home and find the best offers in SG with us!": "உங்கள் வீட்டிலிருந்து உங்கள் தேர்ந்தெடுத்த போக்குவரத்து விரும்புவதன் மேல் எளிதில் உணர்வை அனுபவிக்கவும், எங்குடன் என்றும் எச்ஜி இலவசம் சிக்கலில்லாதும் எச்ஜி முதலிடப்பட்ட முறைகள் மூலம் எச்ஜி கட்டணங்களை மற்றும் பயண நேரங்களை சரிபார்க்க வைக்கவும்!"
+    },
+    "Landing_page": {
+      "Login": "உள் நுழைய",
+      "Log in": "உள் நுழைய",
+      "Sign Up": "பதிவுபெறுக",
+      "Continue as Guest": "விருந்தினராக தொடரவும்"
+    },
+    "Login_page": {
+      "Sign In with Password": "கடவுச்சொல்லுடன் உள்நுழைக",
+      "Continue to your Account": "உங்கள் கணக்கிற்கு தொடருங்கள்",
+      "Email": "மின்னஞ்சல்",
+      "Password": "கடவுச்சொல்",
+      "Remember me": "என்னை நினைவில் கொள்ளுங்கள்",
+      "Or continue with": "அல்லது தொடரவும்",
+      "Don't have an account? Register now": "கணக்கு இல்லையா? இப்போது பதிவு செய்யவும்"
+    },
+    "Sign_up_page": {
+      "Create Your Account": "உங்கள் கணக்கை உருவாக்கவும்",
+      "Re-type": "மீண்டும் தட்டச்சு செய்"
+    },
+    "T&C": {
+      "I accept the Terms and the Privacy Policy": "நான் விதிகளையும் தனியுரிமை கொள்கையையும் ஏற்றுக்கொள்கிறேன்"
+    },
+    "Search_page": {
+      "Origin": "தொடக்கம்",
+      "Destination": "இலக்கு இடம்",
+      "Show Result": "முடிவு காட்டு"
+    },
+    "Navigation_bar": {
+      "Map": "வரைபடம்",
+      "History": "வரலாறு",
+      "Settings": "அமைப்புகள்"
+    },
+    "Result_list": {
+      "Results": "முடிவுகள்",
+      "Cheapest": "கடைசியான",
+      "Fastest": "விரைவான",
+      "Grab": "Grab",
+      "blueSG": "blueSG",
+      "ComfortDelgro": "ComfortDelgro",
+      "min": "நிமிடம்"
+    },
+    "Filter_page": {
+      "Filter": "வடிகட்டி",
+      "Number of": "பயனர் எண்ணிக்கை",
+      "Passengers": "பயணிகள்",
+      "Ride Types": "சவாரி வகைகள்",
+      "Wheelchair Accessibility": "சுட்டை அணுகல்",
+      "Pet-Friendly": "நாய் மற்றும் பூச்சி அனுபவம்",
+      "Eco-Friendly": "சூழல் அனுபவம்",
+      "Apply Filters": "வடிகட்டிகளை பயன்படுத்தவும்"
+    },
+    "Settings_Page": {
+      "Change Language": "மொழியை மாற்றவும்",
+      "English": "English",
+      "中文": "中文",
+      "Bahasa Melayu": "Bahasa Melayu",
+      "தமிழ்": "தமிழ்",
+      "Change Distance Metrics": "தொடர்பு அளவு மற்றும் மெத்ரிக் மாற்றுங்கள்",
+      "Change Password": "கடவுச்சொல் மாற்றம்",
+      "Log Out": "வெளியேறு",
+      "KM": "கிமீ",
+      "Miles": "மைல்கள்"
+    },
     "Old": "பழைய",
     "New": "புதிய"
-  }
+}
