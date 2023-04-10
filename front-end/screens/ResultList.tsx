@@ -146,7 +146,7 @@ const App = () => {
                         <MapViewDirections
                             origin={origin}
                             destination={destination}
-                            apikey={devEnvironmentVariables.GOOGLE_MAP_API_KEY}
+                            apikey={devEnvironmentVariables.GOOGLE_MAPS_API_KEY}
                             strokeColor="#6644ff"
                             strokeWidth={4}
                             onReady={traceRouteOnReady}

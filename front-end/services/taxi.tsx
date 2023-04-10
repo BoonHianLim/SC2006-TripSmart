@@ -21,7 +21,7 @@ const getComfortRIDEFare = (minutes: number, distance: number, pax: number) => {
     }
 
     //accounting for the pax parameter
-    totalFare = (totalFare * Math.ceil(pax/4)) * 1.2;
+    totalFare = ((totalFare * Math.ceil(pax/4)) * 1.2)
     
     // data: Promise<[serviceName, duration, fare]>[];
     comfortRIDEFareMap.set(priceTier.name, [priceTier.fareType, minutes, totalFare]);
@@ -79,7 +79,7 @@ const getMeteredFare = (minutes: number, distance: number, pax: number) => {
         }
         
         //Peak Period surcharge
-        if ((currentDayOfWeek >= 1 && currentDayOfWeek <= 5 && ((currentHour >= 6 && currentHour < 9) || (currentHour == 9 && currentMinute < 30))) || (currentHour >= 18 && currentHour < 00)) {
+        if ((currentDayOfWeek >= 1 && currentDayOfWeek <= 5 && ((currentHour >= 6 && currentHour < 9) || (currentHour == 9 && currentMinute < 30))) || (currentHour >= 18 && currentHour < 0)) {
             fare *= 1.25;
         } 
         
@@ -192,7 +192,10 @@ export default class Taxi{
         // }
         // this.TAXI_API_KEY = env.TAXI_API_KEY || "";
     }
-
+    async updateResult(pickupLocation: string, dropoffLocation: string, pax: number = 1, updateFn:any) {
+        const newData = await this.getResult(pickupLocation,dropoffLocation,pax);
+        updateFn((prevResults:any) => [...prevResults, newData]);
+    }
     async getResult(start: string, end: string, pax: number = 1): Promise<Result> {
         
         let returnedResult: Result = {
@@ -237,7 +240,7 @@ export default class Taxi{
         const arrayOfPromise : Promise<[string, number, number]>[]= []
     
         combinedFareMap.forEach((value, key)=>{
-            arrayOfPromise.push(Promise.resolve([value[0], value[1], value[2]]))
+            arrayOfPromise.push(Promise.resolve([value[0], value[1], value[2].toFixed(2)]))
         })
 
         // console.log("ARRAY OF PROMISE: " + arrayOfPromise);

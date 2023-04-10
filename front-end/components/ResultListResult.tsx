@@ -11,7 +11,7 @@ const ResultListResult = ({isCheap, startLoc, destLoc}:any) => {
     const [result, setResult] = useState();
     const [resultArr, setResultArr] = useState([]);
     const sortBy = isCheap ? 'fare' : 'duration';
-    const apis = [grab, bluesg, taxi, publictransport]
+    const apis = [grab, publictransport, bluesg, taxi]
     const refreshData = () => {
         apis.forEach((api) => {
             api.updateResult(startLoc,

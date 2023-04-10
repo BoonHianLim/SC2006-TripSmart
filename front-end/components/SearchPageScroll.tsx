@@ -54,7 +54,7 @@ function InputAutocomplete({
                     onPlaceSelected(details);
                 }}
                 query={{
-                    key: devEnvironmentVariables.GOOGLE_MAP_API_KEY,
+                    key: devEnvironmentVariables.GOOGLE_MAPS_API_KEY,
                     language: "en",
                     components: 'country:sg',
                 }}
@@ -71,10 +71,11 @@ const messages = {
     ta
 };
 
-const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) => {
+
+const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, setStartLoc, destLoc, setDestLoc, moveTo}:any) => {
     const [email, setEmail] = useState("");
-    const [startLocation, setLocationFunction] = useState("");
-    const [dest, setDestFunction] = useState("");
+    var emailAccount: string = "";
+    const [gpsLoc,setGPSLoc] = useState<any>();
     const message = "Show Result";
     const flag1 = "Origin";
     const flag2 = "Destination";
@@ -99,14 +100,7 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
                     setResultText(messages.en["Search_page"]);
             }
         })
-        }
-    );
-
-
-const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, setStartLoc, destLoc, setDestLoc, moveTo}:any) => {
-    const [email, setEmail] = useState("");
-    var emailAccount: string = "";
-    const [gpsLoc,setGPSLoc] = useState<any>();
+    })
 
     useEffect(() => {
         //reset the hooks when it is re-render
