@@ -20,7 +20,7 @@ export default class Bluesg {
     }
     this.BLUE_SG_API_KEY = env.BLUE_SG_API_KEY || "";
   }
-  async getResult(start: string, end: string, pax: number = 1): Result {
+  async getResult(start: string, end: string, pax: number = 1): Promise<Result> {
     return {
       name: "blueSG",
       iconURL:
@@ -28,11 +28,9 @@ export default class Bluesg {
       data: this.getData(start, end, pax),
     };
   }
-  async getData(
-    start: string,
-    end: string,
-    pax: number = 1
-  ): Promise<[number, number]>[] {
+
+  async getData(start: string, end: string, pax: number = 1): Promise<[String, number, number]> {
+   
     //call Google Map API
     const getStartLat = 1.3376342844358233;
     const getStartLng = 103.69414958176533;
