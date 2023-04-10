@@ -3,28 +3,9 @@ import {Avatar, ListItem} from "@rneui/base";
 import React, {useEffect, useState} from "react";
 import ListItemScroll from "./ListItemScroll"
 import {grab} from "../services/grabscrapper";
-<<<<<<< HEAD
-
-
-let resultArr:Result[] = [{
-    name: "blueSG",
-    iconURL: "https://play-lh.googleusercontent.com/zwdsPEl7NT_TxYjL83V6UnEwZjXljBHcr41o5D41xpqd0JC5odZY--yA9WWWrYIOCWw",
-    data: [Promise.resolve(["bluesg",1,7]),
-        Promise.resolve(["bluesg",3,6]),
-        Promise.resolve(["bluesg",2,5])]
-},{
-    name: "Grab",
-    iconURL: "https://seeklogo.com/images/G/grab-logo-7020E74857-seeklogo.com.png",
-    data: [Promise.resolve(["JustGrab",10,71]),
-        Promise.resolve(["GrabCar Premium",0,2]),
-        Promise.resolve(["GrabCar Plus",4,16])]
-}]
-
-
-=======
 import {bluesg} from "../services/bluesg";
 import {publictransport} from "../services/publictransport";
->>>>>>> 75c2a10 (prepare for api code)
+import {taxi} from "../services/taxi";
 
 const ResultListResult = ({isCheap, startLoc, destLoc}:any) => {
     const [result, setResult] = useState();
