@@ -1,39 +1,42 @@
 import env from "../env";
 import { googlemap } from "./googlemap";
 import React, {useEffect, useState} from "react";
+import { Result } from "../types/Result";
 
 export default class Publictransport{
-    private PUBLIC_TRANSPORT_API_KEY: string;
-    constructor() {
-        if (!env.PUBLIC_TRANSPORT_API_KEY) {
-            throw new Error("PUBLIC_TRANSPORT_API_KEY environment variable is not set")
-        }
-        this.PUBLIC_TRANSPORT_API_KEY = env.PUBLIC_TRANSPORT_API_KEY || "";
-    }
 
-    async getData(start:string, end:string): Promise<[String, number, number]>{
+    async getData(start:string, end:string, pax: number): Promise<[string, number, number]>{
 
         //Call Google Map API
-        const [duration, distance] = await googlemap.getDataString(start, end, "transit");
-        var fare = this.getFare(distance);
+
+        var duration = 0;
+        var distance = 0;
+
+        await googlemap.getDataString(start, end, "transit").then((ptData : [number, number]) => {
+            console.log(ptData);
+            duration = ptData[0];
+            distance = ptData[1];
+        }).catch((err : any)=>{console.log(err)})
+
+        var fare = this.calFare(distance);
+        fare *= pax;
+
         return ["Public Transport", duration, fare];
 
     }
 
-    getFare(distance: number): number{
-        
-        // const [duration, distance] = await googlemap.getDataString(start, end, "transit");
+    async getResult(start: string, end: string, pax: number): Promise<Result>{
 
-        // const resp = await fetch('https://api.stb.gov.sg/services/transport/v2/mrt-lrt/fare-types', {
-        //     method: 'GET',
-        //     headers: {
-        //         "ApiEndPointTitle" : "Get MRT & LRT Fare Types",
-        //         "X-API-Key" : "IUARFRWUYVcb60dBLafJHCY2SRKMqhdW"
-        //     },
-        //     body: JSON.stringify(query(getStartLat,getStartLng))
-        // });
-        // const json = await resp.json();
-        // console.log(json);
+        const returnedResult:Result = {
+            name: "Public Transport",
+            iconURL: "https://cdn-icons-png.flaticon.com/512/9235/9235252.png",
+            data: [this.getData(start, end, pax),]
+        }
+
+        return returnedResult;
+    }
+
+    calFare(distance: number): number{
 
         var fare = 0;
         if (distance <= 3.2){
