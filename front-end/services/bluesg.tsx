@@ -3,15 +3,6 @@ import React, { useEffect, useState } from "react";
 import { googlemap } from "./googlemap";
 import { Result } from "../types/Result";
 
-const calFare = (minutes: any) => {
-  const cost = 0.46;
-  var totalCost = 0;
-
-  totalCost = cost * minutes;
-
-  return totalCost;
-};
-
 export default class Bluesg {
   private BLUE_SG_API_KEY: string;
   constructor() {
@@ -20,20 +11,14 @@ export default class Bluesg {
     }
     this.BLUE_SG_API_KEY = env.BLUE_SG_API_KEY || "";
   }
-  async getResult(start: string, end: string, pax: number = 1): Promise<Result> {
-    return {
-      name: "blueSG",
-      iconURL:
-        "https://play-lh.googleusercontent.com/zwdsPEl7NT_TxYjL83V6UnEwZjXljBHcr41o5D41xpqd0JC5odZY--yA9WWWrYIOCWw",
-      data: this.getData(start, end, pax),
-    };
-  }
 
-  async getData(start: string, end: string, pax: number = 1): Promise<[String, number, number]> {
+  
+  async getData(start: string, end: string, pax: number ): Promise<[string, number, number]> {
    
     //call Google Map API
     const getStartLat = 1.3376342844358233;
     const getStartLng = 103.69414958176533;
+
     const query = (lat: number, lng: number) => {
       return {
         query:
@@ -55,13 +40,43 @@ export default class Bluesg {
     const json = await resp.json();
     console.log(json);
 
-    const [duration, fare] = await googlemap.getDrivingData(start, end);
-    return [
-      [duration, fare],
-      [duration, fare],
-      [duration, fare],
-    ];
+    var duration = 0;
+    var distance = 0;
+
+    await googlemap.getDataString(start, end, "driving").then((bluesgData : [number, number]) => {
+        console.log(bluesgData);
+        duration = bluesgData[0];
+        distance = bluesgData[1];
+    }).catch((err : any)=>{console.log(err)})
+
+    var fare = this.calFare(distance);
+    fare *= pax;
+
+    return ["BlueSG", duration, fare];
+
   }
+
+  async getResult(start: string, end: string, pax: number): Promise<Result> {
+    
+    const returnedResult:Result = {
+      name: "blueSG",
+      iconURL: "https://play-lh.googleusercontent.com/zwdsPEl7NT_TxYjL83V6UnEwZjXljBHcr41o5D41xpqd0JC5odZY--yA9WWWrYIOCWw",
+      data: [this.getData(start, end, pax)]
+  }
+
+  return returnedResult;
+  }
+
+
+  calFare = (minutes: any) => {
+    const cost = 0.46;
+    var totalCost = 0;
+  
+    totalCost = cost * minutes;
+  
+    return totalCost;
+  };
+
 }
 
 export const bluesg = new Bluesg();

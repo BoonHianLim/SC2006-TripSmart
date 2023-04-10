@@ -4,15 +4,8 @@ import React, {useEffect, useState} from "react";
 import { Result } from "../types/Result";
 
 export default class Publictransport{
-    private PUBLIC_TRANSPORT_API_KEY: string;
-    constructor() {
-        if (!env.PUBLIC_TRANSPORT_API_KEY) {
-            throw new Error("PUBLIC_TRANSPORT_API_KEY environment variable is not set")
-        }
-        this.PUBLIC_TRANSPORT_API_KEY = env.PUBLIC_TRANSPORT_API_KEY || "";
-    }
 
-    async getData(start:string, end:string): Promise<[string, number, number]>{
+    async getData(start:string, end:string, pax: number): Promise<[string, number, number]>{
 
         //Call Google Map API
 
@@ -26,6 +19,7 @@ export default class Publictransport{
         }).catch((err : any)=>{console.log(err)})
 
         var fare = this.calFare(distance);
+        fare *= pax;
 
         return ["Public Transport", duration, fare];
 
@@ -36,26 +30,13 @@ export default class Publictransport{
         const returnedResult:Result = {
             name: "Public Transport",
             iconURL: "https://cdn-icons-png.flaticon.com/512/9235/9235252.png",
-            data: [this.getData(start, end),]
+            data: [this.getData(start, end, pax),]
         }
 
         return returnedResult;
     }
 
     calFare(distance: number): number{
-        
-        // const [duration, distance] = await googlemap.getDataString(start, end, "transit");
-
-        // const resp = await fetch('https://api.stb.gov.sg/services/transport/v2/mrt-lrt/fare-types', {
-        //     method: 'GET',
-        //     headers: {
-        //         "ApiEndPointTitle" : "Get MRT & LRT Fare Types",
-        //         "X-API-Key" : "IUARFRWUYVcb60dBLafJHCY2SRKMqhdW"
-        //     },
-        //     body: JSON.stringify(query(getStartLat,getStartLng))
-        // });
-        // const json = await resp.json();
-        // console.log(json);
 
         var fare = 0;
         if (distance <= 3.2){
