@@ -25,13 +25,12 @@ import devEnvironmentVariables from "../env";
 import * as Location from "expo-location";
 import { LocationGeofencingEventType } from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import MapViewDirections from "react-native-maps-directions";
-import getGrabFare from "../services/grabscrapper";
 import { useFocusEffect } from '@react-navigation/native';
 import en from '../locales/en.json';
 import ch from '../locales/ch.json';
 import ms from '../locales/ms.json';
 import ta from '../locales/ta.json';
+
 
 type InputAutocompleteProps = {
     label: string;
@@ -55,13 +54,15 @@ function InputAutocomplete({
                     onPlaceSelected(details);
                 }}
                 query={{
-                    key: devEnvironmentVariables.GOOGLE_MAP_API_KEY,
-                    language: "pt-BR",
+                    key: devEnvironmentVariables.GOOGLE_MAPS_API_KEY,
+                    language: "en",
+                    components: 'country:sg',
                 }}
             />
         </>
     );
 }
+
 
 const messages = {
     en,
@@ -70,10 +71,11 @@ const messages = {
     ta
 };
 
-const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) => {
+
+const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, setStartLoc, destLoc, setDestLoc, moveTo}:any) => {
     const [email, setEmail] = useState("");
-    const [startLocation, setLocationFunction] = useState("");
-    const [dest, setDestFunction] = useState("");
+    var emailAccount: string = "";
+    const [gpsLoc,setGPSLoc] = useState<any>();
     const message = "Show Result";
     const flag1 = "Origin";
     const flag2 = "Destination";
@@ -98,11 +100,30 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
                     setResultText(messages.en["Search_page"]);
             }
         })
-        }
-    );
+    })
 
-    var emailAccount: string = "";
-    // get current status, is it a guess or user
+    useEffect(() => {
+        //reset the hooks when it is re-render
+        setStartLoc("")
+        setDestLoc("")
+        setOrigin()
+        setDestination()
+
+        //get the location
+        const fetchLocation = async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                console.log("not granted!")
+                return;
+            }
+            let location = await Location.getCurrentPositionAsync({});
+            setGPSLoc(location);
+            console.log(location);
+        }
+
+        fetchLocation().catch(console.error);
+    },[]);
+
 
     const getStatus = async () => {
         try {
@@ -191,8 +212,8 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
                         collection: "History",
                         document: {
                             email: emailAccount,
-                            starting_location: startLocation,
-                            destination: dest,
+                            starting_location: startLoc,
+                            destination: destLoc,
                         },
                     }),
                 }
@@ -225,35 +246,37 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
         getHistory(),
             (emailAccount = JSON.stringify(emailAccount)),
             getStatus(),
+            <View style = {{flex:1}}>
     <View style={styles.searchContainer}>
         <InputAutocomplete
             label={resultText && resultText[flag1]}
             onPlaceSelected={(details) => {
                 onPlaceSelected(details, "origin");
-                var tmp = JSON.stringify(details.name);
-                setLocationFunction(tmp);
+                setStartLoc(details.formatted_address);
             }}
         />
         <InputAutocomplete
             label={resultText && resultText[flag2]}
             onPlaceSelected={(details) => {
                 onPlaceSelected(details, "destination");
-                var tmp1 = JSON.stringify(details.name);
-                setDestFunction(tmp1);
+                setDestLoc(details.formatted_address);
             }}
         />
         <TouchableOpacity
             style={styles.buttonResult}
             onPress={() => {
-                saveHistory();
-                changeState("resultList");
+                if(startLoc && destLoc){
+                    saveHistory();
+                    changeState("resultList");
+                }
             }}
         >
             <Text style={styles.buttonTextResult}>
                 {resultText && resultText[message]}
             </Text>
         </TouchableOpacity>
-    </View>)
+    </View>
+            </View>)
 }
 
 const styles = StyleSheet.create({
@@ -326,10 +349,8 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 4,
-        elevation: 4,
         padding: 8,
         borderRadius: 8,
-        top: Constants.statusBarHeight,
     },
     input: {
         borderColor: "#888",

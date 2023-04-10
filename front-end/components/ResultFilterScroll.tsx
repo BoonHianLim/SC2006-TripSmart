@@ -36,6 +36,10 @@ const ResultFilterScroll = ({changeState}) => {
     const navigation = useNavigation();
     const snapPoints = useMemo(() => ["25%", "76.5%"], []);
     const bottomSheetRef = useRef<BottomSheet>(null);
+    const [num, setNum] = useState(1);
+    const [isWCSelected, setWCSelected] = useState(false);
+    const [isPSelected, setPSelected] = useState(false);
+    const [isEFSelected, setEFSelected] = useState(false);
 
     // callbacks
     const handleSheetChanges = useCallback((index: number) => {
@@ -99,7 +103,9 @@ const ResultFilterScroll = ({changeState}) => {
                     <Text style={[styles.filterText,styles.headerChildText]}>{resultText && resultText[message1]}</Text>
                 </View>
 
-                <PassengersSection />
+                <PassengersSection
+                pax = {num}
+                setPax={setNum}/>
                 <Image
                     style={styles.frameLayout}
                     resizeMode="cover"
@@ -111,10 +117,26 @@ const ResultFilterScroll = ({changeState}) => {
                     </Text>
                 </View>
                 <View style ={{paddingBottom:30}}>
-                    <EcoFriendlySection/>
+                    <EcoFriendlySection
+                        isWCSelected = {isWCSelected}
+                        setWCSelected = {setWCSelected}
+                        isPSelected = {isPSelected}
+                        setPSelected = {setPSelected}
+                        isEFSelected = {isEFSelected}
+                        setEFSelected = {setEFSelected}
+                    />
                 </View>
                 <Pressable
-                    onPress={() => changeState("resultList")}
+                    onPress={
+                    () => {
+                        AsyncStorage.setItem("num", num.toString())
+                        console.log(isWCSelected,isPSelected,isEFSelected);
+                        AsyncStorage.setItem("isWCSelected", isWCSelected.toString())
+                        AsyncStorage.setItem("isPSelected", isPSelected.toString())
+                        AsyncStorage.setItem("isEFSelected", isEFSelected.toString())
+                        changeState("resultList")
+                    }
+                }
                 >
                     <View
                         style={[
@@ -148,9 +170,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     changeWrapperFlexBox: {
-        paddingVertical: 20,
         paddingHorizontal: 8,
-        height: 70,
+        height: "30%",
         backgroundColor: Color.goldenrod_200,
         borderRadius: 12,
         alignSelf: "stretch",
@@ -161,7 +182,6 @@ const styles = StyleSheet.create({
     filterButton: {
         fontSize: 13,
         lineHeight: 18,
-        height: 36,
         color: Color.black,
         letterSpacing: 0.4,
         fontFamily: FontFamily.montserratBold,

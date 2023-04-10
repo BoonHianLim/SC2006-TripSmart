@@ -17,41 +17,33 @@ const messages = {
   ta
 };
 
-const EcoFriendlySection = () => {
-  const { width, height } = Dimensions.get("window");
+const EcoFriendlySection = ({isWCSelected, setWCSelected,
+                              isPSelected, setPSelected,
+                              isEFSelected, setEFSelected}) => {
   const [selectedButtons, setSelectedButtons] = useState([]);
   
-  const [isWCSelected, setWCSelected] = useState(false);
+
   const handleWCPress = () => {
-    setWCSelected(!isWCSelected); // toggle isSelected between true and false
+    setWCSelected(!isWCSelected);// toggle isSelected between true and false
   };
-  const [isPSelected, setPSelected] = useState(false);
+
   const handlePPress = () => {
     setPSelected(!isPSelected); // toggle isSelected between true and false
   };
-  const [isEFSelected, setEFSelected] = useState(false);
+
   const handleEFPress = () => {
     setEFSelected(!isEFSelected); // toggle isSelected between true and false
   };
 
-  const onPressButton = (buttonID) => {
-    if (selectedButtons.includes(buttonID)) {
-      // remove the button ID from the array
-      setSelectedButtons(selectedButtons.filter(id => id !== buttonID));
-      AsyncStorage.setItem('selectedButtons', JSON.stringify(selectedButtons.filter(id => id !== buttonID)));
-    } else {
-      // add the button ID to the array
-      setSelectedButtons([...selectedButtons, buttonID]);
-      AsyncStorage.setItem('selectedButtons', JSON.stringify([...selectedButtons, buttonID]));
-    }
-  };   
-
   useEffect(() => {
-    AsyncStorage.getItem('selectedButtons').then(value => {
-      if (value !== null) {
-        setSelectedButtons(JSON.parse(value));
-      }
-    });
+
+    AsyncStorage.multiGet(["isWCSelected","isPSelected","isEFSelected"])
+        .then(response => {
+          setWCSelected(response[0][1] === 'true')
+          setPSelected(response[1][1] === 'true')
+          setEFSelected(response[2][1] === 'true')
+        })
+
   }, []);
 
   const message1 = "Wheelchair Accessibility";
@@ -84,10 +76,9 @@ const EcoFriendlySection = () => {
   return (
     <View style={[styles.frameParent, styles.frameParentFlexBox]}>
       <View style={styles.frameGroup}>
-        <Pressable style={[styles.frameWrapper, selectedButtons.includes(3) && !isWCSelected ? styles.frameSelected : null]} 
+        <Pressable style={[styles.frameWrapper, isWCSelected ? styles.frameSelected : null]}
           onPress={() => {
-            onPressButton(3)
-            handleWCPress
+            handleWCPress()
           }
           } 
         >
@@ -104,10 +95,9 @@ const EcoFriendlySection = () => {
         </Text>
       </View>
       <View style={styles.frameGroup}>
-        <Pressable style={[styles.frameWrapper, selectedButtons.includes(4) && !isPSelected ? styles.frameSelected : null]} 
+        <Pressable style={[styles.frameWrapper, isPSelected ? styles.frameSelected : null]}
           onPress={() => {
-            onPressButton(4)
-            handlePPress
+            handlePPress()
           }
           } 
         >
@@ -124,10 +114,9 @@ const EcoFriendlySection = () => {
         </Text>
       </View>
       <View style={styles.frameGroup}>
-        <Pressable style={[styles.frameWrapper, selectedButtons.includes(5) && !isEFSelected ? styles.frameSelected : null]} 
+        <Pressable style={[styles.frameWrapper, isEFSelected ? styles.frameSelected : null]}
           onPress={() => {
-            onPressButton(5)
-            handleEFPress
+            handleEFPress()
           }
           } 
         >          

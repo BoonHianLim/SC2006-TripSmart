@@ -4,7 +4,10 @@ import React, {useEffect, useState} from "react";
 import { Result } from "../types/Result";
 
 export default class Publictransport{
-
+    async updateResult(pickupLocation: string, dropoffLocation: string, pax: number = 1, updateFn:any) {
+        const newData = await this.getResult(pickupLocation,dropoffLocation,pax);
+        updateFn((prevResults:any) => [...prevResults, newData]);
+    }
     async getData(start:string, end:string, pax: number): Promise<[string, number, number]>{
 
         //Call Google Map API
@@ -21,7 +24,7 @@ export default class Publictransport{
         var fare = this.calFare(distance);
         fare *= pax;
 
-        return ["Public Transport", duration, fare];
+        return ["Public Transport", duration, fare.toFixed(2)];
 
     }
 

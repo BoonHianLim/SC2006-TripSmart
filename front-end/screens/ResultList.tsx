@@ -2,7 +2,7 @@ import React, {
     useState,
     useReducer, useMemo, useRef, useCallback, useEffect,
 } from "react";
-import {useNavigation} from "@react-navigation/native";
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {
     Pressable,
     View,
@@ -41,27 +41,8 @@ const App = () => {
     // state
     const [state, setState] = useState("searchPage");
     const [isCheap,setCheap] = useState(true);
-    const [errorMsg, setErrorMsg] = useState("");
-    const [location, setLocation] = useState(null);
-    var longitude;
-    var latitude;
-
-    useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== "granted") {
-                setErrorMsg("Permission to access location was denied");
-                return;
-            }
-            let location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
-        })();
-    }, []);
-
-    if (location) {
-        longitude = location.coords.longitude;
-        latitude = location.coords.latitude;
-    }
+    const [startLoc, setStartLoc] = useState("");
+    const [destLoc, setDestLoc] = useState("");
 
     //markers
     const [origin, setOrigin] = useState<LatLng | null>();
@@ -118,6 +99,10 @@ const App = () => {
                     setOrigin = {setOrigin}
                     setDestination = {setDestination}
                     moveTo = {moveTo}
+                    startLoc = {startLoc}
+                    setStartLoc = {setStartLoc}
+                    destLoc = {destLoc}
+                    setDestLoc = {setDestLoc}
                 />
             case 'resultFilter':
                 return <ResultFilterScroll changeState={setState}/>
@@ -161,7 +146,7 @@ const App = () => {
                         <MapViewDirections
                             origin={origin}
                             destination={destination}
-                            apikey={devEnvironmentVariables.GOOGLE_MAP_API_KEY}
+                            apikey={devEnvironmentVariables.GOOGLE_MAPS_API_KEY}
                             strokeColor="#6644ff"
                             strokeWidth={4}
                             onReady={traceRouteOnReady}
@@ -178,6 +163,8 @@ const App = () => {
                     {state == "resultList" && <BottomSheetScrollView>
                         <ResultListResult
                         isCheap = {isCheap}
+                        startLoc = {startLoc}
+                        destLoc = {destLoc}
                         />
                     </BottomSheetScrollView>}
                 </BottomSheet>

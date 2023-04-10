@@ -2,28 +2,60 @@ import {Dimensions, StyleSheet, Text, View} from "react-native";
 import {Avatar, ListItem} from "@rneui/base";
 import React, {useEffect, useState} from "react";
 import ListItemScroll from "./ListItemScroll"
-import { Result } from "../types/Result"
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {grab} from "../services/grabscrapper";
+import {bluesg} from "../services/bluesg";
+import {publictransport} from "../services/publictransport";
+import {taxi} from "../services/taxi";
 
-
-let resultArr:Result[] = [{
-    name: "blueSG",
-    iconURL: "https://play-lh.googleusercontent.com/zwdsPEl7NT_TxYjL83V6UnEwZjXljBHcr41o5D41xpqd0JC5odZY--yA9WWWrYIOCWw",
-    data: [Promise.resolve(["bluesg",1,7]),
-        Promise.resolve(["bluesg",3,6]),
-        Promise.resolve(["bluesg",2,5])]
-},{
-    name: "Grab",
-    iconURL: "https://seeklogo.com/images/G/grab-logo-7020E74857-seeklogo.com.png",
-    data: [Promise.resolve(["JustGrab",10,71]),
-        Promise.resolve(["GrabCar Premium",0,2]),
-        Promise.resolve(["GrabCar Plus",4,16])]
-}]
-
-
-
-const ResultListResult = ({isCheap}:any) => {
+const removeItem = (array:any[],item:any) => {
+    const index = array.indexOf(item);
+    if(index != -1){
+        array = array.splice(index, 1);
+    }
+}
+const ResultListResult = ({isCheap, startLoc, destLoc}:any) => {
     const [result, setResult] = useState();
+    const [resultArr, setResultArr] = useState([]);
     const sortBy = isCheap ? 'fare' : 'duration';
+
+    const refreshData = (apis:any[],pax: number) => {
+        apis.forEach((api) => {
+            api.updateResult(startLoc,
+                destLoc,
+                pax,
+                setResultArr);
+        })
+
+    }
+    useEffect(() => {
+        AsyncStorage.multiGet(["isWCSelected","isPSelected","isEFSelected"])
+            .then(response => {
+                let apis = [grab, publictransport, bluesg, taxi]
+                if(response[0][1] === 'true'){
+                    removeItem(apis,grab)
+                    removeItem(apis,bluesg)
+                    removeItem(apis,taxi)
+                }
+                if(response[1][1] === 'true'){
+                    removeItem(apis,grab)
+                    removeItem(apis,publictransport)
+                    removeItem(apis,taxi)
+                }
+                if(response[2][1] === 'true'){
+                    removeItem(apis,grab)
+                    removeItem(apis,taxi)
+                }
+
+                AsyncStorage.getItem("num").then((value) => {
+                    if(value != null){
+                        refreshData(apis,parseInt(value))
+                    }else{
+                        refreshData(apis,1)
+                    }
+                })
+            })
+    }, []);
 
     useEffect(() => {
         async function printSortedData(sortBy: string): Promise<any> {
@@ -72,11 +104,10 @@ const ResultListResult = ({isCheap}:any) => {
 
         printSortedData(sortBy)
             .then((allData) => {
-                console.log(allData);
                 setResult(allData);
             })
             .catch((error) => console.error(error));
-    }, [sortBy]);
+    }, [sortBy, resultArr]);
 
     return (
         <View style={styles.result}>
@@ -88,108 +119,7 @@ const ResultListResult = ({isCheap}:any) => {
                         isCheap={isCheap}
                     />
                 ))}
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John Doe</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John Doe</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John Doe</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John Doe</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John Doe</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-    <ListItem bottomDivider>
-        <Avatar rounded
-                source={{ uri: 'https://randomuser.me/api/portraits/men/36.jpg' }}/>
-        <ListItem.Content>
-            <ListItem.Title>John ABC</ListItem.Title>
-            <ListItem.Subtitle>CEO, Example.com</ListItem.Subtitle>
-        </ListItem.Content>
-    </ListItem>
-{/*    <View>
-        {sortedValues.map((arr, index) => (
-            <Text key={index}>{arr.join(', ')}</Text>
-        ))}
-    </View>*/}
-</View>)
+        </View>)
 }
 
 const styles = StyleSheet.create({

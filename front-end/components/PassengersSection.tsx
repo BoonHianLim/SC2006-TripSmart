@@ -16,9 +16,7 @@ const messages = {
   ta
 };
 
-const PassengersSection = () => {
-  const [num, setNum] = useState(0);
-
+const PassengersSection = ({pax,setPax}) => {
   const message1 = "Number of Passengers";
   const message2 = "Passengers";
   const [resultText, setResultText] = useState<any>();
@@ -46,23 +44,22 @@ const PassengersSection = () => {
   )
 
   const handleMinusPress = () => {
-    if (num > 0) {
-      setNum(num - 1);
-      AsyncStorage.setItem("num", (num - 1).toString());
+    if (pax > 1) {
+      setPax(pax - 1);
+
     }
   };
 
   const handlePlusPress = () => {
-    if (num < 9) {
-      setNum(num + 1);
-      AsyncStorage.setItem("num", (num + 1).toString());
+    if (pax < 9) {
+      setPax(pax + 1);
     }
   };
 
   useEffect(() => {
     AsyncStorage.getItem("num").then(value => {
       if (value !== null) {
-        setNum(parseInt(value));
+        setPax(parseInt(value));
       }
     });
   }, []);
@@ -92,7 +89,7 @@ const PassengersSection = () => {
                 </Pressable>
               </View>
               <Text style={[styles.text, styles.ml29, styles.iconsFlexBox]}>
-                {num}
+                {pax}
               </Text>
               <View style={[styles.iconsContainer, styles.ml29]}>
                 <Pressable

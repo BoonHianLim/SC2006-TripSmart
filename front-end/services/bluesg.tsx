@@ -12,7 +12,10 @@ export default class Bluesg {
     this.BLUE_SG_API_KEY = env.BLUE_SG_API_KEY || "";
   }
 
-  
+  async updateResult(pickupLocation: string, dropoffLocation: string, pax: number = 1, updateFn:any) {
+    const newData = await this.getResult(pickupLocation,dropoffLocation,pax);
+    updateFn((prevResults:any) => [...prevResults, newData]);
+  }
   async getData(start: string, end: string, pax: number ): Promise<[string, number, number]> {
    
     //call Google Map API
@@ -51,7 +54,7 @@ export default class Bluesg {
     var fare = this.calFare(distance);
     fare *= pax;
 
-    return ["BlueSG", duration, fare];
+    return ["BlueSG", duration, fare.toFixed(2)];
 
   }
 
