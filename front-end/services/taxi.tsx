@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { googlemap } from "./googlemap";
 import { Result } from "../types/Result";
 
-//figure out the number of pax, the prices for different number of people selected
 //1) taxi calculation using (ComfortRIDE* FARE)
 const getComfortRIDEFare = (minutes: number, distance: number, pax: number) => {
 
@@ -20,6 +19,8 @@ const getComfortRIDEFare = (minutes: number, distance: number, pax: number) => {
     if (totalFare < 6.00) {
         totalFare = 6.00;
     }
+
+    //accounting for the pax parameter
     totalFare = (totalFare * Math.ceil(pax/4)) * 1.2;
     
     // data: Promise<[serviceName, duration, fare]>[];
@@ -85,8 +86,14 @@ const getMeteredFare = (minutes: number, distance: number, pax: number) => {
         if (currentHour >= 0 && currentHour < 6) {
             fare *= 1.5;
         }
-
-
+        
+        //accounting for the pax parameter
+        if (i == (priceTiers.length-1)){
+            fare = (fare * Math.ceil(pax/7));
+        }
+        else{
+            fare = (fare * Math.ceil(pax/4));
+        }
 
         // data: Promise<[serviceName, duration, fare]>[];
         meteredFareMap.set(priceTiers[i].name, [priceTiers[i].fareType, minutes , fare]);
@@ -98,7 +105,7 @@ const getMeteredFare = (minutes: number, distance: number, pax: number) => {
     //returns a Map data structure with the 4 Metered fares
     return meteredFareMap;
     /*Example of output
-    Map(45) {
+    Map(5) {
         'Metered Gasoline Taxi' => [ 'Metered Hyundai i-40 Taxi', 11, 14.65 ],
         'Metered Hybrid Taxi' => [ 'Metered Toyota Prius/Hyundai Ioniq Hybrid Taxis', 11, 14.85 ],
         'Metered EV Taxi' => [ 'Metered Hyundai Ioniq/Hyundai Kona/BYD e6 Electric Vehicle Taxis', 11, 15.05],
@@ -122,7 +129,6 @@ const getLimoTransferFare = (minutes: number, distance: number, pax: number) => 
         hourlyRate: number;
         lateNightSurcharge: number;
         blockWaitingTime: number;
-
     };
 
     const priceTiers: Prices[] = [
@@ -142,6 +148,13 @@ const getLimoTransferFare = (minutes: number, distance: number, pax: number) => 
             fare = (priceTiers[i].hourlyRate * tripHours);
         }
 
+        //accounting for the pax parameter
+        if(i == (priceTiers.length-1)){
+            fare = (fare * Math.ceil(pax/7));
+        }
+        else{
+            fare = (fare * Math.ceil(pax/4));
+        }
 
 
         // data: Promise<[serviceName, duration, fare]>[];
@@ -156,7 +169,7 @@ const getLimoTransferFare = (minutes: number, distance: number, pax: number) => 
     /*Example of output
     Map(2) {
             'LimoCab' => [ 'Limo Transfer Fare (4 Seater Limo)', 31, 50 ],
-            'MaxiCab' => [ 'Limo Transfer Fare (6/7 Seater MaxiCab)', 31, 55 ]
+            'MaxiCab' => [ 'Limo Transfer Fare (7 Seater MaxiCab)', 31, 55 ]
     }
     */
 }
@@ -201,21 +214,31 @@ export default class Taxi{
 
         const taxiFareArrayOfArrays = Array.from(combinedFareMap.values());
         console.log(`output taxi api array of Arrays => ${taxiFareArrayOfArrays}`);
-        /*output example: 7 taxi fare arrays of 3 elements each
+        /*output example: 8 taxi fare arrays of 3 elements each [name, duration(min), $fare]
         [LOG]: [["Limo Transfer Fare (4 Seater Limo)", 31, 50], 
-        ["Limo Transfer Fare (6/7 Seater MaxiCab)", 31, 55], 
+        ["Limo Transfer Fare (7 Seater MaxiCab)", 31, 55], 
         ["ComfortRIDE (Car or Taxi Flat Fare)", 11, 10.5], 
         ["Metered Hyundai i-40 Taxi", 11, 14.65], 
         ["Metered Toyota Prius/Hyundai Ioniq Hybrid Taxis", 11, 14.85], 
-        ["Metered Hyundai Ioniq/Hyundai Kona/BYD e6 Electric Vehicle Taxis", 11, 15.05], 
-        ["Metered Limousine Cab", 11, 19.15]] 
-        */        
+        ["Metered Hyundai Ioniq/Hyundai Kona/BYD e6 Electric Vehicle Taxis", 11, 15.05],
+        ["Metered Limousine Cab (4 Seater Limo)", 11, 19.15 ],
+        ["Metered Limousine Cab (7 Seater MaxiCab)", 11, 19.15 ]] 
+        */   
+       
         
         return taxiFareArrayOfArrays;
+        /* Example of output of array of arrays
+        [["Limo Transfer Fare (4 Seater Limo)", 31, 50], 
+        ["Limo Transfer Fare (7 Seater MaxiCab)", 31, 55], 
+        ["ComfortRIDE (Car or Taxi Flat Fare)", 11, 10.5], 
+        ["Metered Hyundai i-40 Taxi", 11, 14.65], 
+        ["Metered Toyota Prius/Hyundai Ioniq Hybrid Taxis", 11, 14.85], 
+        ["Metered Hyundai Ioniq/Hyundai Kona/BYD e6 Electric Vehicle Taxis", 11, 15.05],
+        ["Metered Limousine Cab (4 Seater Limo)", 11, 19.15 ],
+        ["Metered Limousine Cab (7 Seater MaxiCab)", 11, 19.15 ]]
+        */
     }
 
-    
 }
-
 export const taxi = new Taxi();
 //<Text>{JSON.stringify(data)}</Text>
