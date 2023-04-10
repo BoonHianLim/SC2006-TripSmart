@@ -25,7 +25,6 @@ const messages = {
 
 const SelectLanguageScreen = () => {
   const [language, setLanguage] = useState('en');
-  // const [localizedMessages, setLocalizedMessages] = useState(en);
 
   const switchLang = (langID) => {
     setLanguage(langID);
@@ -39,27 +38,6 @@ const SelectLanguageScreen = () => {
       };
     } )
   }, []);
-  
-  const getString = (key: string) => {
-    const lang = messages[language as keyof object];
-    if ( lang[key] && lang[key])
-      return lang[key];
-    else
-      return en[key];
-    // return (messages[language][key] || en[key]);
-    // switch (messages[language]) {
-    //   case 'en':
-    //     return en[key];
-    //   case 'ch':
-    //     return ch[key];
-    //   case 'ms':
-    //     return ms[key];
-    //   case 'ta':
-    //     return ta[key];
-    //   default:
-    //     return en[key];
-    // }
-  };
 
   return (
     <SelectCountry
@@ -82,9 +60,6 @@ const SelectLanguageScreen = () => {
         switchLang(e.value);
       }}
     >
-      <Text>{getString("Welcome_to_TripSmart")}</Text>
-      <Text>{getString("Next")}</Text>
-      <Text>{getString("Abundance_of_Choice")}</Text>
     </SelectCountry>
   );
 };
