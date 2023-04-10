@@ -13,7 +13,6 @@ import {
     TextInput,
     Button,
 } from "react-native";
-import { taxi } from "../services/taxi";
 import MapView, {Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import {FontFamily, Color, Margin} from "../GlobalStyles";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
