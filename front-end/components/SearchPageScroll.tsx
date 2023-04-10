@@ -25,16 +25,12 @@ import devEnvironmentVariables from "../env";
 import * as Location from "expo-location";
 import { LocationGeofencingEventType } from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-<<<<<<< HEAD
-import MapViewDirections from "react-native-maps-directions";
-import getGrabFare from "../services/grabscrapper";
 import { useFocusEffect } from '@react-navigation/native';
 import en from '../locales/en.json';
 import ch from '../locales/ch.json';
 import ms from '../locales/ms.json';
 import ta from '../locales/ta.json';
-=======
->>>>>>> 75c2a10 (prepare for api code)
+
 
 type InputAutocompleteProps = {
     label: string;
@@ -67,7 +63,7 @@ function InputAutocomplete({
     );
 }
 
-<<<<<<< HEAD
+
 const messages = {
     en,
     ch,
@@ -106,17 +102,11 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
         }
     );
 
-=======
+
 const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, setStartLoc, destLoc, setDestLoc, moveTo}:any) => {
     const [email, setEmail] = useState("");
-<<<<<<< HEAD
->>>>>>> 4976cef (feat: get startLoc and destLoc, require real startLoc and destLoc to search)
     var emailAccount: string = "";
-
-=======
     const [gpsLoc,setGPSLoc] = useState<any>();
-    var emailAccount: string = "";
-
 
     useEffect(() => {
         //reset the hooks when it is re-render
@@ -140,11 +130,7 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
         fetchLocation().catch(console.error);
     },[]);
 
-<<<<<<< HEAD
 
->>>>>>> 7c99612 (fix: attempt to fix the gps code)
-=======
->>>>>>> 75c2a10 (prepare for api code)
     const getStatus = async () => {
         try {
             const value = await AsyncStorage.getItem("@storage_Key");

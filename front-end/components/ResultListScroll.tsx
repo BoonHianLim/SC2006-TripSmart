@@ -20,12 +20,6 @@ import ch from '../locales/ch.json';
 import ms from '../locales/ms.json';
 import ta from '../locales/ta.json';
 
-<<<<<<< HEAD
-const promises: Promise<[number,number]>[] = [
-    Promise.resolve([1,7]),
-    Promise.resolve([3,6]),
-    Promise.resolve([2,5])
-];
 
 const messages = {
     en,
@@ -34,8 +28,6 @@ const messages = {
     ta
 };
 
-=======
->>>>>>> 4976cef (feat: get startLoc and destLoc, require real startLoc and destLoc to search)
 const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
     const [sortedValues, setSortedValues] = useState<number[][]>([]);
     const message1 = "Results";
