@@ -2,8 +2,8 @@ import {Dimensions, StyleSheet, Text, View} from "react-native";
 import {Avatar, ListItem} from "@rneui/base";
 import React, {useEffect, useState} from "react";
 import ListItemScroll from "./ListItemScroll"
-import { Result } from "../types/Result"
 import {grab} from "../services/grabscrapper";
+<<<<<<< HEAD
 
 
 let resultArr:Result[] = [{
@@ -21,18 +21,24 @@ let resultArr:Result[] = [{
 }]
 
 
+=======
+import {bluesg} from "../services/bluesg";
+import {publictransport} from "../services/publictransport";
+>>>>>>> 75c2a10 (prepare for api code)
 
 const ResultListResult = ({isCheap, startLoc, destLoc}:any) => {
     const [result, setResult] = useState();
     const [resultArr, setResultArr] = useState([]);
     const sortBy = isCheap ? 'fare' : 'duration';
-
+    const apis = [grab, bluesg, taxi, publictransport]
     const refreshData = () => {
-        console.log(startLoc,destLoc);
-        grab.updateResult(startLoc,
-            destLoc,
-            1,
-            setResultArr);
+        apis.forEach((api) => {
+            api.updateResult(startLoc,
+                destLoc,
+                1,
+                setResultArr);
+        })
+
     }
     useEffect(() => {
         refreshData()

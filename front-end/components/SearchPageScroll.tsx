@@ -25,6 +25,7 @@ import devEnvironmentVariables from "../env";
 import * as Location from "expo-location";
 import { LocationGeofencingEventType } from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+<<<<<<< HEAD
 import MapViewDirections from "react-native-maps-directions";
 import getGrabFare from "../services/grabscrapper";
 import { useFocusEffect } from '@react-navigation/native';
@@ -32,6 +33,8 @@ import en from '../locales/en.json';
 import ch from '../locales/ch.json';
 import ms from '../locales/ms.json';
 import ta from '../locales/ta.json';
+=======
+>>>>>>> 75c2a10 (prepare for api code)
 
 type InputAutocompleteProps = {
     label: string;
@@ -116,7 +119,13 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
 
 
     useEffect(() => {
-        console.log("this code is being called.");
+        //reset the hooks when it is re-render
+        setStartLoc("")
+        setDestLoc("")
+        setOrigin()
+        setDestination()
+
+        //get the location
         const fetchLocation = async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== "granted") {
@@ -131,8 +140,11 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
         fetchLocation().catch(console.error);
     },[]);
 
+<<<<<<< HEAD
 
 >>>>>>> 7c99612 (fix: attempt to fix the gps code)
+=======
+>>>>>>> 75c2a10 (prepare for api code)
     const getStatus = async () => {
         try {
             const value = await AsyncStorage.getItem("@storage_Key");
@@ -260,16 +272,14 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
             label={resultText && resultText[flag1]}
             onPlaceSelected={(details) => {
                 onPlaceSelected(details, "origin");
-                var tmp = JSON.stringify(details.name);
-                setStartLoc(tmp);
+                setStartLoc(details.formatted_address);
             }}
         />
         <InputAutocomplete
             label={resultText && resultText[flag2]}
             onPlaceSelected={(details) => {
                 onPlaceSelected(details, "destination");
-                var tmp1 = JSON.stringify(details.name);
-                setDestLoc(tmp1);
+                setDestLoc(details.formatted_address);
             }}
         />
         <TouchableOpacity
