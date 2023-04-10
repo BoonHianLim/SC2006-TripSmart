@@ -20,7 +20,7 @@ const getComfortRIDEFare = (minutes: number, distance: number, pax: number) => {
     if (totalFare < 6.00) {
         totalFare = 6.00;
     }
-    totalFare *= 1.2;
+    totalFare = (totalFare * Math.ceil(pax/4)) * 1.2;
     
     // data: Promise<[serviceName, duration, fare]>[];
     comfortRIDEFareMap.set(priceTier.name, [priceTier.fareType, minutes, totalFare]);
@@ -60,7 +60,8 @@ const getMeteredFare = (minutes: number, distance: number, pax: number) => {
         { name: "Metered Petrol Fuel Taxi", fareType: "Metered Hyundai i-40 Taxi", flagDown: 3.90, perDistance: 0.25, perTime: 0.25 },
         { name: "Metered Hybrid Taxi", fareType: "Metered Toyota Prius/Hyundai Ioniq Hybrid Taxis", flagDown: 4.10, perDistance: 0.25, perTime: 0.25 },
         { name: "Metered EV Taxi", fareType: "Metered Hyundai Ioniq/Hyundai Kona/BYD e6 Electric Vehicle Taxis", flagDown: 4.30, perDistance: 0.25, perTime: 0.25 },
-        { name: "Metered Limousine Taxi", fareType: "Metered Limousine Cab", flagDown: 4.10, perDistance: 0.35, perTime: 0.35 },
+        { name: "Metered Limousine Taxi (Limo)", fareType: "Metered Limousine Cab (4 Seater Limo)", flagDown: 4.10, perDistance: 0.35, perTime: 0.35 },
+        { name: "Metered Limousine Taxi (MaxiCab)", fareType: "Metered Limousine Cab (7 Seater MaxiCab)", flagDown: 4.10, perDistance: 0.35, perTime: 0.35 },
     ];
 
     for (let i = 0; i < priceTiers.length; i++) {
@@ -77,14 +78,15 @@ const getMeteredFare = (minutes: number, distance: number, pax: number) => {
         }
 
         //Peak Period surcharge
-        if ((currentDayOfWeek >= 1 && currentDayOfWeek <= 5 && ((currentHour >= 6 && currentHour < 9) || (currentHour == 9 && currentMinute < 30))) || (currentHour >= 18 && currentHour < 00)) {
+        if ((currentDayOfWeek >= 1 && currentDayOfWeek <= 5 && ((currentHour >= 6 && currentHour < 9) || (currentHour == 9 && currentMinute < 30))) || (currentHour >= 18 && currentHour < 0)) {
             fare *= 1.25;
         }
-
         //Late Night surcharge
         if (currentHour >= 0 && currentHour < 6) {
             fare *= 1.5;
         }
+
+
 
         // data: Promise<[serviceName, duration, fare]>[];
         meteredFareMap.set(priceTiers[i].name, [priceTiers[i].fareType, minutes , fare]);
@@ -96,11 +98,12 @@ const getMeteredFare = (minutes: number, distance: number, pax: number) => {
     //returns a Map data structure with the 4 Metered fares
     return meteredFareMap;
     /*Example of output
-    Map(4) {
+    Map(45) {
         'Metered Gasoline Taxi' => [ 'Metered Hyundai i-40 Taxi', 11, 14.65 ],
         'Metered Hybrid Taxi' => [ 'Metered Toyota Prius/Hyundai Ioniq Hybrid Taxis', 11, 14.85 ],
         'Metered EV Taxi' => [ 'Metered Hyundai Ioniq/Hyundai Kona/BYD e6 Electric Vehicle Taxis', 11, 15.05],
-        'Metered Limousine Taxi' => [ 'Metered Limousine Cab', 11, 19.15 ]
+        'Metered Limousine Taxi(Limo)' => [ 'Metered Limousine Cab (4 Seater Limo)', 11, 19.15 ],
+        'Metered Limousine Taxi(MaxiCab)' => [ 'Metered Limousine Cab (7 Seater MaxiCab)', 11, 19.15 ]
     }*/
 }
 
@@ -124,7 +127,7 @@ const getLimoTransferFare = (minutes: number, distance: number, pax: number) => 
 
     const priceTiers: Prices[] = [
         { name: "LimoCab", fareType: "Limo Transfer Fare (4 Seater Limo)", hourlyRate: 50.0, lateNightSurcharge: 12.0, blockWaitingTime: 10.0 },
-        { name: "MaxiCab", fareType: "Limo Transfer Fare (6/7 Seater MaxiCab)", hourlyRate: 55.0, lateNightSurcharge: 12.0, blockWaitingTime: 10.0 },
+        { name: "MaxiCab", fareType: "Limo Transfer Fare (7 Seater MaxiCab)", hourlyRate: 55.0, lateNightSurcharge: 12.0, blockWaitingTime: 10.0 },
     ];
 
     for (let i = 0; i < priceTiers.length; i++) {
@@ -166,7 +169,7 @@ export default class Taxi{
         this.TAXI_API_KEY = env.TAXI_API_KEY || "";
     }
 
-    async getResult(start: string, end: string, pax: number = 1): Result {
+    async getResult(start: string, end: string, pax: number = 1): Promise<Result> {
         return {
             name: "taxi",
             iconURL:
@@ -197,7 +200,7 @@ export default class Taxi{
         //console.log(combinedFareMap);
 
         const taxiFareArrayOfArrays = Array.from(combinedFareMap.values());
-        console.log(`output taxi api => ${taxiFareArrayOfArrays}`);
+        console.log(`output taxi api array of Arrays => ${taxiFareArrayOfArrays}`);
         /*output example: 7 taxi fare arrays of 3 elements each
         [LOG]: [["Limo Transfer Fare (4 Seater Limo)", 31, 50], 
         ["Limo Transfer Fare (6/7 Seater MaxiCab)", 31, 55], 
@@ -206,16 +209,9 @@ export default class Taxi{
         ["Metered Toyota Prius/Hyundai Ioniq Hybrid Taxis", 11, 14.85], 
         ["Metered Hyundai Ioniq/Hyundai Kona/BYD e6 Electric Vehicle Taxis", 11, 15.05], 
         ["Metered Limousine Cab", 11, 19.15]] 
-        */
-
-
-        
-        
+        */        
         
         return taxiFareArrayOfArrays;
-
-
-
     }
 
     
