@@ -21,8 +21,7 @@ export default class Bluesg {
 
     const query = (lat: number, lng: number) => {
       return {
-        query:
-          "query ($lat: Float!, $lng: Float!, $providers: [String]) {vehicles(lat: $lat, lng: $lng, includeProviders: $providers) {lat lng provider{name website}}}",
+        query:"query ($lat: Float!, $lng: Float!, $providers: [String]) {vehicles(lat: $lat, lng: $lng, includeProviders: $providers) {lat lng provider{name website}}}",
         variables: { lat: lat, lng: lng, providers: ["bluesg"] },
       };
     };

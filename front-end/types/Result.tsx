@@ -1,5 +1,6 @@
 export type Result = {
-    name: string; // Example: Grab
+    name: string;
     iconURL: string;
-    data: Promise<[string, number, number]>[]; //Example: JustGrab, 30(minutes), 17(price)
+    // data: Promise<[serviceName, duration, fare]>[];
+    data: Promise<[string, number, number]>[];
 };
