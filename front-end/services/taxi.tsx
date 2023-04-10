@@ -4,16 +4,10 @@ import { googlemap } from "./googlemap";
 import { Result } from "../types/Result";
 
 //figure out the number of pax, the prices for different number of people selected
-
-
-/*SHOULD I +/- a certain % to account for supply and demand? 
-like i think theres usually a +/-16% gap sometimes between prices due to supply and demand? 
-or should i output a range for the price (i.e. output a string: '$10-13' instead of a fixed float value of $11.00)? */
-
 //1) taxi calculation using (ComfortRIDE* FARE)
-const getComfortRIDE() = (minutes: any, distance: any) => {
-    
-    const comfortRIDEFareMap = new Map<string, [string, number]>();
+const getComfortRIDEFare = (minutes: number, distance: number, pax: number) => {
+
+    const comfortRIDEFareMap = new Map<string, [string, number, number]>();
     type Prices = {
         name: string;
         fareType: string;
@@ -21,27 +15,29 @@ const getComfortRIDE() = (minutes: any, distance: any) => {
         perKm: number;
         perMin: number;
     };
-    const priceTier: Prices = { name: "ComfortRide", fareType: "ComfortRIDE (Car or Taxi Flat Fare)", baseFare: 2.8, perKm: 0.5, perMin: 0.15 };
+    const priceTier: Prices = { name: "ComfortRide", fareType: "ComfortRIDE (Car / Taxi Flat Fare)", baseFare: 2.8, perKm: 0.5, perMin: 0.15 };
     let totalFare = (priceTier.baseFare + (priceTier.perKm * distance) + (priceTier.perMin * minutes));
     if (totalFare < 6.00) {
         totalFare = 6.00;
     }
-    comfortRIDEFareMap.set(priceTier.name, [priceTier.fareType, totalFare]);
+    totalFare *= 1.2;
+    
+    // data: Promise<[serviceName, duration, fare]>[];
+    comfortRIDEFareMap.set(priceTier.name, [priceTier.fareType, minutes, totalFare]);
 
     //console.log(`total cost = $${totalFare}`);
     //console.log(comfortRIDEFareMap);
-
     //returns a Map data structure with the single taxi/car ComfortRIDE* FARE
     return comfortRIDEFareMap;
     /*Example of output
     Map(1) {
-        'ComfortRide' => [ 'ComfortRIDE (Car or Taxi Flat Fare)', 11 ]
+       'ComfortRide' => [ 'ComfortRIDE (Car or Taxi Flat Fare)', 11, 10.5 ]
     }
     */
 }
 
 //2) taxi calculation using (METERED FARE). 4 fare types:{Hyundai i-40 Taxi, Toyota Prius/Hyundai Ioniq Hybrid Taxis, Hyundai Ioniq EV/Hyundai Kona EV/BYD e6 Electric Vehicle Taxis, Limousine Cab}
-const getMeteredFare() = (minutes: any, distance: any) => {
+const getMeteredFare = (minutes: number, distance: number, pax: number) => {
 
     //To get the current time:
     //1) if the time is between 12am and 6am (00 to 06)hr Late Night surcharge applies (50% extra Of Metered Fare)
@@ -51,7 +47,7 @@ const getMeteredFare() = (minutes: any, distance: any) => {
     const currentDayOfWeek: number = currentDate.getDay();
     const currentMinute: number = currentDate.getMinutes();
 
-    const meteredFareMap = new Map<string, [string, number]>();
+    const meteredFareMap = new Map<string, [string, number, number]>();
     type Prices = {
         name: string;
         fareType: string;
@@ -61,7 +57,7 @@ const getMeteredFare() = (minutes: any, distance: any) => {
 
     };
     const priceTiers: Prices[] = [
-        { name: "Metered Gasoline Taxi", fareType: "Metered Hyundai i-40 Taxi", flagDown: 3.90, perDistance: 0.25, perTime: 0.25 },
+        { name: "Metered Petrol Fuel Taxi", fareType: "Metered Hyundai i-40 Taxi", flagDown: 3.90, perDistance: 0.25, perTime: 0.25 },
         { name: "Metered Hybrid Taxi", fareType: "Metered Toyota Prius/Hyundai Ioniq Hybrid Taxis", flagDown: 4.10, perDistance: 0.25, perTime: 0.25 },
         { name: "Metered EV Taxi", fareType: "Metered Hyundai Ioniq/Hyundai Kona/BYD e6 Electric Vehicle Taxis", flagDown: 4.30, perDistance: 0.25, perTime: 0.25 },
         { name: "Metered Limousine Taxi", fareType: "Metered Limousine Cab", flagDown: 4.10, perDistance: 0.35, perTime: 0.35 },
@@ -79,19 +75,19 @@ const getMeteredFare() = (minutes: any, distance: any) => {
             distanceLeft -= 1;
             fare = priceTiers[i].flagDown + (priceTiers[i].perDistance * Math.ceil(distanceLeft / 0.4)) + (priceTiers[i].perTime * Math.ceil(minutes * (60 / 45)));
         }
-        
+
         //Peak Period surcharge
         if ((currentDayOfWeek >= 1 && currentDayOfWeek <= 5 && ((currentHour >= 6 && currentHour < 9) || (currentHour == 9 && currentMinute < 30))) || (currentHour >= 18 && currentHour < 00)) {
             fare *= 1.25;
-        } 
-        
+        }
+
         //Late Night surcharge
-        if (currentHour >= 0 && currentHour < 6)
-        {
+        if (currentHour >= 0 && currentHour < 6) {
             fare *= 1.5;
         }
 
-        meteredFareMap.set(priceTiers[i].name, [priceTiers[i].fareType, fare]);
+        // data: Promise<[serviceName, duration, fare]>[];
+        meteredFareMap.set(priceTiers[i].name, [priceTiers[i].fareType, minutes , fare]);
         //console.log(`fare for  ${priceTiers[i].fareType} = $${fare.toFixed(2)} \n`);
     }
     //console.log(meteredFareMap);
@@ -101,18 +97,17 @@ const getMeteredFare() = (minutes: any, distance: any) => {
     return meteredFareMap;
     /*Example of output
     Map(4) {
-        'Metered Gasoline Taxi' => [ 'Metered Hyundai i-40 Taxi', 14.65 ],
-        'Metered Hybrid Taxi' => [ 'Metered Toyota Prius/Hyundai Ioniq Hybrid Taxis', 14.85 ],
-        'Metered EV Taxi' => [ 'Metered Hyundai Ioniq/Hyundai Kona/BYD e6 Electric Vehicle Taxis', 15.05],
-        'Metered Limousine Taxi' => [ 'Metered Limousine Cab', 19.15 ]
-    }    
-    */
-}  
+        'Metered Gasoline Taxi' => [ 'Metered Hyundai i-40 Taxi', 11, 14.65 ],
+        'Metered Hybrid Taxi' => [ 'Metered Toyota Prius/Hyundai Ioniq Hybrid Taxis', 11, 14.85 ],
+        'Metered EV Taxi' => [ 'Metered Hyundai Ioniq/Hyundai Kona/BYD e6 Electric Vehicle Taxis', 11, 15.05],
+        'Metered Limousine Taxi' => [ 'Metered Limousine Cab', 11, 19.15 ]
+    }*/
+}
 
 //3) Limo Transfer Fare (Limousine Cab Services) Taxi Calculation. 2 fare types:{LimoCab (4-seater Limo), MaxiCab (6/7 Seater MaxiCab)}
-const getLimoTransferFare() = (minutes: any, distance: any) => {
+const getLimoTransferFare = (minutes: number, distance: number, pax: number) => {
 
-    const limousineCabFareMap = new Map<string, [string, number]>();
+    const limousineCabFareMap = new Map<string, [string, number, number]>();
 
     // to get the current time: if the time is between 12am and 6am (00 to 06)hr surcharge applies
     const currentDate: Date = new Date();
@@ -144,7 +139,10 @@ const getLimoTransferFare() = (minutes: any, distance: any) => {
             fare = (priceTiers[i].hourlyRate * tripHours);
         }
 
-        limousineCabFareMap.set(priceTiers[i].name, [priceTiers[i].fareType, fare]);
+
+
+        // data: Promise<[serviceName, duration, fare]>[];
+        limousineCabFareMap.set(priceTiers[i].name, [priceTiers[i].fareType, minutes, fare]);
         //console.log(`fare for  ${priceTiers[i].fareType} = $${fare.toFixed(2)} \n`);
     }
     //console.log(limousineCabFareMap);
@@ -154,12 +152,11 @@ const getLimoTransferFare() = (minutes: any, distance: any) => {
     return limousineCabFareMap;
     /*Example of output
     Map(2) {
-        'LimoCab' => [ 'Limo Transfer Fare (4 Seater Limo)', 50 ],
-        'MaxiCab' => [ 'Limo Transfer Fare (6/7 Seater MaxiCab)', 55 ]
+            'LimoCab' => [ 'Limo Transfer Fare (4 Seater Limo)', 31, 50 ],
+            'MaxiCab' => [ 'Limo Transfer Fare (6/7 Seater MaxiCab)', 31, 55 ]
     }
     */
 }
-
 export default class Taxi{
     private TAXI_API_KEY: string;
     constructor() {
@@ -169,14 +166,59 @@ export default class Taxi{
         this.TAXI_API_KEY = env.TAXI_API_KEY || "";
     }
 
-    async getData(start:string, end:string, pax: number = 1): Promise<[number, number]>{
-        // Please complete the code here
+    async getResult(start: string, end: string, pax: number = 1): Result {
+        return {
+            name: "taxi",
+            iconURL:
+                "https://store-images.s-microsoft.com/image/apps.9463.13510798886741576.cfb94528-9fce-4968-a11c-6e8254d7348a.5a2ccb0a-c7da-4314-b0da-d36586068cde",
+            data: this.getData(start, end, pax),
+        };
+    }
+    async getData(start:string, end:string, pax: number = 1): Promise<[string, number, number][]>{
+        
         const getStartLat = 1.3376342844358233;
         const getStartLng = 103.69414958176533;
+        
+        var minutes = 0;
+        var distance = 0;
+
+        await googlemap.getDataString(start, end, "driving").then((drivingData : [number, number]) => {
+            console.log(drivingData);
+            minutes = drivingData[0];
+            distance = drivingData[1];
+        }).catch((err : any)=>{console.log(err)})
+
+        const limoTransferMap = getLimoTransferFare(minutes, distance, pax);
+        const meteredFareMap = getMeteredFare(minutes, distance, pax);
+        const comfortRideMap = getComfortRIDEFare(minutes, distance, pax);
+        
+        const combinedFareMap = new Map([...comfortRideMap, ...meteredFareMap, ...limoTransferMap]);
+
+        //console.log(combinedFareMap);
+
+        const taxiFareArrayOfArrays = Array.from(combinedFareMap.values());
+        console.log(`output taxi api => ${taxiFareArrayOfArrays}`);
+        /*output example: 7 taxi fare arrays of 3 elements each
+        [LOG]: [["Limo Transfer Fare (4 Seater Limo)", 31, 50], 
+        ["Limo Transfer Fare (6/7 Seater MaxiCab)", 31, 55], 
+        ["ComfortRIDE (Car or Taxi Flat Fare)", 11, 10.5], 
+        ["Metered Hyundai i-40 Taxi", 11, 14.65], 
+        ["Metered Toyota Prius/Hyundai Ioniq Hybrid Taxis", 11, 14.85], 
+        ["Metered Hyundai Ioniq/Hyundai Kona/BYD e6 Electric Vehicle Taxis", 11, 15.05], 
+        ["Metered Limousine Cab", 11, 19.15]] 
+        */
+
+
+        
+        
+        
+        return taxiFareArrayOfArrays;
 
 
 
     }
+
+    
 }
 
 export const taxi = new Taxi();
