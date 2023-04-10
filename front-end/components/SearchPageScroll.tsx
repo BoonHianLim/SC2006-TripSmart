@@ -57,6 +57,7 @@ function InputAutocomplete({
                 query={{
                     key: devEnvironmentVariables.GOOGLE_MAP_API_KEY,
                     language: "en",
+                    components: 'country:sg',
                 }}
             />
         </>
@@ -105,9 +106,33 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
 =======
 const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, setStartLoc, destLoc, setDestLoc, moveTo}:any) => {
     const [email, setEmail] = useState("");
+<<<<<<< HEAD
 >>>>>>> 4976cef (feat: get startLoc and destLoc, require real startLoc and destLoc to search)
     var emailAccount: string = "";
 
+=======
+    const [gpsLoc,setGPSLoc] = useState<any>();
+    var emailAccount: string = "";
+
+
+    useEffect(() => {
+        console.log("this code is being called.");
+        const fetchLocation = async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                console.log("not granted!")
+                return;
+            }
+            let location = await Location.getCurrentPositionAsync({});
+            setGPSLoc(location);
+            console.log(location);
+        }
+
+        fetchLocation().catch(console.error);
+    },[]);
+
+
+>>>>>>> 7c99612 (fix: attempt to fix the gps code)
     const getStatus = async () => {
         try {
             const value = await AsyncStorage.getItem("@storage_Key");
@@ -229,6 +254,7 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
         getHistory(),
             (emailAccount = JSON.stringify(emailAccount)),
             getStatus(),
+            <View style = {{flex:1}}>
     <View style={styles.searchContainer}>
         <InputAutocomplete
             label={resultText && resultText[flag1]}
@@ -259,7 +285,8 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
                 {resultText && resultText[message]}
             </Text>
         </TouchableOpacity>
-    </View>)
+    </View>
+            </View>)
 }
 
 const styles = StyleSheet.create({
@@ -332,10 +359,8 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 4,
-        elevation: 4,
         padding: 8,
         borderRadius: 8,
-        top: Constants.statusBarHeight,
     },
     input: {
         borderColor: "#888",

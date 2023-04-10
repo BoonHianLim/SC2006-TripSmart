@@ -2,7 +2,7 @@ import React, {
     useState,
     useReducer, useMemo, useRef, useCallback, useEffect,
 } from "react";
-import {useNavigation} from "@react-navigation/native";
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {
     Pressable,
     View,
@@ -43,20 +43,7 @@ const App = () => {
     const [isCheap,setCheap] = useState(true);
     const [startLoc, setStartLoc] = useState("");
     const [destLoc, setDestLoc] = useState("");
-    const [gpsLoc, setGPSLoc] = useState<any>();
 
-    useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== "granted") {
-                console.log("not granted!")
-                return;
-            }
-            let location = await Location.getCurrentPositionAsync({});
-            setGPSLoc(location)
-            console.log(location);
-        })();
-    }, []);
     //markers
     const [origin, setOrigin] = useState<LatLng | null>();
     const [destination, setDestination] = useState<LatLng | null>();
