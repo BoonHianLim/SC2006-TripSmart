@@ -132,11 +132,7 @@ const App = () => {
                 throw new Error();
         }
     }
-<<<<<<< HEAD
 
-=======
-    //console.log(taxi.getData);
->>>>>>> 204e9f2 (taxi_update)
     return (
         <GestureHandlerRootView style={{flex: 1}}>
             <View style={styles.container}>
