@@ -4,15 +4,9 @@ import { googlemap } from "./googlemap";
 import { Result } from "../types/Result";
 
 //1) taxi calculation using (ComfortRIDE* FARE)
-<<<<<<< HEAD
 const getComfortRIDEFare = (minutes: number, distance: number, pax: number) => {
 
     const comfortRIDEFareMap = new Map<string, [string, number, number]>();
-=======
-const getComfortRIDE() = (minutes: any, distance: any) => {
-    
-    const comfortRIDEFareMap = new Map<string, [string, number]>();
->>>>>>> 94bc84d (Update taxi.tsx)
     type Prices = {
         name: string;
         fareType: string;
@@ -20,16 +14,11 @@ const getComfortRIDE() = (minutes: any, distance: any) => {
         perKm: number;
         perMin: number;
     };
-<<<<<<< HEAD
     const priceTier: Prices = { name: "ComfortRide", fareType: "ComfortRIDE (Car / Taxi Flat Fare)", baseFare: 2.8, perKm: 0.5, perMin: 0.15 };
-=======
-    const priceTier: Prices = { name: "ComfortRide", fareType: "ComfortRIDE (Car or Taxi Flat Fare)", baseFare: 2.8, perKm: 0.5, perMin: 0.15 };
->>>>>>> 94bc84d (Update taxi.tsx)
     let totalFare = (priceTier.baseFare + (priceTier.perKm * distance) + (priceTier.perMin * minutes));
     if (totalFare < 6.00) {
         totalFare = 6.00;
     }
-<<<<<<< HEAD
 
     //accounting for the pax parameter
     totalFare = (totalFare * Math.ceil(pax/4)) * 1.2;
@@ -39,13 +28,6 @@ const getComfortRIDE() = (minutes: any, distance: any) => {
 
     //console.log(`total cost = $${totalFare}`);
     //console.log(comfortRIDEFareMap);
-=======
-    comfortRIDEFareMap.set(priceTier.name, [priceTier.fareType, totalFare]);
-
-    //console.log(`total cost = $${totalFare}`);
-    //console.log(comfortRIDEFareMap);
-
->>>>>>> 94bc84d (Update taxi.tsx)
     //returns a Map data structure with the single taxi/car ComfortRIDE* FARE
     return comfortRIDEFareMap;
     /*Example of output
@@ -56,11 +38,7 @@ const getComfortRIDE() = (minutes: any, distance: any) => {
 }
 
 //2) taxi calculation using (METERED FARE). 4 fare types:{Hyundai i-40 Taxi, Toyota Prius/Hyundai Ioniq Hybrid Taxis, Hyundai Ioniq EV/Hyundai Kona EV/BYD e6 Electric Vehicle Taxis, Limousine Cab}
-<<<<<<< HEAD
 const getMeteredFare = (minutes: number, distance: number, pax: number) => {
-=======
-const getMeteredFare() = (minutes: any, distance: any) => {
->>>>>>> 94bc84d (Update taxi.tsx)
 
     //To get the current time:
     //1) if the time is between 12am and 6am (00 to 06)hr Late Night surcharge applies (50% extra Of Metered Fare)
@@ -70,11 +48,7 @@ const getMeteredFare() = (minutes: any, distance: any) => {
     const currentDayOfWeek: number = currentDate.getDay();
     const currentMinute: number = currentDate.getMinutes();
 
-<<<<<<< HEAD
     const meteredFareMap = new Map<string, [string, number, number]>();
-=======
-    const meteredFareMap = new Map<string, [string, number]>();
->>>>>>> 94bc84d (Update taxi.tsx)
     type Prices = {
         name: string;
         fareType: string;
