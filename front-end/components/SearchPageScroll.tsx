@@ -27,6 +27,8 @@ import { LocationGeofencingEventType } from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapViewDirections from "react-native-maps-directions";
 import getGrabFare from "../services/grabscrapper";
+import { googlemap } from "../services/googlemap";
+import Geolocation from 'react-native-geolocation-service';
 
 type InputAutocompleteProps = {
     label: string;
@@ -35,14 +37,32 @@ type InputAutocompleteProps = {
     autoFillRef:any;
 };
 
-
-
 const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc,
                               setStartLoc, destLoc, setDestLoc, moveTo,
                               startLocRef, destLocRef}:any) => {
     const [email, setEmail] = useState("");
 
     const [gpsLoc, setGPSLoc] = useState<[number,number]>([0,0]);
+
+    const [isCurrPosition, setIsCurrPosition] = useState(false)
+    const [currPosition, setcurrPosition ] = useState({
+        formatted_address: '',
+        description: "Current Location",
+        geometry: { location: { lat: 0, lng: 0 } },
+      });
+    
+    useEffect(() => {
+        console.log('Setting up the CURRPOSSITION');
+
+        googlemap.getAddress(gpsLoc).then((res)=>{
+            setcurrPosition({
+                formatted_address: res,
+                description:  "Current Location"  ,
+                geometry: { location: { lat: gpsLoc[0], lng: gpsLoc[1] } },
+            })
+        }).catch((err)=>{console.log(err)})
+    }, []); // Empty dependency array means this effect will only run on mount
+    
     var emailAccount: string = "";
 
     function InputAutocomplete({
@@ -52,19 +72,27 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc,
                                    autoFillRef
                                }: InputAutocompleteProps) {
         console.log("ref:",autoFillRef)
+        
+        const handlePlaceSelected = (currPosition : any) => {
+            startLocRef.current?.setAddressText(currPosition?.formatted_address);
+        };
+
         return (
             <>
                 <Text>{label}</Text>
                 <GooglePlacesAutocomplete
-                    ref = {autoFillRef}
+                    ref={autoFillRef}
+                    predefinedPlaces={[currPosition]}
+                    predefinedPlacesAlwaysVisible={true}
                     styles={{ textInput: styles.input }}
                     placeholder={placeholder || ""}
-                    fetchDetails
+                    fetchDetails={true}
                     onPress={(data, details = null) => {
-                        onPlaceSelected(details);
+                        // testFunc(details);
+                        handlePlaceSelected(data)
                     }}
                     query={{
-                        key: devEnvironmentVariables.GOOGLE_MAP_API_KEY,
+                        key: devEnvironmentVariables.GOOGLE_MAPS_API_KEY,
                         language: "en",
                         components: 'country:sg',
                     }}
@@ -72,6 +100,19 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc,
             </>
         );
     }
+
+    const testFunc = (       
+        details: GooglePlaceDetail | null,
+        flag: "origin" | "destination") => {
+        const set = flag === "origin" ? setOrigin : setDestination;
+        const position = {
+            latitude: details?.geometry.location.lat || 0,
+            longitude: details?.geometry.location.lng || 0,
+        };
+        
+        
+    };
+
     const getLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
