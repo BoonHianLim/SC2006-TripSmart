@@ -3,6 +3,7 @@
 //case sensitive
 //to login
 import * as React from "react";
+import { useState } from 'react';
 import {
   Image,
   StyleSheet,
@@ -28,12 +29,56 @@ import {
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Button } from "@rneui/themed";
 import { AntDesign } from "@expo/vector-icons";
+import { useFocusEffect } from '@react-navigation/native';
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
+
+const messages = {
+  en,
+  ch,
+  ms,
+  ta
+};
 
 const Login = () => {
   const navigation = useNavigation();
   const [checked, onChecked] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const message1 = "Sign In with Password";
+  const message2 = "Continue to your Account";
+  const message3 = "Remember me";
+  const message4 = "Or continue with";
+  const message5 = "Don't have an account?"
+  const message6 = "Register now."
+  const header1 = "Email";
+  const header2 = "Password";
+  const buttonText1 = "Log in"
+  const [resultText, setResultText] = useState<any>();
+
+  useFocusEffect(() => {
+    AsyncStorage.getItem("language").then((value) => {
+      switch(value){
+        case 'en':
+          setResultText(messages.en["Login_page"]);
+          break;
+        case 'ch':
+          setResultText(messages.ch["Login_page"]);
+          break;
+        case 'ms':
+          setResultText(messages.ms["Login_page"]);
+          break;
+        case 'ta':
+          setResultText(messages.ta["Login_page"]);
+          break;
+        default:
+          setResultText(messages.en["Login_page"]);
+      }
+    })
+    }
+  )
 
   //Functions to set status as User
   const storeData = async (text: React.SetStateAction<string>) => {
@@ -145,7 +190,8 @@ const Login = () => {
               marginBottom: "3%",
             }}
           >
-            Sign In with Password
+            
+            {resultText && resultText[message1]}
           </Text>
 
           <Text
@@ -157,7 +203,7 @@ const Login = () => {
               marginBottom: "5%",
             }}
           >
-            Continue to your Account
+            {resultText && resultText[message2]}
           </Text>
 
           <View
@@ -166,14 +212,14 @@ const Login = () => {
             }}
           >
             <TextInputUser
-              headerText="Email"
+              headerText={resultText && resultText[header1]}
               placeholder="Email"
               value={email}
               onChangeText={handleEmailChange}
             />
 
             <TextInputUser
-              headerText="Password"
+              headerText={resultText && resultText[header2]}
               iconLabel="lock"
               placeholder="Password"
               value={password}
@@ -194,7 +240,7 @@ const Login = () => {
                       fontFamily: FontFamily.montserratMedium,
                     }}
                   >
-                    Remember me
+                    {resultText && resultText[message3]}
                   </Text>
                 }
                 size={23}
@@ -207,7 +253,7 @@ const Login = () => {
               />
             </View>
             <Button
-              title="Log In"
+              title={resultText && resultText[buttonText1]}
               loading={false}
               loadingProps={{
                 size: "small",
@@ -252,7 +298,7 @@ const Login = () => {
                 fontSize: responsiveScreenFontSize(2),
               }}
             >
-              Or continue with
+              {resultText && resultText[message4]}
             </Text>
 
             <View
@@ -266,7 +312,7 @@ const Login = () => {
                   fontSize: responsiveScreenFontSize(1.5),
                 }}
               >
-                Don't have an account?{" "}
+                {resultText && resultText[message5]}{" "}
               </Text>
               <Pressable onPress={() => navigation.navigate("Register1")}>
                 <Text
@@ -275,7 +321,7 @@ const Login = () => {
                     fontSize: responsiveScreenFontSize(1.5),
                   }}
                 >
-                  Register now
+                  {resultText && resultText[message6]}
                 </Text>
               </Pressable>
             </View>

@@ -1,13 +1,52 @@
 import * as React from "react";
+import { useState } from "react";
 import { Text, StyleSheet, Image, View, ScrollView } from "react-native";
 import { Margin, Color, FontFamily, FontSize } from "../GlobalStyles";
 import SettingsLangDropdown from "../components/SettingsLangDropdown";
+import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
+
+const messages = {
+  en,
+  ch,
+  ms,
+  ta
+};
 
 const EnglishSection = () => {
+  const message = "Change Language";
+  const [resultText, setResultText] = useState<any>();
+
+  useFocusEffect(() => {
+    AsyncStorage.getItem("language").then((value) => {
+      switch(value){
+        case 'en':
+          setResultText(messages.en["Settings_page"]);
+          break;
+        case 'ch':
+          setResultText(messages.ch["Settings_page"]);
+          break;
+        case 'ms':
+          setResultText(messages.ms["Settings_page"]);
+          break;
+        case 'ta':
+          setResultText(messages.ta["Settings_page"]);
+          break;
+        default:
+          setResultText(messages.en["Settings_page"]);
+      }
+    })
+    }
+  )
+
   return (
     <View style={[styles.changeLanguageParent, styles.mt_2]}>
       <Text style={[styles.englishTypo, styles.textLayout]}>
-        Change Language
+        {resultText && resultText[message]}
       </Text>
       <SettingsLangDropdown />
       {/* <View style={[styles.frameWrapper, styles.mt24]}>
@@ -135,9 +174,9 @@ const styles = StyleSheet.create({
     marginTop: Margin.m_15xs,
   },
   textLayout: {
-    lineHeight: 14,
+    lineHeight: 16,
     letterSpacing: 0.4,
-    fontSize: 14,
+    fontSize: 13,
   },
   frameFlexBox: {
     zIndex: 0,
@@ -168,7 +207,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: Color.textColorsMain,
     fontFamily: FontFamily.montserratBold,
-    fontWeight: "700",
+    fontWeight: "600",
   },
   iconsSpaceBlock: {
     paddingBottom: 5,

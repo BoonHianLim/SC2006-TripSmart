@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import {
   Dimensions,
   StyleSheet,
@@ -12,9 +13,49 @@ import PassengersSection from "../components/PassengersSection";
 import EcoFriendlySection from "../components/EcoFriendlySection";
 import { Margin, FontFamily, Color } from "../GlobalStyles";
 import SettingsContainer from "../components/SettingsContainer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from '@react-navigation/native';
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
+
+const messages = {
+  en,
+  ch,
+  ms,
+  ta
+};
 
 const ResultFilter = () => {
   const navigation = useNavigation();
+
+  const message1 = "Filter";
+  const message2 = "Ride Types";
+  const message3 = "Apply Filters";
+  const [resultText, setResultText] = useState<any>();
+
+  useFocusEffect(() => {
+    AsyncStorage.getItem("language").then((value) => {
+      switch(value){
+        case 'en':
+          setResultText(messages.en["Filter_page"]);
+          break;
+        case 'ch':
+          setResultText(messages.ch["Filter_page"]);
+          break;
+        case 'ms':
+          setResultText(messages.ms["Filter_page"]);
+          break;
+        case 'ta':
+          setResultText(messages.ta["Filter_page"]);
+          break;
+        default:
+          setResultText(messages.en["Filter_page"]);
+      }
+    })
+    }
+  )
 
   return (
     <View style={styles.resultFilter}>
@@ -29,7 +70,7 @@ const ResultFilter = () => {
               resizeMode="cover"
               source={require("../assets/arrow-1.png")}
           />
-          <Text style={styles.filter}>Filter</Text>
+          <Text style={styles.filter}>{resultText && resultText[message1]}</Text>
           </Pressable>
         </View>
 
@@ -48,7 +89,7 @@ const ResultFilter = () => {
       </View>
       <View style={styles.rideTypesWrapper}>
         <Text style={[styles.rideTypes, styles.rideTypesTypo]}>
-          Ride Types
+        {resultText && resultText[message2]}
         </Text>
       </View>
       <View style ={{paddingBottom:30}}>
@@ -61,7 +102,7 @@ const ResultFilter = () => {
         ]}
       >
         <Text style={styles.filterButton}>
-          Apply Filters
+        {resultText && resultText[message3]}
         </Text>
       </View>
       </View>

@@ -4,6 +4,18 @@ import PetFriendlyContainer from "./PetFriendlyContainer";
 import { useState, useEffect } from "react";
 import { Margin, Color, FontFamily } from "../GlobalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from '@react-navigation/native';
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
+
+const messages = {
+  en,
+  ch,
+  ms,
+  ta
+};
 
 const EcoFriendlySection = () => {
   const { width, height } = Dimensions.get("window");
@@ -41,6 +53,33 @@ const EcoFriendlySection = () => {
       }
     });
   }, []);
+
+  const message1 = "Wheelchair Accessibility";
+  const message2 = "Pet-Friendly";
+  const message3 = "Eco-Friendly"
+  const [resultText, setResultText] = useState<any>();
+
+  useFocusEffect(() => {
+      AsyncStorage.getItem("language").then((value) => {
+      switch(value){
+        case 'en':
+        setResultText(messages.en["Filter_page"]);
+        break;
+        case 'ch':
+        setResultText(messages.ch["Filter_page"]);
+        break;
+        case 'ms':
+        setResultText(messages.ms["Filter_page"]);
+        break;
+        case 'ta':
+        setResultText(messages.ta["Filter_page"]);
+        break;
+        default:
+        setResultText(messages.en["Filter_page"]);
+      }
+    })
+    }
+  )
   
   return (
     <View style={[styles.frameParent, styles.frameParentFlexBox]}>
@@ -61,7 +100,7 @@ const EcoFriendlySection = () => {
           </View>
         </Pressable>
         <Text style={[styles.wheelchairAccessibility, styles.mt12]}>
-          Wheelchair Accessibility
+          {resultText && resultText[message1]}
         </Text>
       </View>
       <View style={styles.frameGroup}>
@@ -81,7 +120,7 @@ const EcoFriendlySection = () => {
           </View>
         </Pressable>
         <Text style={[styles.wheelchairAccessibility, styles.mt12]}>
-          Pet-Friendly
+        {resultText && resultText[message2]}
         </Text>
       </View>
       <View style={styles.frameGroup}>
@@ -101,7 +140,7 @@ const EcoFriendlySection = () => {
           </View>
         </Pressable>
         <Text style={[styles.wheelchairAccessibility, styles.mt12]}>
-          Eco-Friendly
+        {resultText && resultText[message3]}
         </Text>
       </View>
     </View>
@@ -126,8 +165,8 @@ const styles = StyleSheet.create({
   wheelchair1Wrapper: {
     marginTop: -22,
     marginLeft: -22,
-    top: "50%",
-    left: "50%",
+    top: "45%",
+    left: "37%",
     borderRadius: 16,
     backgroundColor: Color.textColorsInverse,
     shadowColor: "rgba(0, 0, 0, 0.01)",
@@ -155,12 +194,12 @@ const styles = StyleSheet.create({
   wheelchairAccessibility: {
     fontSize: 12,
     letterSpacing: 0.2,
-    lineHeight: 12,
+    lineHeight: 14,
     fontWeight: "500",
     fontFamily: FontFamily.montserratMedium,
     color: Color.textColorsMain,
     textAlign: "center",
-    width: 119,
+    width: 128,
   },
   frameGroup: {
     borderRadius: 8,

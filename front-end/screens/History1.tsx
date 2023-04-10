@@ -1,5 +1,6 @@
 //variable - data contains json object of history
 import * as React from "react";
+import { useState } from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -17,12 +18,48 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import HistoryScroll from "../components/HistoryRendering";
 import { Button } from "react-native";
+import { useFocusEffect } from '@react-navigation/native';
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
+
+const messages = {
+  en,
+  ch,
+  ms,
+  ta
+};
 
 const History1 = () => {
   const [counter, setCounter] = React.useState(0);
   const [email, setEmail] = React.useState("");
   const [history, setHistory] = React.useState([]);
   const navigation = useNavigation();
+  const title = "History";
+  const [resultText, setResultText] = useState<any>();
+
+  useFocusEffect(() => {
+    AsyncStorage.getItem("language").then((value) => {
+      switch(value){
+        case 'en':
+          setResultText(messages.en["Navigation_bar"]);
+          break;
+        case 'ch':
+          setResultText(messages.ch["Navigation_bar"]);
+          break;
+        case 'ms':
+          setResultText(messages.ms["Navigation_bar"]);
+          break;
+        case 'ta':
+          setResultText(messages.ta["Navigation_bar"]);
+          break;
+        default:
+          setResultText(messages.en["Navigation_bar"]);
+      }
+    })
+    }
+  )
 
   //database api to retrieve the history
   const retrieveHistory = async () => {
@@ -115,7 +152,7 @@ const History1 = () => {
               TripSmart
             </Text>
 
-            <Text style={[styles.settings1, styles.mt_2]}>{`History `}</Text>
+            <Text style={[styles.settings1, styles.mt_2]}>{resultText && resultText[title]}</Text>
           </View>
 
           {/*dynamic rendering */}
@@ -234,7 +271,6 @@ const styles = StyleSheet.create({
   },
   tripsmart: {
     top: Dimensions.get("window").height * 0.07,
-    left: Dimensions.get("window").width * 0.12,
     fontSize: 24,
     letterSpacing: -0.2,
     lineHeight: 29,
@@ -248,7 +284,6 @@ const styles = StyleSheet.create({
   },
   settings1: {
     top: Dimensions.get("window").height * 0.12,
-    left: Dimensions.get("window").width * 0.3,
     fontSize: 40,
     letterSpacing: -0.4,
     lineHeight: 52,

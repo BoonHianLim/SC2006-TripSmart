@@ -15,48 +15,48 @@ import {useNavigation} from "@react-navigation/native";
 import {grab} from "../services/grabscrapper";
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
 
 const promises: Promise<[number,number]>[] = [
     Promise.resolve([1,7]),
     Promise.resolve([3,6]),
     Promise.resolve([2,5])
 ];
+
+const messages = {
+    en,
+    ch,
+    ms,
+    ta
+};
+
 const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
     const [sortedValues, setSortedValues] = useState<number[][]>([]);
     const message1 = "Results";
     const message2 = "Cheapest";
     const message3 = "Fastest";
-    const [resultText1, setResultText1] = useState(message1);
-    const [resultText2, setResultText2] = useState(message2);
-    const [resultText3, setResultText3] = useState(message3);
+    const [resultText, setResultText] = useState<any>();
 
     useFocusEffect(() => {
         AsyncStorage.getItem("language").then((value) => {
             switch(value){
                 case 'en':
-                    setResultText1(message1);
-                    setResultText2(message2);
-                    setResultText3(message3);
+                    setResultText(messages.en["Result_list"]);
                     break;
                 case 'ch':
-                    setResultText1("结果");
-                    setResultText2("最便宜");
-                    setResultText3("最快");
+                    setResultText(messages.ch["Result_list"]);
                     break;
                 case 'ms':
-                    setResultText1("Hasil");
-                    setResultText2("Termurah");
-                    setResultText3("Terpantas");
+                    setResultText(messages.ms["Result_list"]);
                     break;
                 case 'ta':
-                    setResultText1("முடிவுகள்");
-                    setResultText2("கடைசியான");
-                    setResultText3("விரைவான");
+                    setResultText(messages.ta["Result_list"]);
                     break;
                 default:
-                    setResultText1(message1);
-                    setResultText2(message2);
-                    setResultText3(message3);
+                    setResultText(messages.en["Result_list"]);
             }
         })
         }
@@ -130,7 +130,7 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
                                 source={require("../assets/arrow-11.png")}
                             />
                         </Pressable>
-                        <Text style={[styles.headerChildText,styles.resultText]}>{resultText1}</Text>
+                        <Text style={[styles.headerChildText,styles.resultText]}>{resultText && resultText[message1]}</Text>
                         <View style = {{marginLeft:"auto",paddingRight:20}}>
                             <Pressable
                                 style={[styles.headerChild,styles.image3]}
@@ -154,7 +154,7 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
                                 style = {{flexDirection:"row"}}
                             >
                                 <Text style={[isCheap? styles.lightText: styles.dimText, styles.sortingHeaderText]}>
-                                {resultText2}
+                                {resultText && resultText[message2]}
                                 </Text>
                                 <Image
                                     style = {styles.sortingHeaderArrow}
@@ -168,7 +168,7 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
                                 style = {{flexDirection:"row"}}
                             >
                                 <Text style={[isCheap? styles.dimText: styles.lightText, styles.sortingHeaderText]}>
-                                {resultText3}
+                                {resultText && resultText[message3]}
                                 </Text>
                                 <Image
                                     style = {styles.sortingHeaderArrow}
