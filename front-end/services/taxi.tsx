@@ -185,23 +185,36 @@ const getLimoTransferFare = (minutes: number, distance: number, pax: number) => 
     */
 }
 export default class Taxi{
-    private TAXI_API_KEY: string;
+    // private TAXI_API_KEY: string;
     constructor() {
-        if (!env.TAXI_API_KEY) {
-            throw new Error("TAXI_API_KEY environment variable is not set")
-        }
-        this.TAXI_API_KEY = env.TAXI_API_KEY || "";
+        // if (!env.TAXI_API_KEY) {
+        //     throw new Error("TAXI_API_KEY environment variable is not set")
+        // }
+        // this.TAXI_API_KEY = env.TAXI_API_KEY || "";
     }
 
     async getResult(start: string, end: string, pax: number = 1): Promise<Result> {
-        return {
+        
+        let returnedResult: Result = {
             name: "taxi",
             iconURL:
                 "https://store-images.s-microsoft.com/image/apps.9463.13510798886741576.cfb94528-9fce-4968-a11c-6e8254d7348a.5a2ccb0a-c7da-4314-b0da-d36586068cde",
-            data: this.getData(start, end, pax),
-        };
+            data: [Promise.resolve(['foo', 1, 2]),]
+        }
+
+        await this.getData(start, end, pax).then((res)=>{
+            for (const element of res){
+                returnedResult.data.push(element)
+            }
+        })
+
+        returnedResult.data.shift()
+
+        return returnedResult
+
+
     }
-    async getData(start:string, end:string, pax: number = 1): Promise<[string, number, number][]>{
+    async getData(start:string, end:string, pax: number = 1): Promise<Promise<[string, number, number]>[]>{
         
         const getStartLat = 1.3376342844358233;
         const getStartLng = 103.69414958176533;
@@ -220,11 +233,23 @@ export default class Taxi{
         const comfortRideMap = getComfortRIDEFare(minutes, distance, pax);
         
         const combinedFareMap = new Map([...comfortRideMap, ...meteredFareMap, ...limoTransferMap]);
+        
+        const arrayOfPromise : Promise<[string, number, number]>[]= []
+    
+        combinedFareMap.forEach((value, key)=>{
+            arrayOfPromise.push(Promise.resolve([value[0], value[1], value[2]]))
+        })
 
-        //console.log(combinedFareMap);
+        // console.log("ARRAY OF PROMISE: " + arrayOfPromise);
+        // console.log("ARRAY OF PROMISE: " + typeof arrayOfPromise[0]);
 
-        const taxiFareArrayOfArrays = Array.from(combinedFareMap.values());
-        console.log(`output taxi api array of Arrays => ${taxiFareArrayOfArrays}`);
+        // const taxiFareArrayOfArrays = Array.from(combinedFareMap.values());
+        // // console.log("type of the wrong shit: " + typeof(taxiFareArrayOfArrays))
+        // console.log("INSIDE GETDATA taxiFareArrayOfArrays: " + taxiFareArrayOfArrays)
+
+
+
+        // console.log(`output taxi api array of Arrays => ${taxiFareArrayOfArrays}`);
         /*output example: 8 taxi fare arrays of 3 elements each [name, duration(min), $fare]
         [LOG]: [["Limo Transfer Fare (4 Seater Limo)", 31, 50], 
         ["Limo Transfer Fare (7 Seater MaxiCab)", 31, 55], 
@@ -236,8 +261,9 @@ export default class Taxi{
         ["Metered Limousine Cab (7 Seater MaxiCab)", 11, 19.15 ]] 
         */   
        
+    
         
-        return taxiFareArrayOfArrays;
+        return arrayOfPromise;
         /* Example of output of array of arrays
         [["Limo Transfer Fare (4 Seater Limo)", 31, 50], 
         ["Limo Transfer Fare (7 Seater MaxiCab)", 31, 55], 
