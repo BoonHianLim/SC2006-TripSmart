@@ -20,8 +20,6 @@ import changePassword from "./screens/changePassword";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
-import { publictransport } from "./services/publictransport";
-
 
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
@@ -45,14 +43,6 @@ const App = () => {
   if (!fontsLoaded && !error) {
     return null;
   }
-
-  publictransport.getResult("Hall 11", "Marina Bay Sands", 1).then((res)=>{
-    console.log("!!!!!!!!!!!!!!!!!!")
-    console.log(res)
-  }).catch((err)=>{console.log(err)})
-
-
-
 
   return (
     <>
