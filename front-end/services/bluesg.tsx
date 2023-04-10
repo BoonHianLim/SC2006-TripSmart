@@ -54,7 +54,7 @@ export default class Bluesg {
     var fare = this.calFare(distance);
     fare *= pax;
 
-    return ["BlueSG", duration, fare];
+    return ["BlueSG", duration, fare.toFixed(2)];
 
   }
 
@@ -76,7 +76,7 @@ export default class Bluesg {
   
     totalCost = cost * minutes;
   
-    return totalCost.toFixed(2);
+    return totalCost;
   };
 
 }

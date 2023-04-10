@@ -2,27 +2,59 @@ import {Dimensions, StyleSheet, Text, View} from "react-native";
 import {Avatar, ListItem} from "@rneui/base";
 import React, {useEffect, useState} from "react";
 import ListItemScroll from "./ListItemScroll"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {grab} from "../services/grabscrapper";
 import {bluesg} from "../services/bluesg";
 import {publictransport} from "../services/publictransport";
 import {taxi} from "../services/taxi";
 
+const removeItem = (array:any[],item:any) => {
+    const index = array.indexOf(item);
+    if(index != -1){
+        array = array.splice(index, 1);
+    }
+}
 const ResultListResult = ({isCheap, startLoc, destLoc}:any) => {
     const [result, setResult] = useState();
     const [resultArr, setResultArr] = useState([]);
     const sortBy = isCheap ? 'fare' : 'duration';
-    const apis = [grab, publictransport, bluesg, taxi]
-    const refreshData = () => {
+
+    const refreshData = (apis:any[],pax: number) => {
         apis.forEach((api) => {
             api.updateResult(startLoc,
                 destLoc,
-                1,
+                pax,
                 setResultArr);
         })
 
     }
     useEffect(() => {
-        refreshData()
+        AsyncStorage.multiGet(["isWCSelected","isPSelected","isEFSelected"])
+            .then(response => {
+                let apis = [grab, publictransport, bluesg, taxi]
+                if(response[0][1] === 'true'){
+                    removeItem(apis,grab)
+                    removeItem(apis,bluesg)
+                    removeItem(apis,taxi)
+                }
+                if(response[1][1] === 'true'){
+                    removeItem(apis,grab)
+                    removeItem(apis,publictransport)
+                    removeItem(apis,taxi)
+                }
+                if(response[2][1] === 'true'){
+                    removeItem(apis,grab)
+                    removeItem(apis,taxi)
+                }
+
+                AsyncStorage.getItem("num").then((value) => {
+                    if(value != null){
+                        refreshData(apis,parseInt(value))
+                    }else{
+                        refreshData(apis,1)
+                    }
+                })
+            })
     }, []);
 
     useEffect(() => {
