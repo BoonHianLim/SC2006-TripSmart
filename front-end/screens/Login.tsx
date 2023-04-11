@@ -291,7 +291,7 @@ const Login = () => {
               >
                 {resultText && resultText[message5]}{" "}
               </Text>
-              <Pressable onPress={() => navigation.navigate("Register1")}>
+              <Pressable onPress={() => navigation.navigate("Register")}>
                 <Text
                   style={{
                     fontFamily: FontFamily.montserratMedium,

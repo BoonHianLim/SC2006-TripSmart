@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from 'react';
+import { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -24,20 +24,20 @@ import { Button } from "@rneui/themed";
 import { AntDesign } from "@expo/vector-icons";
 import Login from "./Login";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect } from '@react-navigation/native';
-import en from '../locales/en.json';
-import ch from '../locales/ch.json';
-import ms from '../locales/ms.json';
-import ta from '../locales/ta.json';
+import { useFocusEffect } from "@react-navigation/native";
+import en from "../locales/en.json";
+import ch from "../locales/ch.json";
+import ms from "../locales/ms.json";
+import ta from "../locales/ta.json";
 
 const messages = {
   en,
   ch,
   ms,
-  ta
+  ta,
 };
 
-const Register1 = () => {
+const Register = () => {
   const navigation = useNavigation();
   const [checked, onChecked] = React.useState(false);
   const [email, onChangeText] = React.useState("");
@@ -54,25 +54,24 @@ const Register1 = () => {
 
   useFocusEffect(() => {
     AsyncStorage.getItem("language").then((value) => {
-      switch(value){
-        case 'en':
+      switch (value) {
+        case "en":
           setResultText(messages.en["Change_Password_page"]);
           break;
-        case 'ch':
+        case "ch":
           setResultText(messages.ch["Change_Password_page"]);
           break;
-        case 'ms':
+        case "ms":
           setResultText(messages.ms["Change_Password_page"]);
           break;
-        case 'ta':
+        case "ta":
           setResultText(messages.ta["Change_Password_page"]);
           break;
         default:
           setResultText(messages.en["Change_Password_page"]);
       }
-    })
-    }
-  )
+    });
+  });
   const verifyIfCheckboxChecked = () => {
     if (checked) {
       checkExistingDatabase();
@@ -335,4 +334,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register1;
+export default Register;

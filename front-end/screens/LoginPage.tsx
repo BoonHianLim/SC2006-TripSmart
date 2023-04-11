@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Dimensions,
   Image,
@@ -8,7 +8,7 @@ import {
   View,
   Pressable,
   ImageBackground,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -18,22 +18,23 @@ import {
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
 import { Button } from "@rneui/themed";
-import { useFocusEffect } from '@react-navigation/native';
-import en from '../locales/en.json';
-import ch from '../locales/ch.json';
-import ms from '../locales/ms.json';
-import ta from '../locales/ta.json';
+import { useFocusEffect } from "@react-navigation/native";
+import en from "../locales/en.json";
+import ch from "../locales/ch.json";
+import ms from "../locales/ms.json";
+import ta from "../locales/ta.json";
 
 const messages = {
   en,
   ch,
   ms,
-  ta
+  ta,
 };
 
 const LoginPage = () => {
   const message1 = "Here to meet all your travel needs";
-  const message2 = "Feel the ease of picking a transport option of your choice from the comfort of your own home and find the best offers in SG with us!";
+  const message2 =
+    "Feel the ease of picking a transport option of your choice from the comfort of your own home and find the best offers in SG with us!";
   const buttonText1 = "Login";
   const buttonText2 = "Sign Up";
   const buttonText3 = "Continue as Guest";
@@ -41,25 +42,24 @@ const LoginPage = () => {
 
   useFocusEffect(() => {
     AsyncStorage.getItem("language").then((value) => {
-      switch(value){
-        case 'en':
+      switch (value) {
+        case "en":
           setResultText(messages.en["Welcome_page_3"]);
           break;
-        case 'ch':
+        case "ch":
           setResultText(messages.ch["Welcome_page_3"]);
           break;
-        case 'ms':
+        case "ms":
           setResultText(messages.ms["Welcome_page_3"]);
           break;
-        case 'ta':
+        case "ta":
           setResultText(messages.ta["Welcome_page_3"]);
           break;
         default:
           setResultText(messages.en["Welcome_page_3"]);
       }
-    })
-    }
-  )
+    });
+  });
 
   const process = () => {
     storeData("Guest");
@@ -186,7 +186,7 @@ const LoginPage = () => {
             />
 
             <Button
-            title={resultText && resultText[buttonText2]}
+              title={resultText && resultText[buttonText2]}
               loading={false}
               loadingProps={{
                 size: "small",
@@ -207,7 +207,7 @@ const LoginPage = () => {
                 marginBottom: "5%",
               }}
               onPress={() => {
-                navigation.navigate("Register1");
+                navigation.navigate("Register");
               }}
             />
             <Pressable

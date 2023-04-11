@@ -11,7 +11,7 @@ import ResultFilter from "./screens/ResultFilter";
 import Login from "./screens/Login";
 import ResultList from "./screens/ResultList";
 import Register2 from "./screens/Register2";
-import Register1 from "./screens/Register1";
+import Register from "./screens/Register";
 import LoginPage from "./screens/LoginPage";
 import GreetingPage3 from "./screens/GreetingPage3";
 import GreetingPage2 from "./screens/GreetingPage2";
@@ -103,8 +103,8 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="Register1"
-              component={Register1}
+              name="Register"
+              component={Register}
               options={{ headerShown: false }}
             />
             <Stack.Screen

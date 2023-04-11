@@ -36,7 +36,7 @@ const messages = {
   ta,
 };
 
-const Register1 = () => {
+const Register = () => {
   const navigation = useNavigation();
   const [checked, onChecked] = React.useState(false);
   const [email, onChangeText] = React.useState("");
@@ -351,4 +351,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register1;
+export default Register;
