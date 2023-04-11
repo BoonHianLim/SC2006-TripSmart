@@ -129,34 +129,37 @@ const History1 = () => {
     console.log("status: ", email),
     (
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <ScrollView>
-          <View style={[styles.settings, styles.settingsLayout]}>
-            <View style={[styles.navbar, styles.navbarFlexBox]}>
-              <View
-                style={[
-                  styles.frameParent,
-                  styles.iconsFlexBox,
-                  styles.iconsFlexBox1,
-                ]}
-              ></View>
-            </View>
-            <Image
-              style={[styles.fare13, styles.mt_2, styles.fare13Position]}
-              resizeMode="cover"
-              source={require("../assets/fare-1-3.png")}
-            />
 
-            <Text
-              style={[styles.tripsmart, styles.mt_2, styles.tripsmartLayout]}
-            >
-              TripSmart
-            </Text>
 
-            <Text style={[styles.settings1, styles.mt_2]}>{resultText && resultText[title]}</Text>
-          </View>
 
           {/*dynamic rendering */}
           {email === "Guest" ? (
+              <View style = {{flex:1}}>
+                <View style={[styles.settings, styles.settingsLayout]}>
+                  <View style={[styles.navbar, styles.navbarFlexBox]}>
+                    <View
+                        style={[
+                          styles.frameParent,
+                          styles.iconsFlexBox,
+                          styles.iconsFlexBox1,
+                        ]}
+                    ></View>
+                  </View>
+                  <Image
+                      style={[styles.fare13, styles.mt_2, styles.fare13Position]}
+                      resizeMode="cover"
+                      source={require("../assets/fare-1-3.png")}
+                  />
+
+                  <Text
+                      style={[styles.tripsmart, styles.mt_2, styles.tripsmartLayout]}
+                  >
+                    TripSmart
+                  </Text>
+
+                  <Text style={[styles.settings1, styles.mt_2]}>{resultText && resultText[title]}</Text>
+                </View>
+
             <View
               style={[
                 styles.changePasswordWrapper,
@@ -176,15 +179,42 @@ const History1 = () => {
                 </Text>
               </Pressable>
             </View>
+              </View>
           ) : (
-            <View>
+
+              <ScrollView>
+                <View style={[styles.settings, styles.settingsLayout]}>
+                  <View style={[styles.navbar, styles.navbarFlexBox]}>
+                    <View
+                        style={[
+                          styles.frameParent,
+                          styles.iconsFlexBox,
+                          styles.iconsFlexBox1,
+                        ]}
+                    ></View>
+                  </View>
+                  <Image
+                      style={[styles.fare13, styles.mt_2, styles.fare13Position]}
+                      resizeMode="cover"
+                      source={require("../assets/fare-1-3.png")}
+                  />
+
+                  <Text
+                      style={[styles.tripsmart, styles.mt_2, styles.tripsmartLayout]}
+                  >
+                    TripSmart
+                  </Text>
+
+                  <Text style={[styles.settings1, styles.mt_2]}>{resultText && resultText[title]}</Text>
+                </View>
               {history.documents &&
                 history.documents.map((item, index) => (
                   <HistoryScroll key={index} item={item} />
                 ))}
-            </View>
+              </ScrollView>
+
           )}
-        </ScrollView>
+
 
         <SettingsContainer selectedButton={"History"} />
       </GestureHandlerRootView>
@@ -301,7 +331,6 @@ const styles = StyleSheet.create({
   },
   changePasswordWrapper: {
     top: Dimensions.get("window").height * 0.5,
-    zIndex: 6,
     left: Dimensions.get("window").width * 0.1,
   },
   km: {
