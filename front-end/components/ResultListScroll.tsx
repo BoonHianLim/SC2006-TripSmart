@@ -12,14 +12,55 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {Color, FontFamily} from "../GlobalStyles";
 import {useNavigation} from "@react-navigation/native";
+import {grab} from "../services/grabscrapper";
+import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
 
 const promises: Promise<[number,number]>[] = [
     Promise.resolve([1,7]),
     Promise.resolve([3,6]),
     Promise.resolve([2,5])
 ];
+
+const messages = {
+    en,
+    ch,
+    ms,
+    ta
+};
+
 const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
     const [sortedValues, setSortedValues] = useState<number[][]>([]);
+    const message1 = "Results";
+    const message2 = "Cheapest";
+    const message3 = "Fastest";
+    const [resultText, setResultText] = useState<any>();
+
+    useFocusEffect(() => {
+        AsyncStorage.getItem("language").then((value) => {
+            switch(value){
+                case 'en':
+                    setResultText(messages.en["Result_list"]);
+                    break;
+                case 'ch':
+                    setResultText(messages.ch["Result_list"]);
+                    break;
+                case 'ms':
+                    setResultText(messages.ms["Result_list"]);
+                    break;
+                case 'ta':
+                    setResultText(messages.ta["Result_list"]);
+                    break;
+                default:
+                    setResultText(messages.en["Result_list"]);
+            }
+        })
+        }
+    );
 
     const lightArrowLink = require("../assets/arrow-2.png");
     const dimArrowLink = require("../assets/arrow-21.png");
@@ -66,6 +107,15 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
         });
     }, []);
 
+    try{
+        grab.getGrabFare("Nanyang Technological University",
+            "National University Singapore")
+    }catch (e){
+        console.error(e);
+        console.log("grab getGrabFare fail to return. This may because of the flask server is not started, or " +
+            "connection issues between the localserver and expo.")
+    }
+
     return (
             <View style={styles.resultList}>
                 <View style={styles.headerParent}>
@@ -80,7 +130,7 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
                                 source={require("../assets/arrow-11.png")}
                             />
                         </Pressable>
-                        <Text style={[styles.headerChildText,styles.resultText]}>Results</Text>
+                        <Text style={[styles.headerChildText,styles.resultText]}>{resultText && resultText[message1]}</Text>
                         <View style = {{marginLeft:"auto",paddingRight:20}}>
                             <Pressable
                                 style={[styles.headerChild,styles.image3]}
@@ -104,7 +154,7 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
                                 style = {{flexDirection:"row"}}
                             >
                                 <Text style={[isCheap? styles.lightText: styles.dimText, styles.sortingHeaderText]}>
-                                    Cheapest
+                                {resultText && resultText[message2]}
                                 </Text>
                                 <Image
                                     style = {styles.sortingHeaderArrow}
@@ -118,7 +168,7 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
                                 style = {{flexDirection:"row"}}
                             >
                                 <Text style={[isCheap? styles.dimText: styles.lightText, styles.sortingHeaderText]}>
-                                    Fastest
+                                {resultText && resultText[message3]}
                                 </Text>
                                 <Image
                                     style = {styles.sortingHeaderArrow}

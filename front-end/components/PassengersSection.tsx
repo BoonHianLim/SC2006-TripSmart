@@ -1,44 +1,89 @@
 import * as React from "react";
-import { useState } from "react";
-import {
-  Dimensions,
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  Pressable,
-} from "react-native";
+import { useState, useEffect } from "react";
+import { Dimensions, StyleSheet, View, Image, Text, Pressable } from "react-native";
 import { Margin, FontFamily, Color, FontSize } from "../GlobalStyles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from '@react-navigation/native';
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
+
+const messages = {
+  en,
+  ch,
+  ms,
+  ta
+};
 
 const PassengersSection = () => {
   const [num, setNum] = useState(0);
+
+  const message1 = "Number of Passengers";
+  const message2 = "Passengers";
+  const [resultText, setResultText] = useState<any>();
+
+  useFocusEffect(() => {
+      AsyncStorage.getItem("language").then((value) => {
+      switch(value){
+          case 'en':
+          setResultText(messages.en["Filter_page"]);
+          break;
+          case 'ch':
+          setResultText(messages.ch["Filter_page"]);
+          break;
+          case 'ms':
+          setResultText(messages.ms["Filter_page"]);
+          break;
+          case 'ta':
+          setResultText(messages.ta["Filter_page"]);
+          break;
+          default:
+          setResultText(messages.en["Filter_page"]);
+      }
+      })
+      }
+  )
+
   const handleMinusPress = () => {
     if (num > 0) {
       setNum(num - 1);
+      AsyncStorage.setItem("num", (num - 1).toString());
     }
   };
+
   const handlePlusPress = () => {
     if (num < 9) {
       setNum(num + 1);
+      AsyncStorage.setItem("num", (num + 1).toString());
     }
   };
+
+  useEffect(() => {
+    AsyncStorage.getItem("num").then(value => {
+      if (value !== null) {
+        setNum(parseInt(value));
+      }
+    });
+  }, []);
+
   return (
     <View style={styles.numberOfPassengersParent}>
       <Text style={[styles.numberOfPassengers, styles.passengersTypo]}>
-        Number of Passengers
+        {resultText && resultText[message1]}
       </Text>
       <View style={[styles.frameWrapper, styles.mt24, styles.minusIconFlexBox]}>
         <View style={styles.frameContainer}>
           <View style={[styles.passengersParent, styles.parentFlexBox]}>
             <Text style={[styles.passengers, styles.passengersTypo]}>
-              Passengers
+              {resultText && resultText[message2]}
             </Text>
             <View style={[styles.frameParent, styles.parentFlexBox]}>
               <View style={styles.iconsWrapper}>
                 <Pressable
-                    style={[styles.iconsFlexBox, styles.iconsLayout]}
-                    onPress={handleMinusPress}
-                  >
+                  style={[styles.iconsFlexBox, styles.iconsLayout]}
+                  onPress={handleMinusPress}
+                >
                   <Image
                     style={[styles.minusIcon, styles.minusIconFlexBox]}
                     resizeMode="cover"
@@ -52,8 +97,8 @@ const PassengersSection = () => {
               <View style={[styles.iconsContainer, styles.ml29]}>
                 <Pressable
                   style={[styles.icons1,styles.iconsFlexBox,styles.iconsLayout,]}
-                    onPress={handlePlusPress}
-                  >
+                  onPress={handlePlusPress}
+                >
                   <Image
                     style={[styles.minusIcon, styles.minusIconFlexBox]}
                     resizeMode="cover"
@@ -101,7 +146,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   numberOfPassengers: {
-    lineHeight: 14,
+    lineHeight: 17,
     letterSpacing: 0.4,
     fontSize: 14,
     fontFamily: FontFamily.montserratBold,

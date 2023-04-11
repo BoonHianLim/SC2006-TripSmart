@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -6,7 +7,8 @@ import {
   Text,
   View,
   Pressable,
-  ImageBackground
+  ImageBackground,
+  ScrollView
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,8 +18,49 @@ import {
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
 import { Button } from "@rneui/themed";
+import { useFocusEffect } from '@react-navigation/native';
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
+
+const messages = {
+  en,
+  ch,
+  ms,
+  ta
+};
 
 const LoginPage = () => {
+  const message1 = "Here to meet all your travel needs";
+  const message2 = "Feel the ease of picking a transport option of your choice from the comfort of your own home and find the best offers in SG with us!";
+  const buttonText1 = "Login";
+  const buttonText2 = "Sign Up";
+  const buttonText3 = "Continue as Guest";
+  const [resultText, setResultText] = useState<any>();
+
+  useFocusEffect(() => {
+    AsyncStorage.getItem("language").then((value) => {
+      switch(value){
+        case 'en':
+          setResultText(messages.en["Welcome_page_3"]);
+          break;
+        case 'ch':
+          setResultText(messages.ch["Welcome_page_3"]);
+          break;
+        case 'ms':
+          setResultText(messages.ms["Welcome_page_3"]);
+          break;
+        case 'ta':
+          setResultText(messages.ta["Welcome_page_3"]);
+          break;
+        default:
+          setResultText(messages.en["Welcome_page_3"]);
+      }
+    })
+    }
+  )
+
   const process = () => {
     storeData("Guest");
     navigation.navigate("ResultList");
@@ -31,6 +74,16 @@ const LoginPage = () => {
     }
   };
 
+  //reset localstorage
+  const resetLocalStorage = async () => {
+    try {
+      await AsyncStorage.setItem("@storage_Key", "Guest");
+      await AsyncStorage.setItem("@storage_Email", "");
+    } catch (e) {
+      // saving error
+    }
+  };
+
   const navigation = useNavigation();
 
   const { width, height } = Dimensions.get("window");
@@ -38,34 +91,38 @@ const LoginPage = () => {
   console.log("width:", width);
 
   return (
-    <View
-      style={{
-        backgroundColor: Color.brandColorsCrayolaYellow
-      }}>
-      <ImageBackground
-        source={require("../assets/dk01-1.png")}
+    resetLocalStorage(),
+    (
+      <View
         style={{
-          width: "100%",
-          height: "100%",
-          // alignItems: "center",
-          // justifyContent: "flex-start"
-        }}>
-
-        <View
+          backgroundColor: Color.brandColorsCrayolaYellow,
+        }}
+      >
+        <ImageBackground
+          source={require("../assets/dk01-1.png")}
           style={{
-            margin: "10%",
-            marginTop: responsiveScreenFontSize(22)
-          }}>
-
+            width: "100%",
+            height: "100%",
+            // alignItems: "center",
+            // justifyContent: "flex-start"
+          }}
+        >
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-            }}>
-            <Image
+              margin: "10%",
+              marginTop: responsiveScreenFontSize(22),
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Image
                 style={{
                   height: responsiveScreenHeight(10),
-                  width: responsiveScreenHeight(10)
+                  width: responsiveScreenHeight(10),
                 }}
                 resizeMode="cover"
                 source={require("../assets/fare-1-1.png")}
@@ -75,25 +132,35 @@ const LoginPage = () => {
                   fontFamily: FontFamily.montserratBold,
                   fontSize: responsiveScreenFontSize(4.5),
                   marginLeft: "3%",
-                  marginTop: "10%"
-                }}>TripSmart</Text>
-          </View>
+                  marginTop: "4%",
+                  marginBottom: "7%",
+                }}
+              >
+                TripSmart
+              </Text>
+            </View>
 
-          <Text
-            style={{
-              fontFamily: FontFamily.montserratBold,
-              fontSize: responsiveScreenFontSize(3.5),
-              marginBottom: "3%"
-            }}>Here to meet all your travel needs </Text>
+            <Text
+              style={{
+                fontFamily: FontFamily.montserratBold,
+                fontSize: responsiveScreenFontSize(2.8),
+                marginBottom: "7%",
+              }}
+            >
+              {resultText && resultText[message1]}{" "}
+            </Text>
 
-        <Text
-          style={{
-            fontFamily: FontFamily.montserratMedium,
-            fontSize: responsiveScreenFontSize(1.8),
-            marginBottom: "10%"
-          }}>Feel the ease of picking a transport option of your choice from the comfort of your own home and find the best offers in SG with us!</Text>
-<Button
-              title="Login"
+            <Text
+              style={{
+                fontFamily: FontFamily.montserratMedium,
+                fontSize: responsiveScreenFontSize(1.8),
+                marginBottom: "15%",
+              }}
+            >
+              {resultText && resultText[message2]}
+            </Text>
+            <Button
+              title={resultText && resultText[buttonText1]}
               loading={false}
               loadingProps={{
                 size: "small",
@@ -113,11 +180,13 @@ const LoginPage = () => {
               containerStyle={{
                 marginBottom: "5%",
               }}
-              onPress={()=>{navigation.navigate("Login")}}
+              onPress={() => {
+                navigation.navigate("Login");
+              }}
             />
-          
-          <Button
-              title="Sign Up"
+
+            <Button
+            title={resultText && resultText[buttonText2]}
               loading={false}
               loadingProps={{
                 size: "small",
@@ -137,27 +206,29 @@ const LoginPage = () => {
               containerStyle={{
                 marginBottom: "5%",
               }}
-              onPress={()=>{navigation.navigate("Register1")}}
+              onPress={() => {
+                navigation.navigate("Register1");
+              }}
             />
             <Pressable
               style={{
-                alignItems: "center"
+                alignItems: "center",
               }}
-              onPress={() => process()}>
-                <Text
-                  style={{
-                    fontFamily: FontFamily.montserratMedium,
-                    fontSize: responsiveScreenFontSize(2.0),
-                  }}
-                >
-                  Continue as Guest
-                </Text>
+              onPress={() => process()}
+            >
+              <Text
+                style={{
+                  fontFamily: FontFamily.montserratMedium,
+                  fontSize: responsiveScreenFontSize(2.0),
+                }}
+              >
+                {resultText && resultText[buttonText3]}
+              </Text>
             </Pressable>
-        </View>
-
-
-      </ImageBackground>
-    </View>
+          </View>
+        </ImageBackground>
+      </View>
+    )
   );
 };
 
@@ -304,7 +375,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width * 0.8,
     height: Dimensions.get("window").height * 0.8,
     alignItems: "center",
-    position: "absolute",
+    position: "relative",
   },
   dk011Parent: {
     overflow: "hidden",

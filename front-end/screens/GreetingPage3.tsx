@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from 'react';
 import {
   ImageBackground,
   Dimensions,
@@ -19,8 +20,47 @@ import { Margin, Color, FontFamily } from "../GlobalStyles";
 import LandingPageButton from "../components/LandingPageButton";
 import { Button } from "@rneui/themed";
 import LandingThreeButton from "../components/LandingThreeButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from '@react-navigation/native';
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
+
+const messages = {
+  en,
+  ch,
+  ms,
+  ta
+};
+
 const GreetingPage3 = () => {
   const navigation = useNavigation();
+  const message1 = "Abundance of Choice";
+  const message2 = "TripSmart let’s you compare price fares and travel timings across all the major transport options available in Singapore from ride-hailing services and taxis to car rental and public transport services (buses and trains)!";
+  const [resultText, setResultText] = useState<any>();
+
+  useFocusEffect(() => {
+    AsyncStorage.getItem("language").then((value) => {
+      switch(value){
+        case 'en':
+          setResultText(messages.en["Abundance_of_Choice"]);
+          break;
+        case 'ch':
+          setResultText(messages.ch["Abundance_of_Choice"]);
+          break;
+        case 'ms':
+          setResultText(messages.ms["Abundance_of_Choice"]);
+          break;
+        case 'ta':
+          setResultText(messages.ta["Abundance_of_Choice"]);
+          break;
+        default:
+          setResultText(messages.en["Abundance_of_Choice"]);
+      }
+    })
+    }
+  )
 
   const myImage = require("../assets/backgroundimg.png");
 
@@ -58,7 +98,7 @@ const GreetingPage3 = () => {
             textAlign: "center",
           }}
         >
-          Abundance of Choice
+          {resultText && resultText[message1]}
         </Text>
 
         <Text
@@ -69,9 +109,7 @@ const GreetingPage3 = () => {
             textAlign: "center",
           }}
         >
-          TripSmart let’s you compare price fares and travel timings across all
-          the major transport options available in Singapore from ride-hailing
-          services and taxis to car rental and public transport services!
+          {resultText && resultText[message2]}
         </Text>
       </View>
 

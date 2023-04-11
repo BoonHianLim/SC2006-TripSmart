@@ -1,4 +1,5 @@
 import React, {useEffect} from "react";
+import { useState } from "react";
 import {
     Dimensions,
     StyleSheet,
@@ -15,6 +16,19 @@ import EcoFriendlySection from "../components/EcoFriendlySection";
 import BottomSheet from "@gorhom/bottom-sheet";
 import {useCallback, useMemo, useRef} from "react";
 import {Color, FontFamily} from "../GlobalStyles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from '@react-navigation/native';
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
+
+const messages = {
+  en,
+  ch,
+  ms,
+  ta
+};
 
 const ResultFilterScroll = ({changeState}) => {
 
@@ -40,6 +54,33 @@ const ResultFilterScroll = ({changeState}) => {
         };
     }, []);
 
+    const message1 = "Filter";
+    const message2 = "Ride Types";
+    const message3 = "Apply Filters";
+    const [resultText, setResultText] = useState<any>();
+
+    useFocusEffect(() => {
+        AsyncStorage.getItem("language").then((value) => {
+        switch(value){
+            case 'en':
+            setResultText(messages.en["Filter_page"]);
+            break;
+            case 'ch':
+            setResultText(messages.ch["Filter_page"]);
+            break;
+            case 'ms':
+            setResultText(messages.ms["Filter_page"]);
+            break;
+            case 'ta':
+            setResultText(messages.ta["Filter_page"]);
+            break;
+            default:
+            setResultText(messages.en["Filter_page"]);
+        }
+        })
+        }
+    )
+
     return (
         <View style={styles.resultFilter}>
             <View style = {styles.container}>
@@ -55,7 +96,7 @@ const ResultFilterScroll = ({changeState}) => {
                         />
 
                     </Pressable>
-                    <Text style={[styles.filterText,styles.headerChildText]}>Filter</Text>
+                    <Text style={[styles.filterText,styles.headerChildText]}>{resultText && resultText[message1]}</Text>
                 </View>
 
                 <PassengersSection />
@@ -66,7 +107,7 @@ const ResultFilterScroll = ({changeState}) => {
                 />
                 <View style={styles.rideTypesWrapper}>
                     <Text style={[styles.rideTypes, styles.rideTypesTypo]}>
-                        Ride Types
+                        {resultText && resultText[message2]}
                     </Text>
                 </View>
                 <View style ={{paddingBottom:30}}>
@@ -82,7 +123,7 @@ const ResultFilterScroll = ({changeState}) => {
                         ]}
                     >
                         <Text style={styles.filterButton}>
-                            Apply Filters
+                        {resultText && resultText[message3]}
                         </Text>
                     </View>
                 </Pressable>
@@ -107,9 +148,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     changeWrapperFlexBox: {
-        paddingVertical: 16,
+        paddingVertical: 20,
         paddingHorizontal: 8,
-        height: 60,
+        height: 70,
         backgroundColor: Color.goldenrod_200,
         borderRadius: 12,
         alignSelf: "stretch",
@@ -119,7 +160,8 @@ const styles = StyleSheet.create({
     },
     filterButton: {
         fontSize: 13,
-        lineHeight: 13,
+        lineHeight: 18,
+        height: 36,
         color: Color.black,
         letterSpacing: 0.4,
         fontFamily: FontFamily.montserratBold,
@@ -179,7 +221,7 @@ const styles = StyleSheet.create({
     rideTypes: {
         fontSize: 14,
         letterSpacing: 0.4,
-        lineHeight: 14,
+        lineHeight: 18,
         color: Color.textColorsMain,
     },
     rideTypesWrapper: {

@@ -1,0 +1,90 @@
+{
+  "Welcome_to_TripSmart": {
+    "Welcome to": "Welcome to",
+    "TripSmart": "TripSmart",
+    "The best trip-planning app in Singapore that makes commuting more stress-free and accessible for everyone!": "The best trip-planning app in Singapore that makes commuting more stress-free and accessible for everyone!"
+  },
+  "Next": "Next",
+  "Abundance_of_Choice": {
+    "Abundance of Choice": "Abundance of Choice",
+    "TripSmart let’s you compare price fares and travel timings across all the major transport options available in Singapore from ride-hailing services and taxis to car rental and public transport services (buses and trains)!": "TripSmart let’s you compare price fares and travel timings across all the major transport options available in Singapore from ride-hailing services and taxis to car rental and public transport services (buses and trains)!"
+  },
+  "Welcome_page_3": {
+    "Here to meet all your travel needs": "Here to meet all your travel needs",
+    "Feel the ease of picking a transport option of your choice from the comfort of your own home and find the best offers in SG with us!": "Feel the ease of picking a transport option of your choice from the comfort of your own home and find the best offers in SG with us!",
+    "Login": "Login",
+    "Sign Up": "Sign Up",
+    "Continue as Guest": "Continue as Guest"
+  },
+  "Login_page": {
+    "Sign In with Password": "Sign In with Password",
+    "Continue to your Account": "Continue to your Account",
+    "Email": "Email",
+    "Password": "Password",
+    "Remember me": "Remember me",
+    "Log in": "Log in",
+    "Or continue with": "Or continue with",
+    "Don't have an account?": "Don't have an account?",
+    "Register now": "Register now"
+  },
+  "Sign_up_page": {
+    "Create Your Account": "Create Your Account",
+    "Email": "Email",
+    "Password": "Password",
+    "Re-type Password": "Re-type",
+    "I accept the Terms and the Privacy Policy": "I accept the Terms and the Privacy Policy",
+    "Sign Up": "Sign Up",
+    "Already have an account?": "Already have an account?",
+    "Sign in": "Sign in"
+  },
+  "Change_Password_page":{
+    "Change Password": "Change Password",
+    "I accept the Terms and the Privacy Policy": "I accept the Terms and the Privacy Policy",
+    "Email": "Email",
+    "Old Password": "Old Password",
+    "New Password": "New Password"
+  },
+  "Search_page": {
+    "Origin": "Origin",
+    "Destination": "Destination",
+    "Show Result": "Show Result"
+  },
+  "Navigation_bar": {
+    "Map": "Map",
+    "History": "History",
+    "Settings": "Settings"
+  },
+  "Result_list": {
+    "Results": "Results",
+    "Cheapest": "Cheapest",
+    "Fastest": "Fastest",
+    "Grab": "Grab",
+    "blueSG": "blueSG",
+    "ComfortDelgro": "ComfortDelgro",
+    "min": "min"
+  },
+  "Filter_page": {
+    "Filter": "Filter",
+    "Number of Passengers": "Number of Passengers",
+    "Passengers": "Passengers",
+    "Ride Types": "Ride Types",
+    "Wheelchair Accessibility": "Wheelchair Accessibility",
+    "Pet-Friendly": "Pet-Friendly",
+    "Eco-Friendly": "Eco-Friendly",
+    "Apply Filters": "Apply Filters"
+  },
+  "Settings_page": {
+    "Settings": "Settings",
+    "Change Language": "Change Language",
+    "English": "English",
+    "中文": "中文",
+    "Bahasa Melayu": "Bahasa Melayu",
+    "தமிழ்": "தமிழ்",
+    "Change Distance Metrics": "Change Distance Metrics",
+    "Change Password": "Change Password",
+    "Log Out": "Log Out",
+    "Log In": "Log In",
+    "KM": "KM",
+    "Miles": "Miles"
+  }
+}

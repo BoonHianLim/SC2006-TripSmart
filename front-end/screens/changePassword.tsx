@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -22,6 +23,19 @@ import { Color, FontFamily } from "../GlobalStyles";
 import { Button } from "@rneui/themed";
 import { AntDesign } from "@expo/vector-icons";
 import Login from "./Login";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from '@react-navigation/native';
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
+
+const messages = {
+  en,
+  ch,
+  ms,
+  ta
+};
 
 const Register1 = () => {
   const navigation = useNavigation();
@@ -30,6 +44,35 @@ const Register1 = () => {
   const [password, setPassword] = React.useState("");
   const [password2, setPassword2] = React.useState("");
 
+  const message1 = "Change Password";
+  const message2 = "I accept the Terms and the Privacy Policy";
+  const header1 = "Email";
+  const header2 = "Old Password";
+  const header3 = "New Password";
+  const buttonText = "Change Password";
+  const [resultText, setResultText] = useState<any>();
+
+  useFocusEffect(() => {
+    AsyncStorage.getItem("language").then((value) => {
+      switch(value){
+        case 'en':
+          setResultText(messages.en["Change_Password_page"]);
+          break;
+        case 'ch':
+          setResultText(messages.ch["Change_Password_page"]);
+          break;
+        case 'ms':
+          setResultText(messages.ms["Change_Password_page"]);
+          break;
+        case 'ta':
+          setResultText(messages.ta["Change_Password_page"]);
+          break;
+        default:
+          setResultText(messages.en["Change_Password_page"]);
+      }
+    })
+    }
+  )
   const verifyIfCheckboxChecked = () => {
     if (checked) {
       checkExistingDatabase();
@@ -181,19 +224,19 @@ const Register1 = () => {
                 fontSize: responsiveScreenFontSize(6.5),
               }}
             >
-              Change Password
+              {resultText && resultText[message1]}
             </Text>
           </View>
 
           <TextInputUser
-            headerText="Email"
+            headerText={resultText && resultText[header1]}
             placeholder="Email"
             value={email}
             onChangeText={handleEmailChange}
           />
 
           <TextInputUser
-            headerText="Old Password"
+            headerText={resultText && resultText[header2]}
             iconLabel="lock"
             placeholder="Password"
             value={password}
@@ -202,7 +245,7 @@ const Register1 = () => {
           />
 
           <TextInputUser
-            headerText="New Password"
+            headerText={resultText && resultText[header3]}
             iconLabel="lock"
             isPassword={true}
             placeholder="Password2"
@@ -224,7 +267,7 @@ const Register1 = () => {
                     fontFamily: FontFamily.montserratMedium,
                   }}
                 >
-                  I accept the Terms and the Privacy Policy
+                  {resultText && resultText[message2]}
                 </Text>
               }
               size={23}
@@ -239,7 +282,7 @@ const Register1 = () => {
 
           <View>
             <Button
-              title="Change Password"
+              title={resultText && resultText[buttonText]}
               loading={false}
               loadingProps={{
                 size: "small",

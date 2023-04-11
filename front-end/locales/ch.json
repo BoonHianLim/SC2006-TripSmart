@@ -1,0 +1,90 @@
+{
+  "Welcome_to_TripSmart": {
+    "Welcome to": "欢迎来到",
+    "TripSmart": "TripSmart",
+    "The best trip-planning app in Singapore that makes commuting more stress-free and accessible for everyone!": "新加坡最好的出行规划应用程序，使通勤更加轻松和方便，适用于所有人！"
+  },
+  "Next": "下页",
+  "Abundance_of_Choice": {
+    "Abundance of Choice": "丰富的选择",
+    "TripSmart let’s you compare price fares and travel timings across all the major transport options available in Singapore from ride-hailing services and taxis to car rental and public transport services (buses and trains)!": "TripSmart 让您把新加坡所有主要交通选择的票价和旅行时间做个比较，包括网约车、出租车、汽车租赁和公共交通服务（巴士和地铁）！"
+  },
+  "Welcome_page_3": {
+    "Here to meet all your travel needs": "在这里满足您的所有出行需求",
+    "Feel the ease of picking a transport option of your choice from the comfort of your own home and find the best offers in SG with us!": "在家中舒适地选择在出行时您喜欢的交通方式，与我们一起找到新加坡最优惠的交通选择！",
+    "Login": "登录",
+    "Sign Up": "注册",
+    "Continue as Guest": "以访客身份继续"
+  },
+  "Login_page": {
+    "Sign In with Password": "通过密码登录",
+    "Continue to your Account": "继续使用您的帐户",
+    "Email": "电子邮件",
+    "Password": "密码",
+    "Remember me": "记住我",
+    "Log in": "登录",
+    "Or continue with": "或继续使用",
+    "Don't have an account?": "还没有帐号？",
+    "Register now": "现在注册"
+  },
+  "Sign_up_page": {
+    "Create Your Account": "创建您的帐户",
+    "Re-type Password": "重新输入密码",
+    "Email": "电子邮件",
+    "Password": "密码",
+    "I accept the Terms and the Privacy Policy": "我接受条款和隐私政策",
+    "Sign Up": "注册",
+    "Already have an account?": "已有帐号?",
+    "Sign in": "登入"
+  },
+  "Change_Password_page":{
+    "Change Password": "更换密码",
+    "I accept the Terms and the Privacy Policy": "我接受条款和隐私政策",
+    "Email": "电子邮件",
+    "Old Password": "旧密码",
+    "New Password": "新密码"
+  },
+  "Search_page": {
+    "Origin": "出发地",
+    "Destination": "目的地",
+    "Show Result": "显示结果"
+  },
+  "Navigation_bar": {
+    "Map": "地图",
+    "History": "历史记录",
+    "Settings": "设置"
+  },
+  "Result_list": {
+    "Results": "结果",
+    "Cheapest": "最便宜",
+    "Fastest": "最快",
+    "Grab": "Grab",
+    "blueSG": "blueSG",
+    "ComfortDelgro": "ComfortDelgro",
+    "min": "分钟"
+  },
+  "Filter_page": {
+    "Filter": "筛选",
+    "Number of Passengers": "乘客数量",
+    "Passengers": "乘客",
+    "Ride Types": "乘车类型",
+    "Wheelchair Accessibility": "轮椅无障碍",
+    "Pet-Friendly": "宠物友好",
+    "Eco-Friendly": "环保友好",
+    "Apply Filters": "应用筛选"
+  },
+  "Settings_page": {
+    "Settings": "设置",
+    "Change Language": "更换语言",
+    "English": "English",
+    "中文": "中文",
+    "Bahasa Melayu": "Bahasa Melayu",
+    "தமிழ்": "தமிழ்",
+    "Change Distance Metrics": "更换距离单位",
+    "Change Password": "更换密码",
+    "Log Out": "退出登录",
+    "Log In": "登录",
+    "KM": "公里",
+    "Miles": "英里"
+  }
+}

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -20,7 +21,20 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily } from "../GlobalStyles";
 import { Button } from "@rneui/themed";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
+import { useFocusEffect } from '@react-navigation/native';
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
+
+const messages = {
+  en,
+  ch,
+  ms,
+  ta
+};
 
 const Register1 = () => {
   const navigation = useNavigation();
@@ -28,6 +42,37 @@ const Register1 = () => {
   const [email, onChangeText] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [password2, setPassword2] = React.useState("");
+  const message1 = "Create Your Account";
+  const message2 = "I accept the Terms and the Privacy Policy";
+  const message3 = "Already have an account?";
+  const message4 = "Sign in"
+  const header1 = "Email";
+  const header2 = "Password";
+  const header3 = "Re-type Password";
+  const buttonText = "Sign Up";
+  const [resultText, setResultText] = useState<any>();
+
+  useFocusEffect(() => {
+    AsyncStorage.getItem("language").then((value) => {
+      switch(value){
+        case 'en':
+          setResultText(messages.en["Sign_up_page"]);
+          break;
+        case 'ch':
+          setResultText(messages.ch["Sign_up_page"]);
+          break;
+        case 'ms':
+          setResultText(messages.ms["Sign_up_page"]);
+          break;
+        case 'ta':
+          setResultText(messages.ta["Sign_up_page"]);
+          break;
+        default:
+          setResultText(messages.en["Sign_up_page"]);
+      }
+    })
+    }
+  )
 
   const verifyIfCheckboxChecked = () => {
     if (checked) {
@@ -173,19 +218,19 @@ const Register1 = () => {
                 fontSize: responsiveScreenFontSize(6.5),
               }}
             >
-              Create Your Account
+              {resultText && resultText[message1]}
             </Text>
           </View>
 
           <TextInputUser
-            headerText="Email"
+            headerText={resultText && resultText[header1]}
             placeholder="Email"
             value={email}
             onChangeText={handleEmailChange}
           />
 
           <TextInputUser
-            headerText="Password"
+            headerText={resultText && resultText[header2]}
             iconLabel="lock"
             placeholder="Password"
             value={password}
@@ -194,7 +239,7 @@ const Register1 = () => {
           />
 
           <TextInputUser
-            headerText="Re-type Password"
+            headerText={resultText && resultText[header3]}
             iconLabel="lock"
             isPassword={true}
             placeholder="Password2"
@@ -216,7 +261,7 @@ const Register1 = () => {
                     fontFamily: FontFamily.montserratMedium,
                   }}
                 >
-                  I accept the Terms and the Privacy Policy
+                  {resultText && resultText[message2]}
                 </Text>
               }
               size={23}
@@ -231,7 +276,7 @@ const Register1 = () => {
 
           <View>
             <Button
-              title="Sign Up"
+              title={resultText && resultText[buttonText]}
               loading={false}
               loadingProps={{
                 size: "small",
@@ -277,7 +322,7 @@ const Register1 = () => {
                   fontSize: responsiveScreenFontSize(1.5),
                 }}
               >
-                Already have an account?{" "}
+                {resultText && resultText[message3]}{" "}
               </Text>
               <Pressable onPress={() => navigation.navigate("Login")}>
                 <Text
@@ -286,7 +331,7 @@ const Register1 = () => {
                     fontSize: responsiveScreenFontSize(1.5),
                   }}
                 >
-                  Sign in
+                  {resultText && resultText[message4]}
                 </Text>
               </Pressable>
             </View>

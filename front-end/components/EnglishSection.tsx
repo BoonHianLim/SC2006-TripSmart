@@ -1,14 +1,55 @@
 import * as React from "react";
-import { Text, StyleSheet, Image, View } from "react-native";
+import { useState } from "react";
+import { Text, StyleSheet, Image, View, ScrollView } from "react-native";
 import { Margin, Color, FontFamily, FontSize } from "../GlobalStyles";
+import SettingsLangDropdown from "../components/SettingsLangDropdown";
+import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
+
+const messages = {
+  en,
+  ch,
+  ms,
+  ta
+};
 
 const EnglishSection = () => {
+  const message = "Change Language";
+  const [resultText, setResultText] = useState<any>();
+
+  useFocusEffect(() => {
+    AsyncStorage.getItem("language").then((value) => {
+      switch(value){
+        case 'en':
+          setResultText(messages.en["Settings_page"]);
+          break;
+        case 'ch':
+          setResultText(messages.ch["Settings_page"]);
+          break;
+        case 'ms':
+          setResultText(messages.ms["Settings_page"]);
+          break;
+        case 'ta':
+          setResultText(messages.ta["Settings_page"]);
+          break;
+        default:
+          setResultText(messages.en["Settings_page"]);
+      }
+    })
+    }
+  )
+
   return (
     <View style={[styles.changeLanguageParent, styles.mt_2]}>
       <Text style={[styles.englishTypo, styles.textLayout]}>
-        Change Language
+        {resultText && resultText[message]}
       </Text>
-      <View style={[styles.frameWrapper, styles.mt24]}>
+      <SettingsLangDropdown />
+      {/* <View style={[styles.frameWrapper, styles.mt24]}>
         <View style={styles.frameParent}>
           <View style={[styles.frameGroup, styles.frameFlexBox]}>
             <View style={[styles.frameContainer, styles.frameFlexBox]}>
@@ -43,6 +84,7 @@ const EnglishSection = () => {
                 </View>
               </View>
             </View>
+            
             <Text
               style={[
                 styles.english,
@@ -53,9 +95,7 @@ const EnglishSection = () => {
               English
             </Text>
           </View>
-          <View
-            style={[styles.mapSettings, styles.mt10, styles.englishPosition]}
-          >
+          <View style={[styles.mapSettings, styles.mt10, styles.englishPosition]}>
             <View style={styles.frameView}>
               <View style={[styles.iconsFrame, styles.iconsSpaceBlock]}>
                 <View style={[styles.icons2, styles.iconsLayout]}>
@@ -109,7 +149,7 @@ const EnglishSection = () => {
             </View>
           </View>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -130,10 +170,13 @@ const styles = StyleSheet.create({
   mt24: {
     marginTop: Margin.m_5xl,
   },
+  mt_2: {
+    marginTop: Margin.m_15xs,
+  },
   textLayout: {
-    lineHeight: 14,
+    lineHeight: 16,
     letterSpacing: 0.4,
-    fontSize: 14,
+    fontSize: 13,
   },
   frameFlexBox: {
     zIndex: 0,
@@ -164,7 +207,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: Color.textColorsMain,
     fontFamily: FontFamily.montserratBold,
-    fontWeight: "700",
+    fontWeight: "600",
   },
   iconsSpaceBlock: {
     paddingBottom: 5,
@@ -305,9 +348,15 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderColor: "#efeded",
     borderWidth: 1,
+    height: 80,
     flexDirection: "row",
     overflow: "hidden",
     alignSelf: "stretch",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingVertical: 50,
   },
   changeLanguageParent: {
     height: 134,

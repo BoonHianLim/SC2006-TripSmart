@@ -27,6 +27,11 @@ import { LocationGeofencingEventType } from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapViewDirections from "react-native-maps-directions";
 import getGrabFare from "../services/grabscrapper";
+import { useFocusEffect } from '@react-navigation/native';
+import en from '../locales/en.json';
+import ch from '../locales/ch.json';
+import ms from '../locales/ms.json';
+import ta from '../locales/ta.json';
 
 type InputAutocompleteProps = {
     label: string;
@@ -58,13 +63,46 @@ function InputAutocomplete({
     );
 }
 
+const messages = {
+    en,
+    ch,
+    ms,
+    ta
+};
+
 const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) => {
     const [email, setEmail] = useState("");
     const [startLocation, setLocationFunction] = useState("");
     const [dest, setDestFunction] = useState("");
+    const message = "Show Result";
+    const flag1 = "Origin";
+    const flag2 = "Destination";
+    const [resultText, setResultText] = useState<any>();
+
+    useFocusEffect(() => {
+        AsyncStorage.getItem("language").then((value) => {
+            switch(value){
+                case 'en':
+                    setResultText(messages.en["Search_page"]);
+                    break;
+                case 'ch':
+                    setResultText(messages.ch["Search_page"]);
+                    break;
+                case 'ms':
+                    setResultText(messages.ms["Search_page"]);
+                    break;
+                case 'ta':
+                    setResultText(messages.ta["Search_page"]);
+                    break;
+                default:
+                    setResultText(messages.en["Search_page"]);
+            }
+        })
+        }
+    );
+
     var emailAccount: string = "";
     // get current status, is it a guess or user
-
 
     const getStatus = async () => {
         try {
@@ -189,7 +227,7 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
             getStatus(),
     <View style={styles.searchContainer}>
         <InputAutocomplete
-            label="Origin"
+            label={resultText && resultText[flag1]}
             onPlaceSelected={(details) => {
                 onPlaceSelected(details, "origin");
                 var tmp = JSON.stringify(details.name);
@@ -197,7 +235,7 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
             }}
         />
         <InputAutocomplete
-            label="Destination"
+            label={resultText && resultText[flag2]}
             onPlaceSelected={(details) => {
                 onPlaceSelected(details, "destination");
                 var tmp1 = JSON.stringify(details.name);
@@ -211,7 +249,9 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, moveTo}:any) 
                 changeState("resultList");
             }}
         >
-            <Text style={styles.buttonTextResult}>Show Result</Text>
+            <Text style={styles.buttonTextResult}>
+                {resultText && resultText[message]}
+            </Text>
         </TouchableOpacity>
     </View>)
 }

@@ -26,6 +26,6 @@ To run the program:
 ``` http://localhost:5000/farecheck?pickup=Nanyang%20Technological%20University&dropoff=National%20University%20Singapore ```   
 - Return Json:   
 {
-	"fare": "SGD 13.44 - 18.48"
+	"{"fare":["JustGrab","26 mins","SGD 15.04 - 20.68","GrabCar","26 mins","SGD 15.84 - 21.78","GrabCar Premium","26 mins","SGD 21.44 - 29.48"]}
 }
 - One small problem, it doesn't work with axios even tho it works with Postman, probably some firewall issues(?)
