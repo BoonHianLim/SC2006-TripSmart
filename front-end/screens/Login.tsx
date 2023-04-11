@@ -138,10 +138,15 @@ const Login = () => {
         storeEmail(email);
         navigation.navigate("ResultList");
       } else {
-        //alert user that email or password is incorrect
-        Alert.alert("Error", "Email or password is incorrect", [
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]);
+        if (email.length == 0 || password.length == 0) {
+          Alert.alert("Error", "Please fill in all the fields", [
+            { text: "OK", onPress: () => console.log("OK Pressed") },
+          ]);
+        } else {
+          Alert.alert("Error", "Email or password is incorrect", [
+            { text: "OK", onPress: () => console.log("OK Pressed") },
+          ]);
+        }
       }
     } catch (err) {
       console.log("error signing in: ", err);
