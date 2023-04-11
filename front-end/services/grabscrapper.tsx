@@ -3,14 +3,33 @@ import React, { useEffect, useState } from "react";
 import Constants from "expo-constants";
 import { googlemap } from "./googlemap";
 import { Result } from "../types/Result";
-import { Linking } from "react-native";
+import { Linking, Platform } from "react-native";
 
 export default class Grab {
   constructor() {}
 
-  //deep link to grab
-  deepLinkFn = () => {
-    Linking.openURL("grab://app_home/payments");
+  deepLinkfn = () => {
+    if (Platform.OS === "ios") {
+      Linking.canOpenURL(
+        `itms-apps://itunes.apple.com/app/grab-taxi-food-delivery/id647268330`
+      ).then((supported) => {
+        if (supported) {
+          Linking.openURL(
+            `itms-apps://itunes.apple.com/app/grab-taxi-food-delivery/id647268330`
+          );
+        }
+      });
+    } else {
+      Linking.canOpenURL(
+        `https://play.google.com/store/apps/details?id=com.grabtaxi.passenger`
+      ).then((supported) => {
+        if (supported) {
+          Linking.openURL(
+            `https://play.google.com/store/apps/details?id=com.grabtaxi.passenger`
+          );
+        }
+      });
+    }
   };
 
   async updateResult(
@@ -59,7 +78,7 @@ export default class Grab {
             parseFloat(data.fare[8].split(" ")[1]),
           ]),
         ],
-        deepLinkFn: this.deepLinkFn,
+        deepLinkFn: this.deepLinkfn,
       };
       result.data[0].then(([service, duration, price]) => {
         console.log(
