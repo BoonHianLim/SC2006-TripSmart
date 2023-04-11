@@ -30,7 +30,7 @@ const ListItemScroll = ({ item, isCheap = true }: any) => {
       setAppName(item.serviceType);
     }
 
-    console.log("test name: ", item.name);
+    console.log("printed");
 
     item.deepLinkFn();
     //deep link

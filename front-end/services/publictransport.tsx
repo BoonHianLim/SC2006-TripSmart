@@ -5,6 +5,9 @@ import { Result } from "../types/Result";
 import { Linking } from "react-native";
 
 export default class Publictransport {
+  private origin = "";
+  private destination = "";
+
   async updateResult(
     pickupLocation: string,
     dropoffLocation: string,
@@ -17,12 +20,10 @@ export default class Publictransport {
 
   //call googleMap
   deepLinkFn = () => {
-    const origin = "Jurong East";
-    const destination = "Changi Airport";
-
+    console.log("called 123");
     const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
-      origin
-    )}&destination=${encodeURIComponent(destination)}`;
+      this.origin
+    )}&destination=${encodeURIComponent(this.destination)}`;
 
     Linking.openURL(url);
   };
@@ -55,6 +56,9 @@ export default class Publictransport {
   }
 
   async getResult(start: string, end: string, pax: number): Promise<Result> {
+    this.origin = start;
+    this.destination = end;
+
     const returnedResult: Result = {
       name: "Public Transport",
       iconURL: "https://cdn-icons-png.flaticon.com/512/9235/9235252.png",

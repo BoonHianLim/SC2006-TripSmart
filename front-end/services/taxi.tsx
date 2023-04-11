@@ -278,11 +278,11 @@ export default class Taxi {
       });
     } else {
       Linking.canOpenURL(
-        `https://play.google.com/store/apps/details?id=com.delgro.cdg`
+        `https://play.google.com/store/apps/details?id=com.codigo.comfort`
       ).then((supported) => {
         if (supported) {
           Linking.openURL(
-            `https://play.google.com/store/apps/details?id=com.delgro.cdg`
+            `https://play.google.com/store/apps/details?id=com.codigo.comfort`
           );
         }
       });
