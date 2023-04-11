@@ -192,7 +192,7 @@ const Settings: FC = () => {
               ]}
             >
               {status === "User" ? (
-                <Pressable onPress={() => navigation.navigate("LoginPage")}>
+                <Pressable onPress={() => navigation.navigate("SelectionPage")}>
                   <Text
                     style={[
                       styles.changePassword,

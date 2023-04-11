@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from 'react';
+import { useState } from "react";
 import {
   ImageBackground,
   Dimensions,
@@ -21,46 +21,46 @@ import LandingPageButton from "../components/LandingPageButton";
 import { Button } from "@rneui/themed";
 import LandingThreeButton from "../components/LandingThreeButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect } from '@react-navigation/native';
-import en from '../locales/en.json';
-import ch from '../locales/ch.json';
-import ms from '../locales/ms.json';
-import ta from '../locales/ta.json';
+import { useFocusEffect } from "@react-navigation/native";
+import en from "../locales/en.json";
+import ch from "../locales/ch.json";
+import ms from "../locales/ms.json";
+import ta from "../locales/ta.json";
 
 const messages = {
   en,
   ch,
   ms,
-  ta
+  ta,
 };
 
 const GreetingPage3 = () => {
   const navigation = useNavigation();
   const message1 = "Abundance of Choice";
-  const message2 = "TripSmart let’s you compare price fares and travel timings across all the major transport options available in Singapore from ride-hailing services and taxis to car rental and public transport services (buses and trains)!";
+  const message2 =
+    "TripSmart let’s you compare price fares and travel timings across all the major transport options available in Singapore from ride-hailing services and taxis to car rental and public transport services (buses and trains)!";
   const [resultText, setResultText] = useState<any>();
 
   useFocusEffect(() => {
     AsyncStorage.getItem("language").then((value) => {
-      switch(value){
-        case 'en':
+      switch (value) {
+        case "en":
           setResultText(messages.en["Abundance_of_Choice"]);
           break;
-        case 'ch':
+        case "ch":
           setResultText(messages.ch["Abundance_of_Choice"]);
           break;
-        case 'ms':
+        case "ms":
           setResultText(messages.ms["Abundance_of_Choice"]);
           break;
-        case 'ta':
+        case "ta":
           setResultText(messages.ta["Abundance_of_Choice"]);
           break;
         default:
           setResultText(messages.en["Abundance_of_Choice"]);
       }
-    })
-    }
-  )
+    });
+  });
 
   const myImage = require("../assets/backgroundimg.png");
 
@@ -113,7 +113,7 @@ const GreetingPage3 = () => {
         </Text>
       </View>
 
-      <LandingPageButton nextPage="LoginPage"></LandingPageButton>
+      <LandingPageButton nextPage="SelectionPage"></LandingPageButton>
 
       <View
         style={{

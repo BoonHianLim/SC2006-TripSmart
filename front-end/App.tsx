@@ -11,7 +11,7 @@ import Login from "./screens/Login";
 import ResultList from "./screens/ResultList";
 
 import Register from "./screens/Register";
-import LoginPage from "./screens/LoginPage";
+import SelectionPage from "./screens/SelectionPage";
 import GreetingPage3 from "./screens/GreetingPage3";
 import GreetingPage2 from "./screens/GreetingPage2";
 import LoadingScreen from "./screens/LoadingScreen";
@@ -95,8 +95,8 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="LoginPage"
-              component={LoginPage}
+              name="SelectionPage"
+              component={SelectionPage}
               options={{ headerShown: false }}
             />
             <Stack.Screen

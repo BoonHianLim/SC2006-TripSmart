@@ -31,7 +31,7 @@ const messages = {
   ta,
 };
 
-const LoginPage = () => {
+const SelectionPage = () => {
   const message1 = "Here to meet all your travel needs";
   const message2 =
     "Feel the ease of picking a transport option of your choice from the comfort of your own home and find the best offers in SG with us!";
@@ -393,4 +393,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginPage;
+export default SelectionPage;
