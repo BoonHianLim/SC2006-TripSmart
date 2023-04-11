@@ -17,8 +17,8 @@
     "Continue as Guest": "Continue as Guest"
   },
   "Login_page": {
-    "Sign In with Password": "Sign In with Password",
-    "Continue to your Account": "Continue to your Account",
+    "Sign In": "Sign In",
+    "Continue to your account": "Continue to your account",
     "Email": "Email",
     "Password": "Password",
     "Remember me": "Remember me",

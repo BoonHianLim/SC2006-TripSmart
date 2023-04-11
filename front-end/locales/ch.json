@@ -17,8 +17,8 @@
     "Continue as Guest": "以访客身份继续"
   },
   "Login_page": {
-    "Sign In with Password": "通过密码登录",
-    "Continue to your Account": "继续使用您的帐户",
+    "Sign In": "登录",
+    "Continue to your account": "继续使用您的帐户",
     "Email": "电子邮件",
     "Password": "密码",
     "Remember me": "记住我",
