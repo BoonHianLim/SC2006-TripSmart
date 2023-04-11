@@ -47,15 +47,15 @@ const Login = () => {
   const [checked, onChecked] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const message1 = "Sign In with Password";
-  const message2 = "Continue to your Account";
+  const message1 = "Sign In";
+  const message2 = "Continue to your account";
   const message3 = "Remember me";
   const message4 = "Or continue with";
   const message5 = "Don't have an account?"
-  const message6 = "Register now"
+  const message6 = "Register now";
   const header1 = "Email";
   const header2 = "Password";
-  const buttonText1 = "Log in"
+  const buttonText1 = "Log In";
   const [resultText, setResultText] = useState<any>();
 
   useFocusEffect(() => {

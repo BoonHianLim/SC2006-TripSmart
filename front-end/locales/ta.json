@@ -17,12 +17,12 @@
     "Continue as Guest": "விருந்தினராக தொடரவும்"
   },
   "Login_page": {
-    "Sign In with Password": "கடவுச்சொல்லுடன் உள்நுழைக",
-    "Continue to your Account": "உங்கள் கணக்கிற்கு தொடருங்கள்",
+    "Sign In": "உள்நுழைக",
+    "Continue to your account": "உங்கள் கணக்கிற்கு தொடருங்கள்",
     "Email": "மின்னஞ்சல்",
     "Password": "கடவுச்சொல்",
     "Remember me": "என்னை நினைவில் கொள்ளுங்கள்",
-    "Log in": "உள் நுழைய",
+    "Log In": "உள் நுழைய",
     "Or continue with": "அல்லது தொடரவும்",
     "Don't have an account?": "கணக்கு இல்லையா?",
     "Register now": "இப்போது பதிவு செய்யவும்"
