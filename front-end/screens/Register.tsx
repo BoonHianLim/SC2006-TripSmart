@@ -100,6 +100,7 @@ const Register = () => {
   };
 
   const checkExistingDatabase = async () => {
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     console.log("seeking records");
     try {
       const response = await fetch(
@@ -140,9 +141,14 @@ const Register = () => {
         } else {
           handleSignup();
         }
+      }
+      //validate email
+      else if (!reg.test(email)) {
+        Alert.alert("Error", "Invalid email format", [
+          { text: "OK", onPress: () => console.log("OK Pressed") },
+        ]);
       } else {
         //alert user that email or password is already in database
-        console.log("plan b");
         Alert.alert("Error", "You have already registered with us before", [
           {
             text: "Log me in",
