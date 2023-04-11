@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FC, useState, useEffect } from "react";
+import { FC, useState } from "react";
 import { Pressable, Image, StyleSheet, View, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import EnglishSection from "../components/EnglishSection";
@@ -24,15 +24,11 @@ const messages = {
 
 const Settings: FC = () => {
   const navigation = useNavigation();
-  const [selectedButton, setSelectedButton] = useState(null);
   const [status, setStatus] = useState("");
   const message1 = "Change Password";
   const message2 = "Log Out";
-  const message3 = "Log In";
-  const message4 = "Change Distance Metrics";
+  const message3 = "Log In";    
   const message5 = "Settings";
-  const distMetric1 = "KM";
-  const distMetric2 = "Miles";
   const [resultText, setResultText] = useState<any>();
 
   useFocusEffect(() => {
@@ -69,19 +65,6 @@ const Settings: FC = () => {
       // error reading value
     }
   };
-
-  const onPressButton = (buttonID) => {
-    setSelectedButton(buttonID);
-    AsyncStorage.setItem("selectedButton", buttonID.toString());
-  };
-
-  useEffect(() => {
-    AsyncStorage.getItem("selectedButton").then((value) => {
-      if (value !== null) {
-        setSelectedButton(parseInt(value));
-      }
-    });
-  }, []);
 
   return (
     getStatus(),
