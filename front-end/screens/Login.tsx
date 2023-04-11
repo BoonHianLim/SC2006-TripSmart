@@ -3,7 +3,7 @@
 //case sensitive
 //to login
 import * as React from "react";
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Image,
   StyleSheet,
@@ -29,17 +29,17 @@ import {
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Button } from "@rneui/themed";
 import { AntDesign } from "@expo/vector-icons";
-import { useFocusEffect } from '@react-navigation/native';
-import en from '../locales/en.json';
-import ch from '../locales/ch.json';
-import ms from '../locales/ms.json';
-import ta from '../locales/ta.json';
+import { useFocusEffect } from "@react-navigation/native";
+import en from "../locales/en.json";
+import ch from "../locales/ch.json";
+import ms from "../locales/ms.json";
+import ta from "../locales/ta.json";
 
 const messages = {
   en,
   ch,
   ms,
-  ta
+  ta,
 };
 
 const Login = () => {
@@ -47,38 +47,37 @@ const Login = () => {
   const [checked, onChecked] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const message1 = "Sign In with Password";
-  const message2 = "Continue to your Account";
+  const message1 = "Sign In";
+  const message2 = "Continue to your account";
   const message3 = "Remember me";
   const message4 = "Or continue with";
-  const message5 = "Don't have an account?"
-  const message6 = "Register now."
+  const message5 = "Don't have an account?";
+  const message6 = "Register now";
   const header1 = "Email";
   const header2 = "Password";
-  const buttonText1 = "Log in"
+  const buttonText1 = "Log In";
   const [resultText, setResultText] = useState<any>();
 
   useFocusEffect(() => {
     AsyncStorage.getItem("language").then((value) => {
-      switch(value){
-        case 'en':
+      switch (value) {
+        case "en":
           setResultText(messages.en["Login_page"]);
           break;
-        case 'ch':
+        case "ch":
           setResultText(messages.ch["Login_page"]);
           break;
-        case 'ms':
+        case "ms":
           setResultText(messages.ms["Login_page"]);
           break;
-        case 'ta':
+        case "ta":
           setResultText(messages.ta["Login_page"]);
           break;
         default:
           setResultText(messages.en["Login_page"]);
       }
-    })
-    }
-  )
+    });
+  });
 
   //Functions to set status as User
   const storeData = async (text: React.SetStateAction<string>) => {
@@ -190,7 +189,6 @@ const Login = () => {
               marginBottom: "3%",
             }}
           >
-            
             {resultText && resultText[message1]}
           </Text>
 
@@ -230,28 +228,7 @@ const Login = () => {
               style={{
                 marginBottom: "5%",
               }}
-            >
-              <BouncyCheckbox
-                onPress={() => onChecked(!checked)}
-                textComponent={
-                  <Text
-                    style={{
-                      marginLeft: responsiveScreenFontSize(1),
-                      fontFamily: FontFamily.montserratMedium,
-                    }}
-                  >
-                    {resultText && resultText[message3]}
-                  </Text>
-                }
-                size={23}
-                innerIconStyle={{
-                  borderRadius: 3,
-                }}
-                iconStyle={{
-                  borderRadius: 3,
-                }}
-              />
-            </View>
+            ></View>
             <Button
               title={resultText && resultText[buttonText1]}
               loading={false}

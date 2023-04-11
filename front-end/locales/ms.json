@@ -17,19 +17,19 @@
     "Continue as Guest": "Teruskan sebagai Tetamu"
   },
   "Login_page": {
-    "Sign In with Password": "Log Masuk dengan Kata Laluan",
-    "Continue to your Account": "Terus ke akaun anda",
+    "Sign In": "Log Masuk",
+    "Continue to your account": "Terus ke akaun anda",
     "Email": "Emel",
     "Password": "Kata Laluan",
     "Remember me": "Ingat saya",
-    "Log in": "Log masuk",
+    "Log In": "Log masuk",
     "Or continue with": "Atau teruskan dengan",
     "Don't have an account?": "Tidak mempunyai akaun?",
     "Register now": "Daftar sekarang"
   },
   "Sign_up_page": {
     "Create Your Account": "Buat Akaun Anda",
-    "Re-type Password": "Taip semula kata Laluan",
+    "Re-type Password": "Taip Semula kata Laluan",
     "Email": "Emel",
     "Password": "Kata Laluan",
     "I accept the Terms and the Privacy Policy": "Saya menerima Terma dan Dasar Privasi",
