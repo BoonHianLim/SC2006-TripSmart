@@ -460,7 +460,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.textColorsInverse,
   },
   changePassword: {
-    fontSize: 12,
+    fontSize: 14,
     lineHeight: 15,
     color: Color.black,
   },
