@@ -9,17 +9,17 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import SettingsContainer from "../components/SettingsContainer";
 import { useNavigation } from "@react-navigation/native";
 import { Dimensions } from "react-native";
-import { useFocusEffect } from '@react-navigation/native';
-import en from '../locales/en.json';
-import ch from '../locales/ch.json';
-import ms from '../locales/ms.json';
-import ta from '../locales/ta.json';
+import { useFocusEffect } from "@react-navigation/native";
+import en from "../locales/en.json";
+import ch from "../locales/ch.json";
+import ms from "../locales/ms.json";
+import ta from "../locales/ta.json";
 
 const messages = {
   en,
   ch,
   ms,
-  ta
+  ta,
 };
 
 const Settings: FC = () => {
@@ -37,25 +37,24 @@ const Settings: FC = () => {
 
   useFocusEffect(() => {
     AsyncStorage.getItem("language").then((value) => {
-      switch(value){
-        case 'en':
+      switch (value) {
+        case "en":
           setResultText(messages.en["Settings_page"]);
           break;
-        case 'ch':
+        case "ch":
           setResultText(messages.ch["Settings_page"]);
           break;
-        case 'ms':
+        case "ms":
           setResultText(messages.ms["Settings_page"]);
           break;
-        case 'ta':
+        case "ta":
           setResultText(messages.ta["Settings_page"]);
           break;
         default:
           setResultText(messages.en["Settings_page"]);
       }
-    })
-    }
-  )
+    });
+  });
 
   //get status from localstorage
   const getStatus = async () => {
@@ -156,7 +155,9 @@ const Settings: FC = () => {
               TripSmart
             </Text>
             <EnglishSection />
-            <Text style={[styles.settings1, styles.mt_2]}>{resultText && resultText[message5]}</Text>
+            <Text style={[styles.settings1, styles.mt_2]}>
+              {resultText && resultText[message5]}
+            </Text>
 
             {/*Can reder to this to be dynamic */}
             {status === "User" ? (
@@ -216,62 +217,6 @@ const Settings: FC = () => {
                 </Pressable>
               )}
             </View>
-
-            <View
-              style={[styles.frameContainer, styles.mt_2, styles.framePosition]}
-            >
-              <Pressable
-                style={[
-                  styles.wrapperLayout,
-                  selectedButton === 1 && styles.kmh2Wrapper,
-                ]}
-                onPress={() => {
-                  onPressButton(1);
-                }}
-              >
-                <View>
-                  <Image
-                    style={[styles.kmh2Icon, styles.iconLayout]}
-                    resizeMode="cover"
-                    source={require("../assets/kmh-2.png")}
-                  />
-                </View>
-              </Pressable>
-              <Text style={[styles.km, styles.mt12, styles.kmTypo]}>{resultText && resultText[distMetric1]}</Text>
-            </View>
-            <View
-              style={[styles.frameParent1, styles.mt_2, styles.framePosition]}
-            >
-              <Pressable
-                style={[
-                  styles.wrapperLayout,
-                  selectedButton === 2 && styles.kmh2Wrapper,
-                ]}
-                onPress={() => {
-                  onPressButton(2);
-                }}
-              >
-                <View>
-                  <Image
-                    style={[styles.kmh1Icon, styles.iconLayout]}
-                    resizeMode="cover"
-                    source={require("../assets/kmh-1.png")}
-                  />
-                </View>
-              </Pressable>
-              <Text style={[styles.miles, styles.mt12, styles.kmTypo]}>
-              {resultText && resultText[distMetric2]}
-              </Text>
-            </View>
-            <Text
-              style={[
-                styles.changeDistanceMetrics,
-                styles.mt_2,
-                styles.changeTypo,
-              ]}
-            >
-              {resultText && resultText[message4]}
-            </Text>
           </View>
         </ScrollView>
         <SettingsContainer selectedButton={"Settings"} />
@@ -522,12 +467,12 @@ const styles = StyleSheet.create({
   changePasswordWrapper: {
     top: 555,
     zIndex: 8,
-    left: 32,
+    left: Dimensions.get("window").width * 0.1,
   },
   changeEmailWrapper: {
     top: 488,
-    left: 31,
     zIndex: 7,
+    left: Dimensions.get("window").width * 0.1,
   },
   kmh2Icon: {
     left: 0.7,
