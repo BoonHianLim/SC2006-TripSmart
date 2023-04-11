@@ -340,6 +340,7 @@ const styles = StyleSheet.create({
     buttonTextResult: {
         textAlign: "center",
         color: "white",
+        fontSize: 15
     },
     searchContainer: {
         position: "absolute",

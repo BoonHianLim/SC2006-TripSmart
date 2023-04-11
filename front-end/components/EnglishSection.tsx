@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   textLayout: {
     lineHeight: 16,
     letterSpacing: 0.4,
-    fontSize: 13,
+    fontSize: 14,
   },
   frameFlexBox: {
     zIndex: 0,
