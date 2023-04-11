@@ -36,10 +36,21 @@ export default class Googlemap{
                 const id_CurrLoc = data[0].predictions[0].place_id
                 console.log(id_Destination)
                 console.log(id_CurrLoc)
-                const res = await fetch("https://maps.googleapis.com/maps/api/directions/json?destination=place_id:" + id_Destination + "&origin=place_id:" + id_CurrLoc + "&mode=  " + mode + "&key=" + this.GOOGLE_MAPS_API_KEY)
+                const res = await fetch("https://maps.googleapis.com/maps/api/directions/json?destination=place_id:" + id_Destination + "&origin=place_id:" + id_CurrLoc + "&mode=" + mode + "&key=" + this.GOOGLE_MAPS_API_KEY)
                 const resData = await res.json()
-                const duration = parseFloat(resData.routes[0].legs[0].distance.text)
-                const distance = parseFloat(resData.routes[0].legs[0].duration.text)
+                let durationData:string[] = []
+                const durationText = resData.routes[0].legs[0].duration.text
+                const distance = parseFloat(resData.routes[0].legs[0].distance.text)
+
+                durationText.split(/[^0-9]/).filter(function(value:any){if(value){
+                    durationData.push(value)
+                }})
+                let duration = 0
+                if (durationData.length > 1)
+                    duration = Number(durationData[0])*60 + Number(durationData[1])
+                else
+                    duration = Number(durationData[0])
+                
                 console.log("duration: (in min)"+duration)
                 console.log("distance: (in km)"+distance)
                 if(duration == undefined || distance == undefined){
