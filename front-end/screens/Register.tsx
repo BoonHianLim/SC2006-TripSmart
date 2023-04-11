@@ -125,9 +125,17 @@ const Register = () => {
         }
       );
       const data = await response.json();
-      console.log("email is: ", email);
+      console.log("password.length: ", password.length);
       if (data.document == null) {
-        if (password != password2) {
+        if (
+          password.length == 0 ||
+          password2.length == 0 ||
+          email.length == 0
+        ) {
+          Alert.alert("Error", "Please fill in all the fields", [
+            { text: "OK", onPress: () => console.log("OK Pressed") },
+          ]);
+        } else if (password != password2) {
           Alert.alert("Error", "Passwords do not match", [
             { text: "OK", onPress: () => console.log("OK Pressed") },
           ]);
