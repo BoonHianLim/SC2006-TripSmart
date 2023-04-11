@@ -125,6 +125,7 @@ const Register = () => {
         }
       );
       const data = await response.json();
+      console.log("email is: ", email);
       if (data.document == null) {
         if (password != password2) {
           Alert.alert("Error", "Passwords do not match", [
@@ -138,16 +139,16 @@ const Register = () => {
             "Passwords must be at least 12 digits and contain alphabetical letter",
             [{ text: "OK", onPress: () => console.log("OK Pressed") }]
           );
+        } else if (!reg.test(email)) {
+          Alert.alert("Error", "Invalid email format", [
+            { text: "OK", onPress: () => console.log("OK Pressed") },
+          ]);
         } else {
           handleSignup();
         }
       }
       //validate email
-      else if (!reg.test(email)) {
-        Alert.alert("Error", "Invalid email format", [
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]);
-      } else {
+      else {
         //alert user that email or password is already in database
         Alert.alert("Error", "You have already registered with us before", [
           {
