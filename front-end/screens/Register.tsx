@@ -129,6 +129,14 @@ const Register = () => {
           Alert.alert("Error", "Passwords do not match", [
             { text: "OK", onPress: () => console.log("OK Pressed") },
           ]);
+        }
+        //validate password
+        else if (password.length < 12 || !/[a-zA-Z]/.test(password)) {
+          Alert.alert(
+            "Error",
+            "Passwords must be at least 12 digits and contain alphabetical letter",
+            [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+          );
         } else {
           handleSignup();
         }

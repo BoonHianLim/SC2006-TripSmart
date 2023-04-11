@@ -5,12 +5,11 @@ import { useFonts } from "expo-font";
 import GreetingPage1 from "./screens/GreetingPage1";
 import Settings from "./screens/Settings";
 import History1 from "./screens/History1";
-import SearchPage2 from "./screens/SearchPage2";
-import SearchPage1 from "./screens/SearchPage1";
+
 import ResultFilter from "./screens/ResultFilter";
 import Login from "./screens/Login";
 import ResultList from "./screens/ResultList";
-import Register2 from "./screens/Register2";
+
 import Register from "./screens/Register";
 import LoginPage from "./screens/LoginPage";
 import GreetingPage3 from "./screens/GreetingPage3";
@@ -67,21 +66,13 @@ const App = () => {
               component={History1}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="SearchPage2"
-              component={SearchPage2}
-              options={{ headerShown: false }}
-            />
+
             <Stack.Screen
               name="changePassword"
               component={changePassword}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="SearchPage1"
-              component={SearchPage1}
-              options={{ headerShown: false }}
-            />
+
             <Stack.Screen
               name="ResultFilter"
               component={ResultFilter}
@@ -97,11 +88,7 @@ const App = () => {
               component={ResultList}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="Register2"
-              component={Register2}
-              options={{ headerShown: false }}
-            />
+
             <Stack.Screen
               name="Register"
               component={Register}
