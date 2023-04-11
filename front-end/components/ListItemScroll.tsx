@@ -2,6 +2,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Avatar, ListItem } from "@rneui/base";
 import React, { useEffect } from "react";
 import { Value } from "react-native-reanimated";
+import { Linking } from "react-native";
+import { Platform } from "react-native";
+import { publictransport } from "../services/publictransport";
 
 const ListItemScroll = ({ item, isCheap = true }: any) => {
   const [email, setEmail] = React.useState("");
@@ -16,18 +19,33 @@ const ListItemScroll = ({ item, isCheap = true }: any) => {
 
   //call process
   const process = async () => {
-    console.log("pressed");
+    console.log("item here: ", item);
+    console.log("pressd");
     //check if they are user or guest
     const status = await getStatus();
     if (status == true) {
       //means that is a guest, dont store deep link history and just deepLink
-      //deep link function here
-      console.log("It is a guest, so do nothing");
     } else {
       await getEmail();
       setAppName(item.serviceType);
+    }
 
-      //deep link function here
+    console.log("test name: ", item.name);
+
+    item.deepLinkFn();
+    //deep link
+    {
+      /** 
+    if (item.name == "Grab") {
+      callGrab();
+    } else if (item.name == "taxi") {
+      callDelgro();
+    } else if (item.name == "blueSG") {
+      callBlueSG();
+    } else if (item.name == "Public Transport") {
+      callGoogleMap();
+    }
+    */
     }
   };
 
@@ -106,23 +124,74 @@ const ListItemScroll = ({ item, isCheap = true }: any) => {
     }
   };
 
+  //deep link to grab
+  const callGrab = () => {
+    Linking.openURL("grab://app_home/payments");
+  };
+
+  //deep link to Delgro
+  const callDelgro = () => {
+    if (Platform.OS === "ios") {
+      Linking.canOpenURL(
+        `itms-apps://itunes.apple.com/app/cdg-zig/id954951647`
+      ).then((supported) => {
+        if (supported) {
+          Linking.openURL(
+            `itms-apps://itunes.apple.com/app/cdg-zig/id954951647`
+          );
+        }
+      });
+    } else {
+      Linking.canOpenURL(
+        `https://play.google.com/store/apps/details?id=com.delgro.cdg`
+      ).then((supported) => {
+        if (supported) {
+          Linking.openURL(
+            `https://play.google.com/store/apps/details?id=com.delgro.cdg`
+          );
+        }
+      });
+    }
+  };
+
+  //call googleMap
+  const callGoogleMap = () => {
+    const origin = "Jurong East";
+    const destination = "Changi Airport";
+
+    const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
+      origin
+    )}&destination=${encodeURIComponent(destination)}`;
+
+    Linking.openURL(url);
+  };
+
+  //deep link to BlueSG
+  const callBlueSG = () => {
+    console.log("pressed blue");
+    Linking.openURL("https://www.bluesg.com.sg/car-sharing#map");
+  };
+
   const fareText = "$" + item.fare;
   const durationText = item.duration + " min";
   return (
-    <ListItem onPress={() => process()} bottomDivider>
-      <Avatar rounded source={{ uri: item.iconURL }} />
-      <ListItem.Content>
-        <ListItem.Title>{item.serviceType}</ListItem.Title>
-        <ListItem.Subtitle>
-          {isCheap ? durationText : fareText}
-        </ListItem.Subtitle>
-      </ListItem.Content>
-      <ListItem.Content right>
-        <ListItem.Subtitle>
-          {isCheap ? fareText : durationText}
-        </ListItem.Subtitle>
-      </ListItem.Content>
-    </ListItem>
+    console.log("item here: ", item),
+    (
+      <ListItem onPress={() => process()} bottomDivider>
+        <Avatar rounded source={{ uri: item.iconURL }} />
+        <ListItem.Content>
+          <ListItem.Title>{item.serviceType}</ListItem.Title>
+          <ListItem.Subtitle>
+            {isCheap ? durationText : fareText}
+          </ListItem.Subtitle>
+        </ListItem.Content>
+        <ListItem.Content right>
+          <ListItem.Subtitle>
+            {isCheap ? fareText : durationText}
+          </ListItem.Subtitle>
+        </ListItem.Content>
+      </ListItem>
+    )
   );
 };
 

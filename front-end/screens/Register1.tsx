@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from 'react';
+import { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -23,17 +23,17 @@ import { Color, FontFamily } from "../GlobalStyles";
 import { Button } from "@rneui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
-import { useFocusEffect } from '@react-navigation/native';
-import en from '../locales/en.json';
-import ch from '../locales/ch.json';
-import ms from '../locales/ms.json';
-import ta from '../locales/ta.json';
+import { useFocusEffect } from "@react-navigation/native";
+import en from "../locales/en.json";
+import ch from "../locales/ch.json";
+import ms from "../locales/ms.json";
+import ta from "../locales/ta.json";
 
 const messages = {
   en,
   ch,
   ms,
-  ta
+  ta,
 };
 
 const Register1 = () => {
@@ -45,7 +45,7 @@ const Register1 = () => {
   const message1 = "Create Your Account";
   const message2 = "I accept the Terms and the Privacy Policy";
   const message3 = "Already have an account?";
-  const message4 = "Sign in"
+  const message4 = "Sign in";
   const header1 = "Email";
   const header2 = "Password";
   const header3 = "Re-type Password";
@@ -54,25 +54,24 @@ const Register1 = () => {
 
   useFocusEffect(() => {
     AsyncStorage.getItem("language").then((value) => {
-      switch(value){
-        case 'en':
+      switch (value) {
+        case "en":
           setResultText(messages.en["Sign_up_page"]);
           break;
-        case 'ch':
+        case "ch":
           setResultText(messages.ch["Sign_up_page"]);
           break;
-        case 'ms':
+        case "ms":
           setResultText(messages.ms["Sign_up_page"]);
           break;
-        case 'ta':
+        case "ta":
           setResultText(messages.ta["Sign_up_page"]);
           break;
         default:
           setResultText(messages.en["Sign_up_page"]);
       }
-    })
-    }
-  )
+    });
+  });
 
   const verifyIfCheckboxChecked = () => {
     if (checked) {
@@ -179,8 +178,12 @@ const Register1 = () => {
       const data = await response.json();
 
       //tell user of the successful registration
+
       Alert.alert("Success", "You have successfully registered with us", [
-        { text: "OK", onPress: () => console.log("OK Pressed") },
+        {
+          text: "Bring me to log in page",
+          onPress: () => navigation.navigate("Login"),
+        },
       ]);
     } catch (err) {
       console.log("error signing in: ", err);
