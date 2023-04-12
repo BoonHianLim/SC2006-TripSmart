@@ -16,7 +16,7 @@ export default class AccountController implements AuthenticationRegistration{
         return this.authenticationRegistration.handleLogin(email = email, password = password)
     }
 
-    handleRegistration(email: string, password: string, retypePassword: string, isCheckboxChecked: boolean): Promise<boolean> {
+    handleRegistration(email: string, password: string, retypePassword: string, isCheckboxChecked: boolean): Promise<object> {
         
         console.log("inside the handleRegistrationn!! ")
         if(this.verifyIfCheckboxChecked(isCheckboxChecked) && this.verifyPassword(password) &&
@@ -26,7 +26,9 @@ export default class AccountController implements AuthenticationRegistration{
             return this.authenticationRegistration.handleRegistration(email = email, password = password, retypePassword = retypePassword, isCheckboxChecked = isCheckboxChecked)
         }
 
-        return Promise.resolve(false);
+        const errorObject = { result: false, reason: "inputError" };
+
+        return Promise.resolve(errorObject);
 
     }
 
