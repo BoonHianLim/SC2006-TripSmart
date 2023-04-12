@@ -77,7 +77,7 @@ const Register = () => {
   const settingsController = new SettingsController();
   const verifyIfCheckboxChecked = () => {
     if (checked) {
-      settingsController.checkExistingDatabase(email,oldPassword, newPassword);
+      settingsController.changePassword(email,oldPassword, newPassword);
     } else {
       Alert.alert("Please agree to the terms and conditions");
     }

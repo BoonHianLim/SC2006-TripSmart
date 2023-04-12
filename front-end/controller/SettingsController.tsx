@@ -29,7 +29,7 @@ export default class SettingsController{
         }
     };
 
-    checkExistingDatabase = async (email: string, oldPassword: string, newPassword: string) => {
+    changePassword = async (email: string, oldPassword: string, newPassword: string) => {
       console.log("seeking records");
       console.log("email", email);
       try {
@@ -74,7 +74,7 @@ export default class SettingsController{
               { text: "OK", onPress: () => console.log("OK Pressed") },
             ]);
           } else {
-            this.handleUpdate(email, newPassword);
+            this.handlePasswordUpdate(email, newPassword);
           }
         }
       } catch (err) {
@@ -82,7 +82,7 @@ export default class SettingsController{
       }
     };
     
-    handleUpdate = async (email: string, newPassword: string) => {
+    handlePasswordUpdate = async (email: string, newPassword: string) => {
         console.log("updating records");
         console.log("email", email);
         console.log("newPassword", newPassword);
