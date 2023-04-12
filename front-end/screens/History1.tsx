@@ -23,6 +23,7 @@ import en from '../locales/en.json';
 import ch from '../locales/ch.json';
 import ms from '../locales/ms.json';
 import ta from '../locales/ta.json';
+import HistoryController from "../controller/HistoryController";
 
 const messages = {
   en,
@@ -61,45 +62,6 @@ const History1 = () => {
     }
   )
 
-  //database api to retrieve the history
-  const retrieveHistory = async () => {
-    console.log("retrieveHistory");
-    //console.log("looking for records from database");
-    // perform login action here using email and password
-    // mongodb api here
-    try {
-      const response = await fetch(
-        "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/find",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Request-Headers": "*",
-            "api-key":
-              "gzmrGJqDsVF9pOB6XO7nDxasKLWgOh4pOZe7LlIdQ4SXaeI1UMxJN8CSDHxJTgVM",
-          },
-
-          body: JSON.stringify({
-            dataSource: "seventh",
-            database: "Account",
-            collection: "deepLinkHistory",
-            filter: {
-              email: email,
-            },
-          }),
-        }
-      );
-      const history = await response.json();
-      console.log("data: ", history);
-      if (history != null) {
-        setHistory(history);
-      } else {
-        console.log("History might be empty");
-      }
-    } catch (err) {
-      console.log("error retrieving data: ", err);
-    }
-  };
 
   //get email from localstorage
   const getStatus = async () => {
@@ -117,10 +79,13 @@ const History1 = () => {
     }
   };
 
+  const historyController = new HistoryController();
   //useEffect
   React.useEffect(() => {
     if (email) {
-      retrieveHistory();
+      historyController.retrieveHistory(email).then((history) => {
+        setHistory(history);
+      });
     }
   }, [email]);
 
