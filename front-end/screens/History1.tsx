@@ -86,9 +86,6 @@ const History1 = () => {
     console.log("status: ", email),
     (
       <GestureHandlerRootView style={{ flex: 1 }}>
-
-
-
           {/*dynamic rendering */}
           {email === "Guest" ? (
               <View style = {{flex:1}}>
