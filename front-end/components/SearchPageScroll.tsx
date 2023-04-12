@@ -1,5 +1,5 @@
 import React, {
-    useEffect,
+    useEffect, useRef,
     useState,
 } from "react";
 import {
@@ -12,30 +12,34 @@ import { FontFamily, Color, Margin } from "../GlobalStyles";
 import {GooglePlaceDetail, GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import Constants from "expo-constants";
 import devEnvironmentVariables from "../env";
-import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from '@react-navigation/native';
+import {gpsController} from "../controller/GPSController";
 import en from '../locales/en.json';
 import ch from '../locales/ch.json';
 import ms from '../locales/ms.json';
 import ta from '../locales/ta.json';
+import {googlemap} from "../services/googlemap";
 
 
 type InputAutocompleteProps = {
     label: string;
     placeholder?: string;
     onPlaceSelected: (details: GooglePlaceDetail | null) => void;
+    originRef: any;
 };
 
 function InputAutocomplete({
                                label,
                                placeholder,
                                onPlaceSelected,
+                               originRef = null
                            }: InputAutocompleteProps) {
-    return (
+    return originRef ? (
         <>
             <Text>{label}</Text>
             <GooglePlacesAutocomplete
+                ref = {originRef}
                 styles={{ textInput: styles.input }}
                 placeholder={placeholder || ""}
                 fetchDetails
@@ -49,7 +53,25 @@ function InputAutocomplete({
                 }}
             />
         </>
-    );
+    ) :
+        (
+            <>
+                <Text>{label}</Text>
+                <GooglePlacesAutocomplete
+                    styles={{ textInput: styles.input }}
+                    placeholder={placeholder || ""}
+                    fetchDetails
+                    onPress={(data, details = null) => {
+                        onPlaceSelected(details);
+                    }}
+                    query={{
+                        key: devEnvironmentVariables.GOOGLE_MAPS_API_KEY,
+                        language: "en",
+                        components: 'country:sg',
+                    }}
+                />
+            </>
+        )
 }
 
 
@@ -67,6 +89,7 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
     const flag1 = "Origin";
     const flag2 = "Destination";
     const [resultText, setResultText] = useState<any>();
+    const originRef = useRef();
 
     useFocusEffect(() => {
         AsyncStorage.getItem("language").then((value) => {
@@ -97,21 +120,22 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
         setDestination()
 
         //get the location
-        const fetchLocation = async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== "granted") {
-                console.log("not granted!")
-                return;
-            }
-            let location = await Location.getCurrentPositionAsync({});
-            setGPSLoc(location);
-            console.log(location);
-        }
+        gpsController.fetchLocation().then((data) => {
+            setGPSLoc(data)
+        });
 
-        fetchLocation().catch(console.error);
     },[]);
 
+    useEffect(() => {
+        if(gpsLoc) {
+            googlemap.getAddress([gpsLoc.coords.latitude, gpsLoc.coords.longitude])
+                .then((curLocText) => {
+                    originRef.current?.setAddressText(curLocText);
+                })
 
+        }
+
+    },[gpsLoc])
 
     const onPlaceSelected = (
         details: GooglePlaceDetail | null,
@@ -135,6 +159,7 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
                 onPlaceSelected(details, "origin");
                 setStartLoc(details.formatted_address);
             }}
+            originRef = {originRef}
         />
         <InputAutocomplete
             label={resultText && resultText[flag2]}
@@ -142,6 +167,7 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
                 onPlaceSelected(details, "destination");
                 setDestLoc(details.formatted_address);
             }}
+            originRef = {null}
         />
         <TouchableOpacity
             style={styles.buttonResult}

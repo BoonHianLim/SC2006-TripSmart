@@ -2,7 +2,6 @@ import { grab } from "../services/grabscrapper";
 import { bluesg } from "../services/bluesg";
 import { publictransport } from "../services/publictransport";
 import { taxi } from "../services/taxi";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ResultItem} from "../types/ResultItem";
 export default class TransportAPIController {
     private apis: any = []
