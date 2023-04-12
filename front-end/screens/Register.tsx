@@ -28,6 +28,7 @@ import en from "../locales/en.json";
 import ch from "../locales/ch.json";
 import ms from "../locales/ms.json";
 import ta from "../locales/ta.json";
+import AccountController from "../controller/AccountController";
 
 const messages = {
   en,
@@ -322,7 +323,25 @@ const Register = () => {
               containerStyle={{
                 marginBottom: "10%",
               }}
-              onPress={verifyIfCheckboxChecked}
+              onPress={()=>{
+                const accountController = new AccountController("mongoDBAuth")
+                const result = accountController.handleRegistration(email, password,password2, checked)
+                result.then((res)=>{
+                  if (res){
+                    Alert.alert("Success", "You have successfully registered with us", [
+                      {
+                        text: "Bring me to log in page",
+                        onPress: () => navigation.navigate("Login"),
+                      },
+                    ]);}
+                    else {
+                      Alert.alert("Error", "Error in Registering", [
+                        { text: "OK", onPress: () => console.log("OK Pressed") },
+                      ]);
+                    }
+                }
+                ).catch((err)=>{console.log(err)})
+              }}
             />
           </View>
 
