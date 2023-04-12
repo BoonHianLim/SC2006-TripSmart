@@ -18,6 +18,7 @@ import {useCallback, useMemo, useRef} from "react";
 import {Color, FontFamily} from "../GlobalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from '@react-navigation/native';
+import {transportAPIController} from "../controller/TransportAPIController"
 import en from '../locales/en.json';
 import ch from '../locales/ch.json';
 import ms from '../locales/ms.json';
@@ -31,10 +32,10 @@ const messages = {
 };
 
 const ResultFilterScroll = ({changeState}) => {
-    const [pax, setPax] = useState(1);
-    const [isWCSelected, setWCSelected] = useState(false);
-    const [isPSelected, setPSelected] = useState(false);
-    const [isEFSelected, setEFSelected] = useState(false);
+    const [pax, setPax] = useState(transportAPIController.getPax());
+    const [isWCSelected, setWCSelected] = useState(transportAPIController.getChoices()[0]);
+    const [isPSelected, setPSelected] = useState(transportAPIController.getChoices()[1]);
+    const [isEFSelected, setEFSelected] = useState(transportAPIController.getChoices()[2]);
 
     function handleBackButtonClick() {
         changeState("resultList")
@@ -119,11 +120,8 @@ const ResultFilterScroll = ({changeState}) => {
                 <Pressable
                     onPress={
                     () => {
-                        AsyncStorage.setItem("num", pax.toString())
-                        console.log(isWCSelected,isPSelected,isEFSelected);
-                        AsyncStorage.setItem("isWCSelected", isWCSelected.toString())
-                        AsyncStorage.setItem("isPSelected", isPSelected.toString())
-                        AsyncStorage.setItem("isEFSelected", isEFSelected.toString())
+                        transportAPIController.setPax(pax)
+                        transportAPIController.setChoices([isWCSelected,isPSelected,isEFSelected])
                         changeState("resultList")
                     }
                 }

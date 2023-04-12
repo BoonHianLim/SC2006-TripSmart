@@ -56,14 +56,6 @@ const PassengersSection = ({pax,setPax}) => {
     }
   };
 
-  useEffect(() => {
-    AsyncStorage.getItem("num").then(value => {
-      if (value !== null) {
-        setPax(parseInt(value));
-      }
-    });
-  }, []);
-
   return (
     <View style={styles.numberOfPassengersParent}>
       <Text style={[styles.numberOfPassengers, styles.passengersTypo]}>

@@ -113,7 +113,7 @@ export default class Googlemap{
     }
 
     //latlng should be written as [latitude, longtitude]
-    async getAddress(latlng:Array<number>):Promise<[number, number]>{
+    async getAddress(latlng:Array<number>):Promise<string>{
         try{
 
             const res = await fetch("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latlng[0] + "%2C" + latlng[1] + "&key=" + this.GOOGLE_MAPS_API_KEY)
