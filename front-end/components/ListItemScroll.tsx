@@ -1,65 +1,29 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Avatar, ListItem } from "@rneui/base";
-import React, { useEffect } from "react";
-import { Value } from "react-native-reanimated";
-import { Linking } from "react-native";
-import { Platform } from "react-native";
-import { publictransport } from "../services/publictransport";
+import React from "react";
 
 const ListItemScroll = ({ item, isCheap = true }: any) => {
-  const [email, setEmail] = React.useState("");
-  const [appName, setAppName] = React.useState("");
-
-  //ensure that they r all updated before calling adding into database
-  useEffect(() => {
-    if (email && appName) {
-      handleAddHistory();
-    }
-  }, [email, appName]);
+  //triggered when itemClicked, ensure that they r all updated before calling adding into database
 
   //call process
-  const process = async () => {
-    console.log("item here: ", item);
-    console.log("pressd");
+  const itemClickedCallBack = async () => {
     //check if they are user or guest
-    const status = await getStatus();
-    if (status == true) {
-      //means that is a guest, dont store deep link history and just deepLink
-    } else {
-      await getEmail();
-      setAppName(item.serviceType);
+    const isguest = await isGuest();
+    if (!isguest) {
+      const email = await getEmail();
+      if(email){
+        handleAddHistory(email);
+      }
     }
-
-    console.log("printed");
-
     item.deepLinkFn();
-    //deep link
-    {
-      /** 
-    if (item.name == "Grab") {
-      callGrab();
-    } else if (item.name == "taxi") {
-      callDelgro();
-    } else if (item.name == "blueSG") {
-      callBlueSG();
-    } else if (item.name == "Public Transport") {
-      callGoogleMap();
-    }
-    */
-    }
   };
 
   //get Status
-  const getStatus = async (): Promise<boolean> => {
+  const isGuest = async (): Promise<boolean> => {
     try {
       const value = await AsyncStorage.getItem("@storage_Key");
-      if (value == "User") {
-        return false;
-      } else {
-        return true;
-      }
+      return value != "User"
     } catch (e) {
-      // error reading value
       throw new Error("Error getting status: " + e.message);
     }
   };
@@ -68,12 +32,8 @@ const ListItemScroll = ({ item, isCheap = true }: any) => {
   const getEmail = async () => {
     try {
       const value = await AsyncStorage.getItem("@storage_Email");
-      if (value != null) {
-        setEmail(value);
-        console.log("valie: ", value);
+      if (value) {
         return value;
-      } else {
-        //
       }
     } catch (e) {
       // error reading value
@@ -81,7 +41,7 @@ const ListItemScroll = ({ item, isCheap = true }: any) => {
   };
 
   //function to store the deepLink when pressed
-  const handleAddHistory = async () => {
+  const handleAddHistory = async (email: string) => {
     //console.log("email: ", email);
     //console.log("appName: ", appName);
     //console.log("duration: ", durationText);
@@ -123,61 +83,10 @@ const ListItemScroll = ({ item, isCheap = true }: any) => {
       console.log("error adding record: ", err);
     }
   };
-
-  //deep link to grab
-  const callGrab = () => {
-    Linking.openURL("grab://app_home/payments");
-  };
-
-  //deep link to Delgro
-  const callDelgro = () => {
-    if (Platform.OS === "ios") {
-      Linking.canOpenURL(
-        `itms-apps://itunes.apple.com/app/cdg-zig/id954951647`
-      ).then((supported) => {
-        if (supported) {
-          Linking.openURL(
-            `itms-apps://itunes.apple.com/app/cdg-zig/id954951647`
-          );
-        }
-      });
-    } else {
-      Linking.canOpenURL(
-        `https://play.google.com/store/apps/details?id=com.delgro.cdg`
-      ).then((supported) => {
-        if (supported) {
-          Linking.openURL(
-            `https://play.google.com/store/apps/details?id=com.delgro.cdg`
-          );
-        }
-      });
-    }
-  };
-
-  //call googleMap
-  const callGoogleMap = () => {
-    const origin = "Jurong East";
-    const destination = "Changi Airport";
-
-    const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
-      origin
-    )}&destination=${encodeURIComponent(destination)}`;
-
-    Linking.openURL(url);
-  };
-
-  //deep link to BlueSG
-  const callBlueSG = () => {
-    console.log("pressed blue");
-    Linking.openURL("https://www.bluesg.com.sg/car-sharing#map");
-  };
-
   const fareText = "$" + item.fare;
   const durationText = item.duration + " min";
   return (
-    console.log("item here: ", item),
-    (
-      <ListItem onPress={() => process()} bottomDivider>
+      <ListItem onPress={() => itemClickedCallBack()} bottomDivider>
         <Avatar rounded source={{ uri: item.iconURL }} />
         <ListItem.Content>
           <ListItem.Title>{item.serviceType}</ListItem.Title>
@@ -192,7 +101,6 @@ const ListItemScroll = ({ item, isCheap = true }: any) => {
         </ListItem.Content>
       </ListItem>
     )
-  );
 };
 
 export default ListItemScroll;

@@ -1,29 +1,18 @@
 import React, {
-    useCallback,
     useEffect,
-    useMemo,
-    useRef,
     useState,
 } from "react";
 import {
     View,
     Text,
     StyleSheet,
-    TextInput,
-    Button,
     TouchableOpacity,
 } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import { Marker } from "react-native-maps";
-import { Searchbar } from "react-native-paper";
 import { FontFamily, Color, Margin } from "../GlobalStyles";
-import BottomSheet from "@gorhom/bottom-sheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import {GooglePlaceDetail, GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import Constants from "expo-constants";
 import devEnvironmentVariables from "../env";
 import * as Location from "expo-location";
-import { LocationGeofencingEventType } from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from '@react-navigation/native';
 import en from '../locales/en.json';
@@ -73,8 +62,6 @@ const messages = {
 
 
 const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, setStartLoc, destLoc, setDestLoc, moveTo}:any) => {
-    const [email, setEmail] = useState("");
-    var emailAccount: string = "";
     const [gpsLoc,setGPSLoc] = useState<any>();
     const message = "Show Result";
     const flag1 = "Origin";
@@ -125,109 +112,6 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
     },[]);
 
 
-    const getStatus = async () => {
-        try {
-            const value = await AsyncStorage.getItem("@storage_Key");
-            if (value == "Guest") {
-                //
-            } else {
-                //
-            }
-        } catch (e) {
-            // error reading value
-        }
-
-        getAccount();
-    };
-
-    const getAccount = async () => {
-        try {
-            const value = await AsyncStorage.getItem("@storage_Email");
-            if (value != null) {
-                setEmail(value);
-                //
-            } else console.log("emailAccount is null");
-        } catch (e) {
-            // error reading value
-        }
-    };
-    //getHistory
-    const getHistory = async () => {
-        try {
-            const response = await fetch(
-                "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/find",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Access-Control-Request-Headers": "*",
-                        "api-key":
-                            "gzmrGJqDsVF9pOB6XO7nDxasKLWgOh4pOZe7LlIdQ4SXaeI1UMxJN8CSDHxJTgVM",
-                    },
-
-                    body: JSON.stringify({
-                        dataSource: "seventh",
-                        database: "Account",
-                        collection: "History",
-                        filter: {
-                            email: email,
-                        },
-                        sort: {
-                            completedAt: 1,
-                        },
-                        limit: 10,
-                    }),
-                }
-            );
-
-            const data = await response.json();
-            //to get the result
-
-            if (data != null) {
-                console.log("account", emailAccount);
-                console.log("data.document", data);
-            } else {
-                console.log("The user has no history");
-            }
-        } catch (err) {
-            console.log("error saving history: ", err);
-        }
-    };
-    const saveHistory = async () => {
-        try {
-            const response = await fetch(
-                "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/insertOne",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Access-Control-Request-Headers": "*",
-                        "api-key":
-                            "gzmrGJqDsVF9pOB6XO7nDxasKLWgOh4pOZe7LlIdQ4SXaeI1UMxJN8CSDHxJTgVM",
-                    },
-
-                    body: JSON.stringify({
-                        dataSource: "seventh",
-                        database: "Account",
-                        collection: "History",
-                        document: {
-                            email: emailAccount,
-                            starting_location: startLoc,
-                            destination: destLoc,
-                        },
-                    }),
-                }
-            );
-            const data = await response.json();
-            if (data.document != null) {
-                //
-            } else {
-                //
-            }
-        } catch (err) {
-            console.log("error saving history: ", err);
-        }
-    };
 
     const onPlaceSelected = (
         details: GooglePlaceDetail | null,
@@ -243,9 +127,6 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
     };
 
     return (
-        getHistory(),
-            (emailAccount = JSON.stringify(emailAccount)),
-            getStatus(),
             <View style = {{flex:1}}>
     <View style={styles.searchContainer}>
         <InputAutocomplete
@@ -266,7 +147,6 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
             style={styles.buttonResult}
             onPress={() => {
                 if(startLoc && destLoc){
-                    saveHistory();
                     changeState("resultList");
                 }
             }}

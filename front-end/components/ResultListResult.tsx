@@ -7,18 +7,20 @@ import { grab } from "../services/grabscrapper";
 import { bluesg } from "../services/bluesg";
 import { publictransport } from "../services/publictransport";
 import { taxi } from "../services/taxi";
+import {ResultItem} from "../types/ResultItem";
+import {Result} from "../types/Result";
 
-const removeItem = (array: any[], item: any) => {
-  const index = array.indexOf(item);
-  if (index != -1) {
-    array = array.splice(index, 1);
-  }
-};
+
 const ResultListResult = ({ isCheap, startLoc, destLoc }: any) => {
-  const [result, setResult] = useState();
-  const [resultArr, setResultArr] = useState([]);
+  const [sortedResultArr, setsortedResultArr] = useState<ResultItem[]>([]);
+  const [resultArr, setResultArr] = useState<Result[]>([]);
   const sortBy = isCheap ? "fare" : "duration";
-
+  const removeItem = (array: any[], item: any) => {
+    const index = array.indexOf(item);
+    if (index != -1) {
+      array = array.splice(index, 1);
+    }
+  };
   const refreshData = (apis: any[], pax: number) => {
     apis.forEach((api) => {
       api.updateResult(startLoc, destLoc, pax, setResultArr);
@@ -64,14 +66,7 @@ const ResultListResult = ({ isCheap, startLoc, destLoc }: any) => {
           return sortBy === "duration" ? valA1 - valB1 : valA2 - valB2;
         });
 
-      const allData: {
-        name: string;
-        iconURL: string;
-        serviceType: string;
-        duration: number;
-        fare: number;
-        deepLinkFn: any;
-      }[] = [];
+      const allData: ResultItem[] = [];
 
       for (let i = 0; i < resultArr.length; i++) {
         const result = resultArr[i];
@@ -103,15 +98,15 @@ const ResultListResult = ({ isCheap, startLoc, destLoc }: any) => {
 
     printSortedData(sortBy)
       .then((allData) => {
-        setResult(allData);
+        setsortedResultArr(allData);
       })
       .catch((error) => console.error(error));
   }, [sortBy, resultArr]);
 
   return (
     <View style={styles.result}>
-      {result &&
-        result.map((data, index) => (
+      {sortedResultArr &&
+          sortedResultArr.map((data:any, index:number) => (
           <ListItemScroll
             key={data.name + data.serviceType + index.toString()}
             item={data}

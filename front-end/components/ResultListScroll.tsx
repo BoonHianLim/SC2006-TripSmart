@@ -29,7 +29,6 @@ const messages = {
 };
 
 const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
-    const [sortedValues, setSortedValues] = useState<number[][]>([]);
     const message1 = "Results";
     const message2 = "Cheapest";
     const message3 = "Fastest";
@@ -61,11 +60,6 @@ const ResultListScroll = ({changeState, isCheap, setCheap}:any)  => {
     const dimArrowLink = require("../assets/arrow-21.png");
     const lightBorder = require("../assets/borderorange-1.png");
     const dimBorder = require("../assets/border-1.png");
-    // callbacks
-    const handleSheetChanges = useCallback((index: number) => {
-        console.log("handleSheetChanges", index);
-    }, []);
-
     function handleBackButtonClick() {
         changeState("searchPage")
         return true;

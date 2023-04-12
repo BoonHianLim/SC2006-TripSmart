@@ -31,20 +31,10 @@ const messages = {
 };
 
 const ResultFilterScroll = ({changeState}) => {
-
-    // variables
-    const navigation = useNavigation();
-    const snapPoints = useMemo(() => ["25%", "76.5%"], []);
-    const bottomSheetRef = useRef<BottomSheet>(null);
-    const [num, setNum] = useState(1);
+    const [pax, setPax] = useState(1);
     const [isWCSelected, setWCSelected] = useState(false);
     const [isPSelected, setPSelected] = useState(false);
     const [isEFSelected, setEFSelected] = useState(false);
-
-    // callbacks
-    const handleSheetChanges = useCallback((index: number) => {
-        console.log("handleSheetChanges", index);
-    }, []);
 
     function handleBackButtonClick() {
         changeState("resultList")
@@ -104,8 +94,8 @@ const ResultFilterScroll = ({changeState}) => {
                 </View>
 
                 <PassengersSection
-                pax = {num}
-                setPax={setNum}/>
+                pax = {pax}
+                setPax={setPax}/>
                 <Image
                     style={styles.frameLayout}
                     resizeMode="cover"
@@ -129,7 +119,7 @@ const ResultFilterScroll = ({changeState}) => {
                 <Pressable
                     onPress={
                     () => {
-                        AsyncStorage.setItem("num", num.toString())
+                        AsyncStorage.setItem("num", pax.toString())
                         console.log(isWCSelected,isPSelected,isEFSelected);
                         AsyncStorage.setItem("isWCSelected", isWCSelected.toString())
                         AsyncStorage.setItem("isPSelected", isPSelected.toString())

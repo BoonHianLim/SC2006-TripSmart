@@ -41,7 +41,7 @@ const Register = () => {
   const navigation = useNavigation();
   const [checked, onChecked] = React.useState(false);
   const [email, onChangeText] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [oldPassword, setPassword] = React.useState("");
   const [password2, setPassword2] = React.useState("");
 
   const message1 = "Change Password";
@@ -129,13 +129,13 @@ const Register = () => {
       } else {
         //do update password dunction
         //check password2 and old password is not the same
-        if (password2 == password) {
+        if (password2 == oldPassword) {
           Alert.alert(
             "Error",
             "New password cannot be the same as old password",
             [{ text: "OK", onPress: () => console.log("OK Pressed") }]
           );
-        } else if (password != data.document.password) {
+        } else if (oldPassword != data.document.password) {
           //alert that your password is incorrect
           Alert.alert("Error", "Password is incorrect", [
             { text: "OK", onPress: () => console.log("OK Pressed") },
@@ -238,7 +238,7 @@ const Register = () => {
             headerText={resultText && resultText[header2]}
             iconLabel="lock"
             placeholder="Password"
-            value={password}
+            value={oldPassword}
             isPassword={true}
             onChangeText={handlePasswordChange}
           />
