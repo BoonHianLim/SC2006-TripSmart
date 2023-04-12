@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default class HistoryController{
@@ -43,8 +44,22 @@ export default class HistoryController{
           console.log("error retrieving data: ", err);
           return [];
         }
-      };
+    };
 
+    async getStatus() {
+        try {
+          const isGuest = await AsyncStorage.getItem("@storage_Key");
+          const value = await AsyncStorage.getItem("@storage_Email");
+    
+          if (isGuest == "Guest") {
+            return "Guest";
+          } else if (value != null) {
+            return value;
+          }
+        } catch (e) {
+          // error reading value
+        }
+    }
 
 }
 export const historyController = new HistoryController();

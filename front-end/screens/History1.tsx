@@ -64,20 +64,12 @@ const History1 = () => {
 
 
   //get email from localstorage
-  const getStatus = async () => {
-    try {
-      const isGuest = await AsyncStorage.getItem("@storage_Key");
-      const value = await AsyncStorage.getItem("@storage_Email");
-
-      if (isGuest == "Guest") {
-        setEmail("Guest");
-      } else if (value != null) {
-        setEmail(value);
-      }
-    } catch (e) {
-      // error reading value
-    }
-  };
+  React.useEffect(() => {
+    historyController.getStatus().then((email) => {
+      setEmail(email || ""); 
+    });
+  }, []);
+  
 
   const historyController = new HistoryController();
   //useEffect
@@ -90,7 +82,7 @@ const History1 = () => {
   }, [email]);
 
   return (
-    getStatus(),
+    historyController.getStatus(),
     console.log("status: ", email),
     (
       <GestureHandlerRootView style={{ flex: 1 }}>
