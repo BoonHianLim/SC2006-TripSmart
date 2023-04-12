@@ -18,5 +18,16 @@ export default class SettingsController{
     setLanguage = async (langID: string) => {
         await AsyncStorage.setItem("language", langID);
     };
+
+    logout = async () => {
+        try {
+          await AsyncStorage.setItem("@storage_Key", "Guest");
+          await AsyncStorage.setItem("@storage_Email", "");
+        } catch (e) {
+          // saving error
+        }
+    };
+
+    
 }
 export const settingsController = new SettingsController();
