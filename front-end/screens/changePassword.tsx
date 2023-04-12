@@ -29,6 +29,7 @@ import en from "../locales/en.json";
 import ch from "../locales/ch.json";
 import ms from "../locales/ms.json";
 import ta from "../locales/ta.json";
+import SettingsController from "../controller/SettingsController";
 
 const messages = {
   en,
@@ -42,7 +43,7 @@ const Register = () => {
   const [checked, onChecked] = React.useState(false);
   const [email, onChangeText] = React.useState("");
   const [oldPassword, setPassword] = React.useState("");
-  const [password2, setPassword2] = React.useState("");
+  const [newPassword, setnewPassword] = React.useState("");
 
   const message1 = "Change Password";
   const message2 = "I accept the Terms and the Privacy Policy";
@@ -72,9 +73,11 @@ const Register = () => {
       }
     });
   });
+
+  const settingsController = new SettingsController();
   const verifyIfCheckboxChecked = () => {
     if (checked) {
-      checkExistingDatabase();
+      settingsController.checkExistingDatabase(email,oldPassword, newPassword);
     } else {
       Alert.alert("Please agree to the terms and conditions");
     }
@@ -90,106 +93,9 @@ const Register = () => {
     setPassword(text);
   };
 
-  //Functions for handling password2
-  const handlePassword2Change = (text: React.SetStateAction<string>) => {
-    setPassword2(text);
-  };
-
-  const checkExistingDatabase = async () => {
-    console.log("seeking records");
-    console.log("email", email);
-    try {
-      const response = await fetch(
-        "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/findOne",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Request-Headers": "*",
-            "api-key":
-              "gzmrGJqDsVF9pOB6XO7nDxasKLWgOh4pOZe7LlIdQ4SXaeI1UMxJN8CSDHxJTgVM",
-          },
-
-          body: JSON.stringify({
-            dataSource: "seventh",
-            database: "Account",
-            collection: "People",
-            filter: {
-              email: email,
-            },
-          }),
-        }
-      );
-      const data = await response.json();
-      if (data.document == null) {
-        //if data does not exist, inform that the email does not exist
-        Alert.alert("Error", "Email does not exist", [
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]);
-      } else {
-        //do update password dunction
-        //check password2 and old password is not the same
-        if (password2 == oldPassword) {
-          Alert.alert(
-            "Error",
-            "New password cannot be the same as old password",
-            [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-          );
-        } else if (oldPassword != data.document.password) {
-          //alert that your password is incorrect
-          Alert.alert("Error", "Password is incorrect", [
-            { text: "OK", onPress: () => console.log("OK Pressed") },
-          ]);
-        } else {
-          handleUpdate();
-        }
-      }
-    } catch (err) {
-      console.log("error: ", err);
-    }
-  };
-
-  const handleUpdate = async () => {
-    console.log("updating records");
-    console.log("email", email);
-    console.log("newPassword", password2);
-
-    fetch(
-      "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/updateOne",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Request-Headers": "*",
-          "api-key":
-            "gzmrGJqDsVF9pOB6XO7nDxasKLWgOh4pOZe7LlIdQ4SXaeI1UMxJN8CSDHxJTgVM",
-        },
-
-        body: JSON.stringify({
-          dataSource: "seventh",
-          database: "Account",
-          collection: "People",
-          filter: {
-            email: email,
-          },
-          update: {
-            $set: {
-              password: password2,
-            },
-          },
-        }),
-      }
-    )
-      .then((response) => {
-        if (response.ok) {
-          console.log("Update successful");
-        } else {
-          console.log("Update failed");
-        }
-      })
-      .catch((error) => {
-        console.log("Error: ", error);
-      });
+  //Functions for handling newPassword
+  const handlenewPasswordChange = (text: React.SetStateAction<string>) => {
+    setnewPassword(text);
   };
 
   return (
@@ -247,9 +153,9 @@ const Register = () => {
             headerText={resultText && resultText[header3]}
             iconLabel="lock"
             isPassword={true}
-            placeholder="Password2"
-            value={password2}
-            onChangeText={handlePassword2Change}
+            placeholder="newPassword"
+            value={newPassword}
+            onChangeText={handlenewPasswordChange}
           />
 
           <View
