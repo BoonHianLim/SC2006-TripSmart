@@ -3,17 +3,14 @@ import { useState } from "react";
 import {
   StyleSheet,
   View,
-  Animated,
   Text,
   Pressable,
   Alert,
-  TextInput,
   ImageBackground,
   ScrollView,
 } from "react-native";
 import {
   responsiveScreenHeight,
-  responsiveWidth,
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
 import TextInputUser from "../components/TextInputUser";
@@ -22,7 +19,6 @@ import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily } from "../GlobalStyles";
 import { Button } from "@rneui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AntDesign } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import en from "../locales/en.json";
 import ch from "../locales/ch.json";
@@ -74,13 +70,6 @@ const Register = () => {
     });
   });
 
-  const verifyIfCheckboxChecked = () => {
-    if (checked) {
-      checkExistingDatabase();
-    } else {
-      Alert.alert("Please agree to the terms and conditions");
-    }
-  };
 
   //Functions for handling email
   const handleEmailChange = (text: React.SetStateAction<string>) => {
@@ -98,120 +87,6 @@ const Register = () => {
   const handlePassword2Change = (text: React.SetStateAction<string>) => {
     console.log("password2: ", text);
     setPassword2(text);
-  };
-
-  const checkExistingDatabase = async () => {
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    console.log("seeking records");
-    try {
-      const response = await fetch(
-        "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/findOne",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Request-Headers": "*",
-            "api-key":
-              "gzmrGJqDsVF9pOB6XO7nDxasKLWgOh4pOZe7LlIdQ4SXaeI1UMxJN8CSDHxJTgVM",
-          },
-
-          body: JSON.stringify({
-            dataSource: "seventh",
-            database: "Account",
-            collection: "People",
-            filter: {
-              email: email,
-            },
-          }),
-        }
-      );
-      const data = await response.json();
-      console.log("password.length: ", password.length);
-      if (data.document == null) {
-        if (
-          password.length == 0 ||
-          password2.length == 0 ||
-          email.length == 0
-        ) {
-          Alert.alert("Error", "Please fill in all the fields", [
-            { text: "OK", onPress: () => console.log("OK Pressed") },
-          ]);
-        } else if (password != password2) {
-          Alert.alert("Error", "Passwords do not match", [
-            { text: "OK", onPress: () => console.log("OK Pressed") },
-          ]);
-        }
-        //validate password
-        else if (password.length < 12 || !/[a-zA-Z]/.test(password)) {
-          Alert.alert(
-            "Error",
-            "Passwords must be at least 12 digits and contain alphabetical letter",
-            [{ text: "OK", onPress: () => console.log("OK Pressed") }]
-          );
-        } else if (!reg.test(email)) {
-          Alert.alert("Error", "Invalid email format", [
-            { text: "OK", onPress: () => console.log("OK Pressed") },
-          ]);
-        } else {
-          handleSignup();
-        }
-      }
-      //validate email
-      else {
-        //alert user that email or password is already in database
-        Alert.alert("Error", "You have already registered with us before", [
-          {
-            text: "Log me in",
-            onPress: () => navigation.navigate("Login"),
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]);
-      }
-    } catch (err) {
-      console.log("error signing in: ", err);
-    }
-  };
-
-  const handleSignup = async () => {
-    console.log("trying to add records into the database");
-    // perform login action here using email and password
-    // mongodb api here
-    try {
-      const response = await fetch(
-        "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/insertOne",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Request-Headers": "*",
-            "api-key":
-              "gzmrGJqDsVF9pOB6XO7nDxasKLWgOh4pOZe7LlIdQ4SXaeI1UMxJN8CSDHxJTgVM",
-          },
-
-          body: JSON.stringify({
-            dataSource: "seventh",
-            database: "Account",
-            collection: "People",
-            document: {
-              email: email,
-              password: password,
-            },
-          }),
-        }
-      );
-      const data = await response.json();
-
-      //tell user of the successful registration
-
-      Alert.alert("Success", "You have successfully registered with us", [
-        {
-          text: "Bring me to log in page",
-          onPress: () => navigation.navigate("Login"),
-        },
-      ]);
-    } catch (err) {
-      console.log("error signing in: ", err);
-    }
   };
 
   return (
@@ -327,18 +202,22 @@ const Register = () => {
                 const accountController = new AccountController("mongoDBAuth")
                 const result = accountController.handleRegistration(email, password,password2, checked)
                 result.then((res)=>{
-                  if (res){
+                  if (res.result){
                     Alert.alert("Success", "You have successfully registered with us", [
                       {
                         text: "Bring me to log in page",
                         onPress: () => navigation.navigate("Login"),
                       },
                     ]);}
-                    else {
-                      Alert.alert("Error", "Error in Registering", [
-                        { text: "OK", onPress: () => console.log("OK Pressed") },
-                      ]);
-                    }
+                  else if (res.reason === "duplicateEmail"){
+                    Alert.alert("Error", "You have already registered with us before", [
+                      {
+                        text: "Log me in",
+                        onPress: () => navigation.navigate("Login"),
+                      },
+                      { text: "OK", onPress: () => console.log("OK Pressed") },
+                    ]);
+                  }
                 }
                 ).catch((err)=>{console.log(err)})
               }}

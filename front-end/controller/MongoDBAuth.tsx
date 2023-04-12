@@ -3,7 +3,7 @@ import {Alert} from 'react-native'
 import { useNavigation } from "@react-navigation/native";
 
 export default class MongoDBAuth implements AuthenticationRegistration {
-    private navigation = useNavigation();
+    // private navigation = useNavigation();
 
     async handleLogin(email: string, password: string):Promise<boolean>{
         try {
@@ -44,7 +44,7 @@ export default class MongoDBAuth implements AuthenticationRegistration {
           }
     }
 
-    async handleRegistration(email: string, password: string, retypePassword: string, isCheckboxChecked: boolean): Promise<boolean> {
+    async handleRegistration(email: string, password: string, retypePassword: string, isCheckboxChecked: boolean): Promise<object> {
       try {
         const response = await fetch(
           "https://ap-southeast-1.aws.data.mongodb-api.com/app/data-yvoco/endpoint/data/v1/action/findOne",
@@ -70,22 +70,20 @@ export default class MongoDBAuth implements AuthenticationRegistration {
         const data = await response.json();
         
         if (data.document == null) {
-          this.addUser(email, password);
-          return true;
+          await this.addUser(email, password);
+          const successObject = { result: true, reason: "emailRegistered" }
+          return successObject;
         }else{
-                  Alert.alert("Error", "You have already registered with us before", [
-          {
-            text: "Log me in",
-            onPress: () => this.navigation.navigate("Login"),
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]);
-          return false
+
+            const errorObject = { result: false, reason: "duplicateEmail" };
+            return errorObject
         }
         
       } catch (err) {
         console.log("error signing in: ", err);
-        return false;
+          const errorObject = { result: false, reason: "unknownReason" };
+          return errorObject
+
       }
     }
 
@@ -114,15 +112,7 @@ export default class MongoDBAuth implements AuthenticationRegistration {
           }
         );
         const data = await response.json();
-  
-        //tell user of the successful registration
-  
-        Alert.alert("Success", "You have successfully registered with us", [
-          {
-            text: "Bring me to log in page",
-            onPress: () => this.navigation.navigate("Login"),
-          },
-        ]);
+
       } catch (err) {
         console.log("error signing in: ", err);
       }
