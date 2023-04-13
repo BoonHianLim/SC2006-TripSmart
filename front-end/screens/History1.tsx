@@ -10,7 +10,9 @@ import {
   Pressable,
 } from "react-native";
 import { History } from "../types/HistoryType";
-import { Margin, FontFamily, Color } from "../GlobalStyles";
+import { Margin,
+  FontFamily,
+  Color } from "../GlobalStyles";
 import { ScrollView } from "react-native-gesture-handler";
 import SettingsContainer from "../components/SettingsContainer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";

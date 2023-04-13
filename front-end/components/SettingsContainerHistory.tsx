@@ -8,7 +8,8 @@ import {
   Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { FontFamily, Color } from "../GlobalStyles";
+import { FontFamily,
+  Color } from "../GlobalStyles";
 
 const SettingsContainer = () => {
   const navigation = useNavigation();
