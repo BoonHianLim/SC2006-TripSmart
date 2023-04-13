@@ -3,8 +3,9 @@ import { bluesg } from "../services/bluesg";
 import { publictransport } from "../services/publictransport";
 import { taxi } from "../services/taxi";
 import {ResultItem} from "../types/ResultItem";
+import TransportAPI from "../services/transportAPI";
 export default class TransportAPIController {
-    private apis: any = []
+    private apis: TransportAPI[] = []
     private pax: number = 1
     private choices: boolean[] = [false,false,false]
     constructor() {

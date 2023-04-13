@@ -9,7 +9,7 @@ import TransportAPI from "./transportAPI";
 export default class Grab extends TransportAPI{
   constructor() {super()}
 
-  deepLinkfn = () => {
+  deepLinkFn = () => {
     if (Platform.OS === "ios") {
       Linking.canOpenURL(
         `itms-apps://itunes.apple.com/app/grab-taxi-food-delivery/id647268330`
@@ -81,7 +81,7 @@ export default class Grab extends TransportAPI{
             parseFloat(data.fare[8].split(" ")[1]) * (Math.floor(pax / 6) + remainder6),
           ]),
         ],
-        deepLinkFn: this.deepLinkfn,
+        deepLinkFn: this.deepLinkFn,
       };
       result.data[0].then(([service, duration, price]) => {
         console.log(
