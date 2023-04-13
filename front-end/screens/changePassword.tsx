@@ -78,6 +78,7 @@ const Register = () => {
   const verifyIfCheckboxChecked = () => {
     if (checked) {
       settingsController.changePassword(email,oldPassword, newPassword);
+      Alert.alert("Success", "Password Successfully Updated");
     } else {
       Alert.alert("Please agree to the terms and conditions");
     }
