@@ -7,4 +7,23 @@ To run the project:
 ``` cd frontend ```   
 Then:   
 ``` yarn starts ```
+   
+## Tech Used  
+  <p>
+    <img src="https://img.shields.io/badge/Expo-8b0000?style=for-the-badge&logo=expo" />
+    <img src="https://img.shields.io/badge/yarn-096AB0?style=for-the-badge&logo=yarn" />
+    <img src="https://img.shields.io/badge/typescript-8b7700?style=for-the-badge&logo=typescript" />
+    <img src="https://img.shields.io/badge/python-096AB?style=for-the-badge&logo=python" />
+    <img src="https://img.shields.io/badge/selenium-8b0080?style=for-the-badge&logo=selenium" />
+    <img src="https://img.shields.io/badge/flask-7C96AB?style=for-the-badge&logo=flask" /> 
+    <img src="https://img.shields.io/badge/Socket.io-701430?style=for-the-badge&logo=socketdotio" /> 
+    <img src="https://img.shields.io/badge/mongodb-536AB0?style=for-the-badge&logo=mongodb" />
+    <img src="https://img.shields.io/badge/react-5b7700?style=for-the-badge&logo=react" />
+    <img src="https://img.shields.io/badge/npm-8096Af?style=for-the-badge&logo=npm" />
+    <img src="https://img.shields.io/badge/googlemaps-fbff80?style=for-the-badge&logo=googlemaps" />
 
+  </p>
+## Final Report   
+Click Me   
+## Demo Video   
+Click Me   
