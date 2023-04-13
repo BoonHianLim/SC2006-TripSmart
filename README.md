@@ -21,9 +21,8 @@ Then:
     <img src="https://img.shields.io/badge/react-5b7700?style=for-the-badge&logo=react" />
     <img src="https://img.shields.io/badge/npm-8096Af?style=for-the-badge&logo=npm" />
     <img src="https://img.shields.io/badge/googlemaps-fbff80?style=for-the-badge&logo=googlemaps" />
-
   </p>
-  
+
 ## Final Report   
 Click Me   
 ## Demo Video   
