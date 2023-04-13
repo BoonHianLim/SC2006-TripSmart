@@ -34,6 +34,7 @@ import en from "../locales/en.json";
 import ch from "../locales/ch.json";
 import ms from "../locales/ms.json";
 import ta from "../locales/ta.json";
+import AccountController from "../controller/AccountController";
 
 const messages = {
   en,
@@ -234,6 +235,7 @@ const Login = () => {
                 marginBottom: "5%",
               }}
             ></View>
+
             <Button
               title={resultText && resultText[buttonText1]}
               loading={false}
@@ -256,8 +258,21 @@ const Login = () => {
                 marginBottom: "2%",
               }}
               onPress={() => {
-                handleLogin();
-                storeData("User");
+                const accountController = new AccountController("mongoDBAuth")
+                const result = accountController.handleLogin(email, password)
+                result.then((res)=>{
+                  if (res){
+                    storeData("User");
+                    storeEmail(email);
+                    navigation.navigate("ResultList");}
+                    else {
+                      //alert user that email or password is incorrect
+                      Alert.alert("Error", "Email or password is incorrect", [
+                        { text: "OK", onPress: () => console.log("OK Pressed") },
+                      ]);
+                    }
+                }
+                ).catch((err)=>{console.log(err)})
               }}
             />
             <Button
