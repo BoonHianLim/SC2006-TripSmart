@@ -7,6 +7,7 @@ import en from '../locales/en.json';
 import ch from '../locales/ch.json';
 import ms from '../locales/ms.json';
 import ta from '../locales/ta.json';
+import SettingsController from '../controller/SettingsController';
 
 
 const local_data = [
@@ -24,19 +25,14 @@ const messages = {
 };
 
 const SelectLanguageScreen = () => {
-  const [language, setLanguage] = useState('en');
+  const settingsController = new SettingsController();
 
-  const switchLang = (langID) => {
-    setLanguage(langID);
-    AsyncStorage.setItem("language", langID);
-  }
-  
+  const [value, setValue] = useState("");
+
   useEffect(() => {
-    AsyncStorage.getItem("language").then((value) => {
-      if (value !== null) {
-        setLanguage(value);
-      };
-    } )
+    settingsController.getLanguage().then((language) => {
+      setValue(language);
+    });
   }, []);
 
   return (
@@ -50,14 +46,14 @@ const SelectLanguageScreen = () => {
       imageStyle={styles.imageStyle}
       iconStyle={styles.iconStyle}
       maxHeight={200}
-      value={language}
+      value={value}
       data={local_data}
       valueField="value"
       labelField="label"
       imageField="image"
       placeholder="English"
       onChange={e => {
-        switchLang(e.value);
+        settingsController.setLanguage(e.value);
       }}
     >
     </SelectCountry>

@@ -9,6 +9,7 @@ import en from '../locales/en.json';
 import ch from '../locales/ch.json';
 import ms from '../locales/ms.json';
 import ta from '../locales/ta.json';
+import {transportAPIController} from "../controller/TransportAPIController";
 
 const messages = {
   en,
@@ -36,13 +37,7 @@ const EcoFriendlySection = ({isWCSelected, setWCSelected,
   };
 
   useEffect(() => {
-
-    AsyncStorage.multiGet(["isWCSelected","isPSelected","isEFSelected"])
-        .then(response => {
-          setWCSelected(response[0][1] === 'true')
-          setPSelected(response[1][1] === 'true')
-          setEFSelected(response[2][1] === 'true')
-        })
+   [isWCSelected,isPSelected,isEFSelected] = transportAPIController.getChoices()
 
   }, []);
 
