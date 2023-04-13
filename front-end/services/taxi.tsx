@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { googlemap } from "./googlemap";
 import { Result } from "../types/Result";
 import { Linking, Platform } from "react-native";
+import TransportAPI from "./transportAPI";
 
 //1) taxi calculation using (ComfortRIDE* FARE)
 const getComfortRIDEFare = (minutes: number, distance: number, pax: number) => {
@@ -263,7 +264,7 @@ const getLimoTransferFare = (
     }
     */
 };
-export default class Taxi {
+export default class Taxi extends TransportAPI{
   //deep link to Delgro
   deepLinkFn = () => {
     if (Platform.OS === "ios") {
@@ -291,6 +292,7 @@ export default class Taxi {
 
   // private TAXI_API_KEY: string;
   constructor() {
+    super();
     // if (!env.TAXI_API_KEY) {
     //     throw new Error("TAXI_API_KEY environment variable is not set")
     // }

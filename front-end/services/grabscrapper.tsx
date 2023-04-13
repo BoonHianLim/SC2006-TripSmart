@@ -4,9 +4,10 @@ import Constants from "expo-constants";
 import { googlemap } from "./googlemap";
 import { Result } from "../types/Result";
 import { Linking, Platform } from "react-native";
+import TransportAPI from "./transportAPI";
 
-export default class Grab {
-  constructor() {}
+export default class Grab extends TransportAPI{
+  constructor() {super()}
 
   deepLinkfn = () => {
     if (Platform.OS === "ios") {

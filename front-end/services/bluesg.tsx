@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import { googlemap } from "./googlemap";
 import { Result } from "../types/Result";
 import { Linking } from "react-native";
+import TransportAPI from "./transportAPI";
 
-export default class Bluesg {
+export default class Bluesg extends TransportAPI{
   private BLUE_SG_API_KEY: string;
   constructor() {
+    super()
     if (!env.BLUE_SG_API_KEY) {
       throw new Error("BLUE_SG_API_KEY environment variable is not set");
     }

@@ -30,6 +30,7 @@ import ch from "../locales/ch.json";
 import ms from "../locales/ms.json";
 import ta from "../locales/ta.json";
 import SettingsController from "../controller/SettingsController";
+import AccountController from "../controller/AccountController";
 
 const messages = {
   en,
@@ -74,10 +75,11 @@ const Register = () => {
     });
   });
 
-  const settingsController = new SettingsController();
+
   const verifyIfCheckboxChecked = () => {
+    const accountController = new AccountController("mongoDBAuth")
     if (checked) {
-      settingsController.changePassword(email,oldPassword, newPassword);
+      accountController.changePassword(email,oldPassword, newPassword);
       Alert.alert("Success", "Password Successfully Updated");
     } else {
       Alert.alert("Please agree to the terms and conditions");

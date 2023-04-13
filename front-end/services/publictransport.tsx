@@ -3,11 +3,14 @@ import { googlemap } from "./googlemap";
 import React, { useEffect, useState } from "react";
 import { Result } from "../types/Result";
 import { Linking } from "react-native";
+import TransportAPI from "./transportAPI";
 
-export default class Publictransport {
+export default class Publictransport extends TransportAPI{
   private origin = "";
   private destination = "";
-
+  constructor() {
+    super();
+  }
   async updateResult(
     pickupLocation: string,
     dropoffLocation: string,
