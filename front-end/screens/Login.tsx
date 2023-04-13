@@ -275,13 +275,13 @@ const Login = () => {
                 ).catch((err)=>{console.log(err)})
               }}
             />
-            <Button
+            {/*<Button
               title="Temporary: Login without password"
               onPress={() => {
                 navigation.navigate("ResultList");
                 storeData("User");
               }}
-            />
+            />*/}
           </View>
           <Pressable></Pressable>
           <View
