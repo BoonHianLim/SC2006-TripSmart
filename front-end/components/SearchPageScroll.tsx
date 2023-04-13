@@ -8,8 +8,12 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from "react-native";
-import { FontFamily, Color, Margin } from "../GlobalStyles";
-import {GooglePlaceDetail, GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
+import {
+    FontFamily,
+    Color,
+    Margin }
+from "../GlobalStyles";
+import {GooglePlaceDetail,GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import Constants from "expo-constants";
 import devEnvironmentVariables from "../env";
 import AsyncStorage from "@react-native-async-storage/async-storage";

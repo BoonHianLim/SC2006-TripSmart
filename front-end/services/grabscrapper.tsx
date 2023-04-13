@@ -57,6 +57,8 @@ export default class Grab extends TransportAPI{
       console.log(url);
       const response = await fetch(url);
       const data = await response.json();
+      var remainder4 = (pax%4==0? 0: 1);
+      var remainder6 = (pax%6==0? 0: 1)
       // data.fare = ["JustGrab", "21 mins", "SGD 14.24 - 19.58", "GrabCar", "21 mins", "SGD 15.84 - 21.78", "GrabCar 6", "21 mins", "SGD 19.84 - 27.28"]
       const result: Result = {
         name: "Grab",
@@ -66,17 +68,17 @@ export default class Grab extends TransportAPI{
           Promise.resolve([
             data.fare[0],
             parseInt(data.fare[1], 10),
-            parseFloat(data.fare[2].split(" ")[1]),
+            parseFloat(data.fare[2].split(" ")[1]) * (Math.floor(pax / 4) + remainder4),
           ]),
           Promise.resolve([
             data.fare[3],
             parseInt(data.fare[4], 10),
-            parseFloat(data.fare[5].split(" ")[1]),
+            parseFloat(data.fare[5].split(" ")[1]) * (Math.floor(pax / 4) + remainder4),
           ]),
           Promise.resolve([
             data.fare[6],
             parseInt(data.fare[7], 10),
-            parseFloat(data.fare[8].split(" ")[1]),
+            parseFloat(data.fare[8].split(" ")[1]) * (Math.floor(pax / 6) + remainder6),
           ]),
         ],
         deepLinkFn: this.deepLinkfn,
@@ -84,21 +86,21 @@ export default class Grab extends TransportAPI{
       result.data[0].then(([service, duration, price]) => {
         console.log(
           `Service: ${service}, Duration: ${duration} minutes, Price: $${
-            price * (Math.floor(pax / 4) + 1)
+            price 
           }`
         );
       });
       result.data[1].then(([service, duration, price]) => {
         console.log(
           `Service: ${service}, Duration: ${duration} minutes, Price: $${
-            price * (Math.floor(pax / 4) + 1)
+            price 
           }`
         );
       });
       result.data[2].then(([service, duration, price]) => {
         console.log(
           `Service: ${service}, Duration: ${duration} minutes, Price: $${
-            price * (Math.floor(pax / 6) + 1)
+            price 
           }`
         );
       });
