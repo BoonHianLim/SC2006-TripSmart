@@ -131,6 +131,9 @@ const SearchPageScroll = ({changeState, setOrigin, setDestination, startLoc, set
             googlemap.getAddress([gpsLoc.coords.latitude, gpsLoc.coords.longitude])
                 .then((curLocText) => {
                     originRef.current?.setAddressText(curLocText);
+                    setOrigin({latitude:gpsLoc.coords.latitude,
+                        longitude:gpsLoc.coords.longitude});
+                    setStartLoc(curLocText);
                 })
 
         }
