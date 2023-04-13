@@ -38,25 +38,26 @@ const History1 = () => {
   const [history, setHistory] = React.useState([]);
   const navigation = useNavigation();
   const title = "History";
+  const buttonTitle = "Login to Save and View History"
   const [resultText, setResultText] = useState<any>();
 
   useFocusEffect(() => {
     AsyncStorage.getItem("language").then((value) => {
       switch(value){
         case 'en':
-          setResultText(messages.en["Navigation_bar"]);
+          setResultText(messages.en["History_page"]);
           break;
         case 'ch':
-          setResultText(messages.ch["Navigation_bar"]);
+          setResultText(messages.ch["History_page"]);
           break;
         case 'ms':
-          setResultText(messages.ms["Navigation_bar"]);
+          setResultText(messages.ms["History_page"]);
           break;
         case 'ta':
-          setResultText(messages.ta["Navigation_bar"]);
+          setResultText(messages.ta["History_page"]);
           break;
         default:
-          setResultText(messages.en["Navigation_bar"]);
+          setResultText(messages.en["History_page"]);
       }
     })
     }
@@ -129,7 +130,7 @@ const History1 = () => {
                     styles.tripsmartLayout,
                   ]}
                 >
-                  Login to Save and View History
+                  {resultText && resultText[buttonTitle]}
                 </Text>
               </Pressable>
             </View>
@@ -209,7 +210,7 @@ const styles = StyleSheet.create({
   changeWrapperFlexBox: {
     paddingVertical: 16,
     paddingHorizontal: 8,
-    height: 43,
+    height: 70,
     backgroundColor: Color.goldenrod_200,
     borderRadius: 12,
     alignSelf: "stretch",
@@ -279,8 +280,8 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   changePassword: {
-    fontSize: 13,
-    lineHeight: 12,
+    fontSize: 15,
+    lineHeight: 18,
     color: Color.black,
   },
   changePasswordWrapper: {
