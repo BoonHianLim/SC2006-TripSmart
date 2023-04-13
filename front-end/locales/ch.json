@@ -54,6 +54,10 @@
     "History": "历史记录",
     "Settings": "设置"
   },
+  "History_page": {
+    "History": "历史记录",
+    "Login to Save and View History": "登录以保存和查看历史记录"
+  },
   "Result_list": {
     "Results": "结果",
     "Cheapest": "最便宜",

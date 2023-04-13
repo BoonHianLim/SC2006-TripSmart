@@ -54,6 +54,10 @@
     "History": "வரலாறு",
     "Settings": "அமைப்புகள்"
   },
+  "History_page": {
+    "History": "வரலாறு",
+    "Login to Save and View History": "வரலாற்றைச் சேமித்து பார்க்க உள்நுழைக"
+  },
   "Result_list": {
     "Results": "முடிவுகள்",
     "Cheapest": "கடைசியான",
