@@ -67,7 +67,7 @@ export default class Bluesg {
       });
 
     var fare = this.calFare(distance);
-    fare *= pax;
+    fare *= (Math.floor(pax / 6) + 1);
 
     return ["BlueSG", duration, fare.toFixed(2)];
   }
