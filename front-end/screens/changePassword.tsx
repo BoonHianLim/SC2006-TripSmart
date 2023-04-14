@@ -75,12 +75,10 @@ const Register = () => {
     });
   });
 
-
   const verifyIfCheckboxChecked = () => {
-    const accountController = new AccountController("mongoDBAuth")
+    const accountController = new AccountController("mongoDBAuth");
     if (checked) {
-      accountController.changePassword(email,oldPassword, newPassword);
-      Alert.alert("Success", "Password Successfully Updated");
+      accountController.changePassword(email, oldPassword, newPassword);
     } else {
       Alert.alert("Please agree to the terms and conditions");
     }

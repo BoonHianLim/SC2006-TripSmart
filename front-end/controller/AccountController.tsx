@@ -143,10 +143,16 @@ export default class AccountController implements AuthenticationRegistration {
       );
       const data = await response.json();
       if (data.document == null) {
-        //if data does not exist, inform that the email does not exist
-        Alert.alert("Error", "Email does not exist", [
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]);
+        //check if fields are empty
+        if (email == "" || oldPassword == "" || newPassword == "") {
+          Alert.alert("Error", "Please fill in all the fields", [
+            { text: "OK", onPress: () => console.log("OK Pressed") },
+          ]);
+        } else {
+          Alert.alert("Error", "Email does not exist", [
+            { text: "OK", onPress: () => console.log("OK Pressed") },
+          ]);
+        }
       } else {
         //do update password dunction
         //check newPassword and old password is not the same
@@ -163,6 +169,9 @@ export default class AccountController implements AuthenticationRegistration {
           ]);
         } else {
           this.handlePasswordUpdate(email, newPassword);
+          Alert.alert("", "Password Successfully Updated", [
+            { text: "OK", onPress: () => console.log("OK Pressed") },
+          ]);
         }
       }
     } catch (err) {
