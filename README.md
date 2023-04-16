@@ -43,6 +43,7 @@ Our platform consolidates estimated travel time and fare data from multiple tran
 │    ├── assets                        # Img used in app
 │    ├── components                    # Boundary Classes Helper
 |    ├── controller                    # Controller Classes
+|    ├── locales                       # Language File
 |    ├── screens                       # Boundary Classes
 |    ├── servers                       # Web scrapping server
 │    ├── services                      # APIs Helper
