@@ -11,7 +11,7 @@ You must have yarn in your machine. Run `npm install yarn -g` in terminal to ins
 Run `yarn` in the project's root directory to install node modules
 
 ## Run
-1. Run `yarn start` to start the expo server
+1. Run `yarn starts` to start the expo server
 2. On your Android device, press "Scan QR Code" on the "Home" tab of the Expo Go app and scan the QR code you see in the terminal, OR
 3. On your iPhone or iPad, open the default Apple "Camera" app and scan the QR code you see in the terminal.
 4. Run on for iOS simulator (only on MacOS)
